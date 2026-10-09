@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Mail, Lock, Loader2, Info } from 'lucide-react';
+import { Mail, Lock, Loader2, Info, Sparkles } from 'lucide-react';
 import { useStore } from '@/context/StoreContext';
 
 export default function LoginPage() {
@@ -48,32 +48,36 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="max-w-md mx-auto px-4 py-16">
-      <div className="bg-white p-8 rounded-3xl border border-slate-200/80 shadow-xl space-y-6">
+    <div className="max-w-md mx-auto px-4 py-20 text-[#f7f3eb]">
+      <div className="bg-[#14100c] p-8 sm:p-10 rounded-3xl border border-[#c9933a]/30 shadow-2xl space-y-6">
         <div className="text-center space-y-2">
-          <h1 className="font-serif text-3xl font-bold text-slate-900">Welcome Back</h1>
-          <p className="text-xs text-slate-500">
-            Sign in to access your orders, track shipments, and manage profile settings.
+          <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#c9933a] uppercase tracking-widest bg-[#221a12] px-3.5 py-1 rounded-full border border-[#c9933a]/30">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>YAH SABAB ACCOUNT</span>
+          </div>
+          <h1 className="font-serif text-3xl font-bold text-[#f7f3eb]">Welcome Back</h1>
+          <p className="text-xs text-[#a89b88]">
+            Sign in to access your orders, track shipments, and receive member privileges.
           </p>
         </div>
 
-        {/* Preset Quick Login Credentials for Testing */}
-        <div className="p-3 bg-amber-50 rounded-2xl border border-amber-200 text-xs text-amber-950 space-y-1">
-          <p className="font-bold">🔑 Quick Demo Login Credentials:</p>
+        {/* Quick Demo Credentials for Fast Testing */}
+        <div className="p-3.5 bg-[#1f1913] rounded-2xl border border-[#c9933a]/30 text-xs text-[#d6cdbf] space-y-1.5">
+          <p className="font-bold text-[#c9933a]">🔑 Quick Demo Credentials:</p>
           <div className="flex justify-between items-center text-[11px]">
-            <span>Admin: <code>admin@yahsabab.com</code> / <code>Admin@123456</code></span>
+            <span>Admin: <code className="text-[#f5eedb]">admin@yahsabab.com</code></span>
             <button
               onClick={() => { setEmail('admin@yahsabab.com'); setPassword('Admin@123456'); }}
-              className="text-amber-900 font-bold underline"
+              className="text-[#c9933a] font-bold hover:underline"
             >
               Fill
             </button>
           </div>
           <div className="flex justify-between items-center text-[11px]">
-            <span>Customer: <code>tanvir@gmail.com</code> / <code>Customer@123456</code></span>
+            <span>Customer: <code className="text-[#f5eedb]">tanvir@gmail.com</code></span>
             <button
               onClick={() => { setEmail('tanvir@gmail.com'); setPassword('Customer@123456'); }}
-              className="text-amber-900 font-bold underline"
+              className="text-[#c9933a] font-bold hover:underline"
             >
               Fill
             </button>
@@ -81,15 +85,15 @@ export default function LoginPage() {
         </div>
 
         {errorMsg && (
-          <div className="p-3 bg-rose-50 border border-rose-200 text-rose-800 text-xs font-semibold rounded-xl flex items-center gap-2">
-            <Info className="w-4 h-4 shrink-0" />
+          <div className="p-3 bg-[#381419] border border-red-500/40 text-red-200 text-xs font-semibold rounded-xl flex items-center gap-2">
+            <Info className="w-4 h-4 shrink-0 text-red-400" />
             <span>{errorMsg}</span>
           </div>
         )}
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-bold text-[#b8ab99] uppercase tracking-wider mb-1.5">
               Email Address
             </label>
             <div className="relative">
@@ -98,15 +102,15 @@ export default function LoginPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="name@gmail.com"
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 pl-10 text-sm focus:outline-hidden focus:border-amber-800"
+                placeholder="name@example.com"
+                className="w-full bg-[#1c1611] border border-[#c9933a]/30 rounded-xl px-4 py-3 pl-10 text-xs sm:text-sm text-[#f7f3eb] placeholder:text-[#6e6153] focus:outline-hidden focus:border-[#c9933a]"
               />
-              <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
+              <Mail className="w-4 h-4 text-[#8c8071] absolute left-3.5 top-3.5" />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-bold text-[#b8ab99] uppercase tracking-wider mb-1.5">
               Password
             </label>
             <div className="relative">
@@ -116,24 +120,24 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 pl-10 text-sm focus:outline-hidden focus:border-amber-800"
+                className="w-full bg-[#1c1611] border border-[#c9933a]/30 rounded-xl px-4 py-3 pl-10 text-xs sm:text-sm text-[#f7f3eb] placeholder:text-[#6e6153] focus:outline-hidden focus:border-[#c9933a]"
               />
-              <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
+              <Lock className="w-4 h-4 text-[#8c8071] absolute left-3.5 top-3.5" />
             </div>
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 rounded-xl font-bold text-sm bg-amber-900 text-white hover:bg-amber-950 transition-colors shadow-md flex items-center justify-center gap-2 disabled:opacity-50"
+            className="w-full py-3.5 rounded-xl font-bold text-xs uppercase tracking-wider bg-gradient-to-r from-[#c9933a] to-[#ab752b] text-[#0e0c0a] hover:opacity-95 transition-opacity shadow-lg flex items-center justify-center gap-2 disabled:opacity-50"
           >
-            {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Sign In'}
+            {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Sign In'}
           </button>
         </form>
 
-        <div className="text-center text-xs text-slate-500 pt-2 border-t border-slate-100">
+        <div className="text-center text-xs text-[#a89b88] pt-2 border-t border-[#c9933a]/20">
           Don't have an account?{' '}
-          <Link href="/auth/register" className="font-bold text-amber-900 hover:underline">
+          <Link href="/auth/register" className="font-bold text-[#c9933a] hover:underline">
             Register Here
           </Link>
         </div>

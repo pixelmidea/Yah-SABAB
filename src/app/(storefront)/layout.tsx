@@ -11,7 +11,7 @@ export default function StorefrontLayout({
 }) {
   return (
     <StoreProvider>
-      <div className="min-h-screen flex flex-col bg-slate-50/50 text-slate-900 font-sans antialiased">
+      <div className="min-h-screen flex flex-col bg-[#0c0a09] text-[#f7f3eb] font-sans antialiased selection:bg-[#c9933a]/30">
         <Header />
         <main className="flex-1">{children}</main>
         <CartDrawer />

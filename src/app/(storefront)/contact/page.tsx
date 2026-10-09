@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Phone, Mail, MapPin, Clock, Send, Check } from 'lucide-react';
+import { Phone, Mail, MapPin, Send, Check, Sparkles } from 'lucide-react';
 import { useStore } from '@/context/StoreContext';
 
 export default function ContactPage() {
@@ -15,88 +15,113 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-12">
-      <div className="text-center max-w-2xl mx-auto space-y-2">
-        <span className="text-xs font-bold text-amber-800 uppercase tracking-widest bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
-          WE ARE HERE TO HELP
-        </span>
-        <h1 className="font-serif text-3xl sm:text-4xl font-bold text-slate-900">
-          Contact Customer Care
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16 text-[#f7f3eb]">
+      <div className="text-center max-w-2xl mx-auto space-y-2.5">
+        <div className="inline-flex items-center gap-2 text-xs font-bold text-[#c9933a] uppercase tracking-widest bg-[#221a12] px-3.5 py-1 rounded-full border border-[#c9933a]/30">
+          <Sparkles className="w-3.5 h-3.5" />
+          <span>CONCIERGE & SUPPORT</span>
+        </div>
+        <h1 className="font-serif text-3xl sm:text-5xl font-bold text-[#f7f3eb]">
+          Contact Concierge
         </h1>
-        <p className="text-sm text-slate-500">
-          Have a question about order status, size sizing, or bKash payment verification? Get in touch with our Dhaka team.
+        <p className="text-xs sm:text-sm text-[#a89b88]">
+          Have a query about sizing, festive custom orders, or bKash payment verification? Our Banani, Dhaka concierge is here to assist.
         </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Contact Info Cards */}
         <div className="space-y-4">
-          <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs space-y-2">
-            <div className="w-10 h-10 bg-amber-100 text-amber-900 rounded-xl flex items-center justify-center">
+          <div className="bg-[#14100c] p-6 rounded-3xl border border-[#c9933a]/25 shadow-xl space-y-2">
+            <div className="w-10 h-10 bg-[#221a12] text-[#c9933a] border border-[#c9933a]/30 rounded-xl flex items-center justify-center">
               <Phone className="w-5 h-5" />
             </div>
-            <h3 className="font-serif font-bold text-slate-900 text-base">Call / WhatsApp</h3>
-            <p className="text-xs text-slate-500">Saturday to Thursday (10:00 AM - 8:00 PM)</p>
-            <a href={`tel:${settings?.phone}`} className="text-sm font-bold text-amber-900 hover:underline block pt-1">
-              {settings?.phone || '01711223344'}
+            <h3 className="font-serif font-bold text-[#f7f3eb] text-base">Call / WhatsApp</h3>
+            <p className="text-xs text-[#8c8071]">Saturday to Thursday (10:00 AM - 8:00 PM)</p>
+            <a href={`tel:${settings?.phone || '01711223344'}`} className="text-sm font-bold text-[#c9933a] hover:underline block pt-1">
+              {settings?.phone || '+880 1711-223344'}
             </a>
           </div>
 
-          <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs space-y-2">
-            <div className="w-10 h-10 bg-amber-100 text-amber-900 rounded-xl flex items-center justify-center">
+          <div className="bg-[#14100c] p-6 rounded-3xl border border-[#c9933a]/25 shadow-xl space-y-2">
+            <div className="w-10 h-10 bg-[#221a12] text-[#c9933a] border border-[#c9933a]/30 rounded-xl flex items-center justify-center">
               <Mail className="w-5 h-5" />
             </div>
-            <h3 className="font-serif font-bold text-slate-900 text-base">Email Support</h3>
-            <p className="text-xs text-slate-500">For order inquiries & business partnerships</p>
-            <a href={`mailto:${settings?.email}`} className="text-sm font-bold text-amber-900 hover:underline block pt-1">
-              {settings?.email || 'support@naborupa.com'}
+            <h3 className="font-serif font-bold text-[#f7f3eb] text-base">Email Concierge</h3>
+            <p className="text-xs text-[#8c8071]">For order inquiries & bespoke bridal requests</p>
+            <a href={`mailto:${settings?.email || 'support@yahsabab.com'}`} className="text-sm font-bold text-[#c9933a] hover:underline block pt-1">
+              {settings?.email || 'support@yahsabab.com'}
             </a>
           </div>
 
-          <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs space-y-2">
-            <div className="w-10 h-10 bg-amber-100 text-amber-900 rounded-xl flex items-center justify-center">
+          <div className="bg-[#14100c] p-6 rounded-3xl border border-[#c9933a]/25 shadow-xl space-y-2">
+            <div className="w-10 h-10 bg-[#221a12] text-[#c9933a] border border-[#c9933a]/30 rounded-xl flex items-center justify-center">
               <MapPin className="w-5 h-5" />
             </div>
-            <h3 className="font-serif font-bold text-slate-900 text-base">Store & Office HQ</h3>
-            <p className="text-xs text-slate-600 leading-relaxed pt-1">
-              {settings?.address || 'House 42, Road 11, Block D, Banani, Dhaka-1213, Bangladesh'}
+            <h3 className="font-serif font-bold text-[#f7f3eb] text-base">Atelier HQ</h3>
+            <p className="text-xs text-[#8c8071]">Flagship studio & dispatch center</p>
+            <p className="text-xs font-semibold text-[#f5eedb] pt-1">
+              {settings?.address || 'House 42, Road 11, Banani, Dhaka-1213, Bangladesh'}
             </p>
           </div>
         </div>
 
-        {/* Contact Form */}
-        <div className="lg:col-span-2 bg-white p-8 rounded-3xl border border-slate-200/80 shadow-xs">
-          <h2 className="font-serif text-2xl font-bold text-slate-900 mb-6">Send Us a Direct Message</h2>
+        {/* Message Form */}
+        <div className="lg:col-span-2 bg-[#14100c] p-8 sm:p-10 rounded-3xl border border-[#c9933a]/25 shadow-xl">
+          <h2 className="font-serif text-2xl font-bold text-[#f7f3eb] mb-6">
+            Send an Inquiry
+          </h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Your Name</label>
-                <input required type="text" placeholder="Tanvir Hossain" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-hidden focus:border-amber-800" />
+                <label className="block text-xs font-bold text-[#b8ab99] uppercase tracking-wider mb-1.5">
+                  Your Name *
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="Tanvir Ahmed"
+                  className="w-full bg-[#1c1611] border border-[#c9933a]/30 rounded-xl px-4 py-3 text-xs sm:text-sm text-[#f7f3eb] placeholder:text-[#6e6153] focus:outline-hidden focus:border-[#c9933a]"
+                />
               </div>
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Phone Number</label>
-                <input required type="tel" placeholder="01712345678" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-hidden focus:border-amber-800" />
+                <label className="block text-xs font-bold text-[#b8ab99] uppercase tracking-wider mb-1.5">
+                  Mobile Number *
+                </label>
+                <input
+                  type="tel"
+                  required
+                  placeholder="017XXXXXXXX"
+                  className="w-full bg-[#1c1611] border border-[#c9933a]/30 rounded-xl px-4 py-3 text-xs sm:text-sm text-[#f7f3eb] placeholder:text-[#6e6153] focus:outline-hidden focus:border-[#c9933a]"
+                />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Message / Order Inquiry</label>
-              <textarea required rows={4} placeholder="How can we assist you with your order?" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-hidden focus:border-amber-800" />
+              <label className="block text-xs font-bold text-[#b8ab99] uppercase tracking-wider mb-1.5">
+                Message / Order Inquiries *
+              </label>
+              <textarea
+                required
+                rows={4}
+                placeholder="Inquire about fitting, fabric texture, or order tracking..."
+                className="w-full bg-[#1c1611] border border-[#c9933a]/30 rounded-xl px-4 py-3 text-xs sm:text-sm text-[#f7f3eb] placeholder:text-[#6e6153] focus:outline-hidden focus:border-[#c9933a]"
+              />
             </div>
 
             <button
               type="submit"
-              className="bg-amber-900 text-white font-bold text-sm px-8 py-3.5 rounded-xl hover:bg-amber-950 transition-colors shadow-md flex items-center gap-2"
+              className="bg-gradient-to-r from-[#c9933a] to-[#ab752b] text-[#0e0c0a] font-bold text-xs uppercase tracking-wider px-8 py-3.5 rounded-xl hover:opacity-95 transition-opacity shadow-lg flex items-center justify-center gap-2"
             >
               {submitted ? (
                 <>
                   <Check className="w-4 h-4" />
-                  <span>Message Sent Successfully!</span>
+                  <span>Message Dispatched</span>
                 </>
               ) : (
                 <>
                   <Send className="w-4 h-4" />
-                  <span>Send Message</span>
+                  <span>Dispatch Message</span>
                 </>
               )}
             </button>
