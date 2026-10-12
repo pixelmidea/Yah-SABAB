@@ -132,12 +132,14 @@ export async function DELETE(
     const { slug } = await params;
     await connectToDatabase();
 
+    const { searchParams } = new URL(req.url);
+    const permanent = searchParams.get('permanent') === 'true';
+
     let query: any = { slug };
     if (slug.match(/^[0-9a-fA-F]{24}$/)) {
       query = { $or: [{ slug }, { _id: slug }] };
     }
 
-    // Instead of raw deletion, soft deactivate or delete
     const product = await Product.findOne(query);
     if (!product) {
       return NextResponse.json(
@@ -146,7 +148,14 @@ export async function DELETE(
       );
     }
 
-    // Soft delete by setting isActive to false as per prompt safety guidelines
+    if (permanent) {
+      await Product.findByIdAndDelete(product._id);
+      return NextResponse.json({
+        success: true,
+        message: 'Product permanently deleted'
+      });
+    }
+
     product.isActive = false;
     await product.save();
 

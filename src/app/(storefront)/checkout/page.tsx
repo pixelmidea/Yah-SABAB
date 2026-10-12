@@ -29,12 +29,12 @@ export default function CheckoutPage() {
 
   // Delivery Fee Calculation
   const isDhaka = district.trim().toLowerCase() === 'dhaka';
-  const freeThreshold = settings?.freeShippingThreshold || 3500;
+  const freeThreshold = settings?.freeShippingThreshold || 5000;
   const isFreeDelivery = cartSubtotal >= freeThreshold;
   const deliveryFee = isFreeDelivery
     ? 0
     : isDhaka
-    ? settings?.insideDhakaFee || 80
+    ? settings?.insideDhakaFee || 115
     : settings?.outsideDhakaFee || 130;
 
   const totalAmount = cartSubtotal + deliveryFee;

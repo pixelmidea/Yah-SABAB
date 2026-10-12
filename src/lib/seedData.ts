@@ -1,218 +1,251 @@
 export const seedCategories = [
   {
-    name: 'Panjabi',
-    slug: 'panjabi',
-    description: 'Premium embroidered & cotton Panjabis crafted for elegance and everyday wear.',
+    name: 'D-Tex Micro Stitch Panjabi',
+    slug: 'd-tex-micro-stitch',
+    description: 'প্রিমিয়াম চাইনা মাইক্রো স্টিচ ফেব্রিকের পাঞ্জাবি — সফট, লাইটওয়েট এবং টেকসই।',
     image: 'https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=800&auto=format&fit=crop',
     displayOrder: 1
   },
   {
-    name: 'Kabli Suit',
-    slug: 'kabli-suit',
-    description: 'Traditional Afghani & Peshawari styled Kabli sets with matching trousers.',
+    name: 'China Popcorn Panjabi',
+    slug: 'china-popcorn',
+    description: 'প্রিমিয়াম চায়না পপকর্ন ফেব্রিক — ইউনিক টেক্সচার, এলিগেন্ট লুক ও আরামদায়ক অনুভূতি।',
     image: 'https://images.unsplash.com/photo-1609357605129-26f69add5d6e?q=80&w=800&auto=format&fit=crop',
     displayOrder: 2
   },
   {
-    name: 'Pajama & Aligarh',
-    slug: 'pajama',
-    description: 'Cotton Pajamas, Aligarh cut, and Chudidar trousers for men.',
-    image: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?q=80&w=800&auto=format&fit=crop',
+    name: 'Arabian Thobe & Kanduri',
+    slug: 'arabian-thobe-kanduri',
+    description: 'খাঁটি ওমানি ও অ্যারাবিয়ান স্টাইল থোব/কান্দুরা — প্রিমিয়াম ফিনিশিং ও সুন্নাহসম্মত আভিজাত্য।',
+    image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800&auto=format&fit=crop',
     displayOrder: 3
   },
   {
-    name: 'Exclusive Combo',
-    slug: 'combo',
-    description: 'Matched Panjabi, Pajama & Koti/Waistcoat sets for special celebrations.',
-    image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800&auto=format&fit=crop',
+    name: 'Jeddah & Pepsi Cotton Thobe',
+    slug: 'jeddah-pepsi-cotton',
+    description: 'নরম পেপসি ও জেদ্দা কটন — গরমের দিনেও দেবে চরম প্রশান্তি ও স্বস্তি।',
+    image: 'https://images.unsplash.com/photo-1593032465175-481ac7f401a0?q=80&w=800&auto=format&fit=crop',
     displayOrder: 4
   },
   {
-    name: 'Koti & Waistcoat',
-    slug: 'koti',
-    description: 'Structured jacquard & velvet waistcoats to complement your outfit.',
-    image: 'https://images.unsplash.com/photo-1593032465175-481ac7f401a0?q=80&w=800&auto=format&fit=crop',
+    name: 'Luxury Cotton Panjabi',
+    slug: 'luxury-cotton',
+    description: 'লাক্সারি কটন ফেব্রিক — ডার্ক চকলেট ও রয়েল শেডে নিখুঁত সেলাই ও এলিগেন্ট লুক।',
+    image: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?q=80&w=800&auto=format&fit=crop',
     displayOrder: 5
   }
 ];
 
 export const seedProducts = [
   {
-    name: 'Royal Midnight Blue Embroidered Cotton Panjabi',
-    slug: 'royal-midnight-blue-embroidered-cotton-panjabi',
-    sku: 'PAN-BLU-001',
-    description: 'Crafted from 100% long-staple Egyptian cotton with meticulous neckline thread embroidery and custom metallic buttons. Designed for Eid and festive gatherings with high breathability.',
-    price: 3450,
-    discountPrice: 2950,
+    name: 'D-Tex China Micro Stitch Panjabi - Royal Navy',
+    slug: 'd-tex-china-micro-stitch-panjabi-royal-navy',
+    sku: 'DTX-MIC-001',
+    description: 'প্রিমিয়াম কোয়ালিটির ডি-টেক্স (D-Techs) চাইনা মাইক্রো স্টিচ ফেব্রিকের পাঞ্জাবি। অত্যন্ত সফট, লাইটওয়েট এবং টেকসই এই ফেব্রিক গরমে ও যেকোনো অনুষ্ঠানে পরার জন্য একদম পারফেক্ট। ১০০% কালার ও ফেব্রিক গ্যারান্টি। নিখুঁত সেলাই ও আরামদায়ক কাটিং।',
+    price: 1850,
+    discountPrice: 1450,
     images: [
       'https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=1000&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1593032465175-481ac7f401a0?q=80&w=1000&auto=format&fit=crop'
     ],
     variants: [
-      { size: 'M (40)', color: 'Midnight Blue', stock: 12, sku: 'PAN-BLU-001-M' },
-      { size: 'L (42)', color: 'Midnight Blue', stock: 18, sku: 'PAN-BLU-001-L' },
-      { size: 'XL (44)', color: 'Midnight Blue', stock: 8, sku: 'PAN-BLU-001-XL' },
-      { size: 'XXL (46)', color: 'Midnight Blue', stock: 3, sku: 'PAN-BLU-001-XXL' }
+      { size: 'M (40)', color: 'Royal Navy', stock: 15, sku: 'DTX-MIC-001-M' },
+      { size: 'L (42)', color: 'Royal Navy', stock: 20, sku: 'DTX-MIC-001-L' },
+      { size: 'XL (44)', color: 'Royal Navy', stock: 10, sku: 'DTX-MIC-001-XL' }
     ],
     lowStockThreshold: 5,
     isFeatured: true,
     isNewArrival: true,
     isBestSeller: true,
-    tags: ['Embroidered', 'Cotton', 'Eid Collection', 'Festive'],
-    rating: 4.9,
-    numReviews: 28
+    tags: ['D-Tex', 'Micro Stitch', 'Panjabi', 'Eid Collection', 'Fixed Price'],
+    rating: 5.0,
+    numReviews: 38
   },
   {
-    name: 'Classic Off-White Jacquard Silk Fusion Panjabi',
-    slug: 'classic-off-white-jacquard-silk-fusion-panjabi',
-    sku: 'PAN-WHT-002',
-    description: 'A timeless off-white jacquard woven Panjabi featuring subtle tone-on-tone pattern, comfortable band collar, and concealed placket. Perfect for weddings, Jummah, and formal events.',
-    price: 3850,
-    discountPrice: 3250,
+    name: 'China Popcorn Panjabi - Elegant Off-White',
+    slug: 'china-popcorn-panjabi-elegant-off-white',
+    sku: 'POP-PUN-002',
+    description: 'Upgrade your traditional look with our China Popcorn Panjabi. Crafted with premium China Popcorn fabric, soft & comfortable feel, with a clean textured finish. Perfect for Eid, Jummah & special occasions.',
+    price: 1950,
+    discountPrice: 1499,
     images: [
       'https://images.unsplash.com/photo-1609357605129-26f69add5d6e?q=80&w=1000&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=1000&auto=format&fit=crop'
     ],
     variants: [
-      { size: 'M (40)', color: 'Off-White', stock: 15, sku: 'PAN-WHT-002-M' },
-      { size: 'L (42)', color: 'Off-White', stock: 20, sku: 'PAN-WHT-002-L' },
-      { size: 'XL (44)', color: 'Off-White', stock: 10, sku: 'PAN-WHT-002-XL' },
-      { size: 'XXL (46)', color: 'Off-White', stock: 4, sku: 'PAN-WHT-002-XXL' }
+      { size: 'M (40)', color: 'Off-White', stock: 12, sku: 'POP-PUN-002-M' },
+      { size: 'L (42)', color: 'Off-White', stock: 18, sku: 'POP-PUN-002-L' },
+      { size: 'XL (44)', color: 'Off-White', stock: 8, sku: 'POP-PUN-002-XL' }
     ],
-    lowStockThreshold: 5,
+    lowStockThreshold: 4,
     isFeatured: true,
     isNewArrival: true,
     isBestSeller: true,
-    tags: ['Jacquard', 'Silk', 'Wedding', 'Formal'],
-    rating: 4.8,
-    numReviews: 19
+    tags: ['China Popcorn', 'Panjabi', 'Jummah Special', 'Off-White'],
+    rating: 4.9,
+    numReviews: 29
   },
   {
-    name: 'Emerald Green Heritage Collar Panjabi Set',
-    slug: 'emerald-green-heritage-collar-panjabi-set',
-    sku: 'PAN-GRN-003',
-    description: 'Deep emerald green Panjabi tailored with premium fine-count blended fabric. Features contrast maroon stitching along sleeve cuffs and collar with snap fastener closure.',
-    price: 2750,
-    discountPrice: 2350,
-    images: [
-      'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?q=80&w=1000&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=1000&auto=format&fit=crop'
-    ],
-    variants: [
-      { size: 'M (40)', color: 'Emerald Green', stock: 6, sku: 'PAN-GRN-003-M' },
-      { size: 'L (42)', color: 'Emerald Green', stock: 14, sku: 'PAN-GRN-003-L' },
-      { size: 'XL (44)', color: 'Emerald Green', stock: 2, sku: 'PAN-GRN-003-XL' }
-    ],
-    lowStockThreshold: 5,
-    isFeatured: true,
-    isNewArrival: false,
-    isBestSeller: true,
-    tags: ['Green', 'Cotton', 'Festive'],
-    rating: 4.7,
-    numReviews: 14
-  },
-  {
-    name: 'Peshawari Black Kabli Suit with Matching Trousers',
-    slug: 'peshawari-black-kabli-suit-with-matching-trousers',
-    sku: 'KAB-BLK-004',
-    description: 'Traditional Peshawari cut Kabli suit featuring heavy drape fabric, deep side pockets, and wide flared sleeves. Comes complete with tailored matching salwar trousers.',
-    price: 4500,
-    discountPrice: 3950,
+    name: 'Jeddah Cotton Arabian Thobe - Pure White',
+    slug: 'jeddah-cotton-arabian-thobe-pure-white',
+    sku: 'JED-THB-003',
+    description: 'আরাম, স্টাইল ও প্রিমিয়াম লুক—সব একসাথে! Premium Jeddah Cotton Fabric দিয়ে তৈরি Arabian Thobe Collection. সুন্দর ও ক্লিন ফিনিশিং, নরম, আরামদায়ক ও দৈনন্দিন ব্যবহার ও জুমার নামাজের জন্য উপযোগী।',
+    price: 3000,
+    discountPrice: 2450,
     images: [
       'https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=1000&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1609357605129-26f69add5d6e?q=80&w=1000&auto=format&fit=crop'
     ],
     variants: [
-      { size: 'M (40)', color: 'Jet Black', stock: 8, sku: 'KAB-BLK-004-M' },
-      { size: 'L (42)', color: 'Jet Black', stock: 11, sku: 'KAB-BLK-004-L' },
-      { size: 'XL (44)', color: 'Jet Black', stock: 5, sku: 'KAB-BLK-004-XL' },
-      { size: 'XXL (46)', color: 'Jet Black', stock: 2, sku: 'KAB-BLK-004-XXL' }
+      { size: 'M (40)', color: 'Pure White', stock: 10, sku: 'JED-THB-003-M' },
+      { size: 'L (42)', color: 'Pure White', stock: 15, sku: 'JED-THB-003-L' },
+      { size: 'XL (44)', color: 'Pure White', stock: 6, sku: 'JED-THB-003-XL' }
+    ],
+    lowStockThreshold: 5,
+    isFeatured: true,
+    isNewArrival: false,
+    isBestSeller: true,
+    tags: ['Jeddah Cotton', 'Arabian Thobe', 'Kanduri', 'White Thobe'],
+    rating: 4.9,
+    numReviews: 44
+  },
+  {
+    name: 'Arabian Soft Pepsi Cotton Thobe (Royal Oman)',
+    slug: 'arabian-soft-pepsi-cotton-thobe-royal-oman',
+    sku: 'PEP-THB-004',
+    description: 'Experience premium comfort with a classy Arabian look. Made with Soft Pepsi Cotton Fabric, imported Royal Oman quality. Super comfortable, breathable for hot weather, perfect for Jummah, Eid & everyday wear.',
+    price: 2900,
+    discountPrice: 2250,
+    images: [
+      'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?q=80&w=1000&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=1000&auto=format&fit=crop'
+    ],
+    variants: [
+      { size: 'M (40)', color: 'Oman Sand', stock: 8, sku: 'PEP-THB-004-M' },
+      { size: 'L (42)', color: 'Oman Sand', stock: 14, sku: 'PEP-THB-004-L' },
+      { size: 'XL (44)', color: 'Oman Sand', stock: 5, sku: 'PEP-THB-004-XL' }
     ],
     lowStockThreshold: 4,
     isFeatured: true,
     isNewArrival: true,
-    isBestSeller: false,
-    tags: ['Kabli', 'Salwar', 'Black', 'Peshawari'],
-    rating: 5.0,
-    numReviews: 32
+    isBestSeller: true,
+    tags: ['Pepsi Cotton', 'Royal Oman', 'Arabian Thobe', 'Breathable'],
+    rating: 4.8,
+    numReviews: 21
   },
   {
-    name: 'Maroon Velvet Embossed Festive Koti Waistcoat',
-    slug: 'maroon-velvet-embossed-festive-koti-waistcoat',
-    sku: 'KOT-MAR-005',
-    description: 'Royal maroon velvet Koti with subtle golden metal buttons, double welt pockets, and adjustable back cinch slider. Instantly elevates any solid white or black Panjabi.',
-    price: 2450,
-    discountPrice: 1990,
+    name: 'Luxury Cotton Fabric Panjabi - Dark Chocolate',
+    slug: 'luxury-cotton-fabric-panjabi-dark-chocolate',
+    sku: 'LUX-COT-005',
+    description: 'স্টাইলের সাথে আরাম—দুটো একসাথে চাইলে এই পাঞ্জাবিটা আপনার পারফেক্ট চয়েস! প্রিমিয়াম কোয়ালিটির লাক্সারি কটন ফেব্রিক, নিখুঁত সেলাই ও ফিনিশিং। “If you love the Messenger of Allah ﷺ, then build your life through the Sunnah.”',
+    price: 2400,
+    discountPrice: 1850,
     images: [
-      'https://images.unsplash.com/photo-1593032465175-481ac7f401a0?q=80&w=1000&auto=format&fit=crop'
+      'https://images.unsplash.com/photo-1593032465175-481ac7f401a0?q=80&w=1000&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=1000&auto=format&fit=crop'
     ],
     variants: [
-      { size: 'M (38)', color: 'Royal Maroon', stock: 5, sku: 'KOT-MAR-005-M' },
-      { size: 'L (40)', color: 'Royal Maroon', stock: 9, sku: 'KOT-MAR-005-L' },
-      { size: 'XL (42)', color: 'Royal Maroon', stock: 3, sku: 'KOT-MAR-005-XL' }
+      { size: 'M (40)', color: 'Dark Chocolate', stock: 12, sku: 'LUX-COT-005-M' },
+      { size: 'L (42)', color: 'Dark Chocolate', stock: 16, sku: 'LUX-COT-005-L' },
+      { size: 'XL (44)', color: 'Dark Chocolate', stock: 7, sku: 'LUX-COT-005-XL' }
     ],
-    lowStockThreshold: 3,
+    lowStockThreshold: 5,
+    isFeatured: true,
+    isNewArrival: true,
+    isBestSeller: false,
+    tags: ['Luxury Cotton', 'Dark Chocolate', 'Sunnah Fashion', 'Panjabi'],
+    rating: 5.0,
+    numReviews: 31
+  },
+  {
+    name: 'Omani Special Summer Thobe (Authentic Kanduri)',
+    slug: 'omani-special-summer-thobe-authentic-kanduri',
+    sku: 'OMN-THB-006',
+    description: 'Soft and smooth fabric with authentic Omani styling. 100% Summer friendly, lightweight & comfortable. Straight import look with signature tassel detail.',
+    price: 1650,
+    discountPrice: 1250,
+    images: [
+      'https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=1000&auto=format&fit=crop'
+    ],
+    variants: [
+      { size: 'M (40)', color: 'Desert Beige', stock: 10, sku: 'OMN-THB-006-M' },
+      { size: 'L (42)', color: 'Desert Beige', stock: 12, sku: 'OMN-THB-006-L' },
+      { size: 'XL (44)', color: 'Desert Beige', stock: 5, sku: 'OMN-THB-006-XL' }
+    ],
+    lowStockThreshold: 4,
     isFeatured: false,
     isNewArrival: true,
     isBestSeller: false,
-    tags: ['Koti', 'Waistcoat', 'Velvet', 'Maroon'],
-    rating: 4.6,
-    numReviews: 9
+    tags: ['Omani Kanduri', 'Thobe', 'Summer Friendly', 'Offer Price'],
+    rating: 4.7,
+    numReviews: 17
   },
   {
-    name: 'Premium Pure Cotton White Aligarh Pajama',
-    slug: 'premium-pure-cotton-white-aligarh-pajama',
-    sku: 'PAJ-WHT-006',
-    description: '100% combed cotton Aligarh cut pajama featuring straight leg fit, soft elastic waistband with drawstring, and side seam pockets. Breathable and comfortable.',
-    price: 990,
-    discountPrice: 850,
+    name: 'D-Tex Micro Stitch Panjabi - Jet Black Edition',
+    slug: 'd-tex-micro-stitch-panjabi-jet-black-edition',
+    sku: 'DTX-MIC-007',
+    description: 'D-Techs China Micro Stitch fabric in deep jet black. সুক্ষ্ম ও নিখুঁত স্টিচ ওয়ার্ক, মার্জিত এবং এলিগেন্ট লুক। ধোয়ার পরও কাপড়ের উজ্জ্বলতা ও সাইজ একই থাকবে।',
+    price: 1850,
+    discountPrice: 1450,
     images: [
-      'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?q=80&w=1000&auto=format&fit=crop'
+      'https://images.unsplash.com/photo-1609357605129-26f69add5d6e?q=80&w=1000&auto=format&fit=crop'
     ],
     variants: [
-      { size: 'M (38)', color: 'White', stock: 25, sku: 'PAJ-WHT-006-M' },
-      { size: 'L (40)', color: 'White', stock: 30, sku: 'PAJ-WHT-006-L' },
-      { size: 'XL (42)', color: 'White', stock: 15, sku: 'PAJ-WHT-006-XL' },
-      { size: 'XXL (44)', color: 'White', stock: 10, sku: 'PAJ-WHT-006-XXL' }
+      { size: 'M (40)', color: 'Jet Black', stock: 14, sku: 'DTX-MIC-007-M' },
+      { size: 'L (42)', color: 'Jet Black', stock: 20, sku: 'DTX-MIC-007-L' },
+      { size: 'XL (44)', color: 'Jet Black', stock: 9, sku: 'DTX-MIC-007-XL' }
     ],
-    lowStockThreshold: 10,
-    isFeatured: false,
+    lowStockThreshold: 5,
+    isFeatured: true,
     isNewArrival: false,
     isBestSeller: true,
-    tags: ['Pajama', 'Cotton', 'Aligarh', 'White'],
+    tags: ['D-Tex', 'Jet Black', 'Micro Stitch', 'Panjabi'],
     rating: 4.9,
-    numReviews: 45
+    numReviews: 26
+  },
+  {
+    name: 'China Popcorn Panjabi - Olive Green Special',
+    slug: 'china-popcorn-panjabi-olive-green-special',
+    sku: 'POP-PUN-008',
+    description: 'China Popcorn textured fabric in rich olive green. Soft, comfortable & breathable. Premium stitching & finishing for celebrations and gatherings.',
+    price: 1950,
+    discountPrice: 1699,
+    images: [
+      'https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=1000&auto=format&fit=crop'
+    ],
+    variants: [
+      { size: 'M (40)', color: 'Olive Green', stock: 11, sku: 'POP-PUN-008-M' },
+      { size: 'L (42)', color: 'Olive Green', stock: 15, sku: 'POP-PUN-008-L' },
+      { size: 'XL (44)', color: 'Olive Green', stock: 6, sku: 'POP-PUN-008-XL' }
+    ],
+    lowStockThreshold: 4,
+    isFeatured: false,
+    isNewArrival: true,
+    isBestSeller: false,
+    tags: ['China Popcorn', 'Olive Green', 'Special Offer', 'Panjabi'],
+    rating: 4.8,
+    numReviews: 15
   }
 ];
 
 export const seedCoupons = [
   {
-    code: 'EID20',
+    code: 'YAH2026',
     discountType: 'percentage',
-    discountValue: 20,
+    discountValue: 10,
     minOrderAmount: 2000,
-    maxDiscountAmount: 1000,
+    maxDiscountAmount: 500,
     expiryDate: new Date('2026-12-31'),
     usageLimit: 500,
     isActive: true
   },
   {
-    code: 'WELCOME10',
-    discountType: 'percentage',
-    discountValue: 10,
-    minOrderAmount: 1000,
-    maxDiscountAmount: 500,
+    code: 'SUNNAH100',
+    discountType: 'fixed',
+    discountValue: 100,
+    minOrderAmount: 1450,
     expiryDate: new Date('2026-12-31'),
     usageLimit: 1000,
-    isActive: true
-  },
-  {
-    code: 'FLAT300',
-    discountType: 'fixed',
-    discountValue: 300,
-    minOrderAmount: 3000,
-    expiryDate: new Date('2026-12-31'),
-    usageLimit: 200,
     isActive: true
   }
 ];

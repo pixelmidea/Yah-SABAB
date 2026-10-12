@@ -91,18 +91,18 @@ export default function Footer() {
               </div>
             </Link>
             <p className="text-xs sm:text-sm text-[#a89b88] leading-relaxed pr-4">
-              Yah SABAB is a premier Bangladeshi menswear atelier specializing in handcrafted neck embroidery, fine long-staple Egyptian cotton Panjabis, and Peshawari Kablis. Tailored for Eid, Jummah, weddings, and distinguished celebrations.
+              Yah SABAB (Arabic Kanduri & Panjabi) — আভিজাত্য, আরাম ও প্রিমিয়াম কোয়ালিটির অনন্য সমন্বয়। ডি-টেক্স মাইক্রো স্টিচ, চায়না পপকর্ন পাঞ্জাবি এবং ওমান ও জেদ্দা কটন অ্যারাবিয়ান থোব/কান্দুরার নির্ভরযোগ্য অনলাইন ঠিকানা।
             </p>
 
             <div className="pt-2 space-y-2.5 text-xs sm:text-sm text-[#d6cdbf]">
               <div className="flex items-center gap-3">
                 <MapPin className="w-4 h-4 text-[#c9933a] shrink-0" />
-                <span>{settings?.address || 'House 42, Road 11, Banani, Dhaka-1213, Bangladesh'}</span>
+                <span>{settings?.address || 'Dhaka, Bangladesh | Authentic Oman Import Collection'}</span>
               </div>
               <div className="flex items-center gap-3">
                 <Phone className="w-4 h-4 text-[#c9933a] shrink-0" />
-                <a href={`tel:${settings?.phone || '01711223344'}`} className="hover:text-[#c9933a] transition-colors">
-                  {settings?.phone || '+880 1711-223344'}
+                <a href="https://wa.me/96878343923" target="_blank" rel="noopener noreferrer" className="hover:text-[#c9933a] transition-colors font-medium">
+                  Hotline / WhatsApp: {settings?.phone || '+96878343923'}
                 </a>
               </div>
               <div className="flex items-center gap-3">
@@ -117,32 +117,32 @@ export default function Footer() {
           {/* Column 2: Collections */}
           <div>
             <h4 className="font-serif text-base font-bold text-[#f7f3eb] mb-4 tracking-wide border-b border-[#c9933a]/30 pb-2">
-              Collections
+              Panjabi & Thobe
             </h4>
             <ul className="space-y-2.5 text-xs sm:text-sm">
               <li>
-                <Link href="/shop?category=panjabi" className="hover:text-[#c9933a] transition-colors">
-                  Embroidered Panjabi
+                <Link href="/shop?category=d-tex-micro-stitch" className="hover:text-[#c9933a] transition-colors">
+                  D-Tex Micro Stitch
                 </Link>
               </li>
               <li>
-                <Link href="/shop?category=kabli-suit" className="hover:text-[#c9933a] transition-colors">
-                  Peshawari Kabli Suits
+                <Link href="/shop?category=china-popcorn" className="hover:text-[#c9933a] transition-colors">
+                  China Popcorn Panjabi
                 </Link>
               </li>
               <li>
-                <Link href="/shop?category=combo" className="hover:text-[#c9933a] transition-colors">
-                  Festive Royal Combos
+                <Link href="/shop?category=arabian-thobe-kanduri" className="hover:text-[#c9933a] transition-colors">
+                  Arabian Thobe & Kanduri
                 </Link>
               </li>
               <li>
-                <Link href="/shop?category=koti" className="hover:text-[#c9933a] transition-colors">
-                  Jacquard & Velvet Kotis
+                <Link href="/shop?category=jeddah-pepsi-cotton" className="hover:text-[#c9933a] transition-colors">
+                  Jeddah & Pepsi Cotton
                 </Link>
               </li>
               <li>
-                <Link href="/shop?category=pajama" className="hover:text-[#c9933a] transition-colors">
-                  Aligarh Cut Pajamas
+                <Link href="/shop?category=luxury-cotton" className="hover:text-[#c9933a] transition-colors">
+                  Luxury Cotton Panjabi
                 </Link>
               </li>
             </ul>

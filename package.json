@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:db": "node scripts/test-mongo.mjs",
+    "db:admin": "node scripts/seed-admin.mjs",
+    "db:clear": "node scripts/clear-dummy-data.mjs"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

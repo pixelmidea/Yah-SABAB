@@ -36,10 +36,15 @@ export default function ContactPage() {
             <div className="w-10 h-10 bg-[#221a12] text-[#c9933a] border border-[#c9933a]/30 rounded-xl flex items-center justify-center">
               <Phone className="w-5 h-5" />
             </div>
-            <h3 className="font-serif font-bold text-[#f7f3eb] text-base">Call / WhatsApp</h3>
-            <p className="text-xs text-[#8c8071]">Saturday to Thursday (10:00 AM - 8:00 PM)</p>
-            <a href={`tel:${settings?.phone || '01711223344'}`} className="text-sm font-bold text-[#c9933a] hover:underline block pt-1">
-              {settings?.phone || '+880 1711-223344'}
+            <h3 className="font-serif font-bold text-[#f7f3eb] text-base">Hotline & WhatsApp</h3>
+            <p className="text-xs text-[#8c8071]">অর্ডার ও বিস্তারিত তথ্যের জন্য ইনবক্স বা হোয়াটসঅ্যাপ করুন</p>
+            <a
+              href="https://wa.me/96878343923"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-bold text-[#c9933a] hover:underline block pt-1"
+            >
+              WhatsApp: +96878343923
             </a>
           </div>
 
@@ -48,7 +53,7 @@ export default function ContactPage() {
               <Mail className="w-5 h-5" />
             </div>
             <h3 className="font-serif font-bold text-[#f7f3eb] text-base">Email Concierge</h3>
-            <p className="text-xs text-[#8c8071]">For order inquiries & bespoke bridal requests</p>
+            <p className="text-xs text-[#8c8071]">For order inquiries & customer assistance</p>
             <a href={`mailto:${settings?.email || 'support@yahsabab.com'}`} className="text-sm font-bold text-[#c9933a] hover:underline block pt-1">
               {settings?.email || 'support@yahsabab.com'}
             </a>
@@ -58,10 +63,10 @@ export default function ContactPage() {
             <div className="w-10 h-10 bg-[#221a12] text-[#c9933a] border border-[#c9933a]/30 rounded-xl flex items-center justify-center">
               <MapPin className="w-5 h-5" />
             </div>
-            <h3 className="font-serif font-bold text-[#f7f3eb] text-base">Atelier HQ</h3>
-            <p className="text-xs text-[#8c8071]">Flagship studio & dispatch center</p>
+            <h3 className="font-serif font-bold text-[#f7f3eb] text-base">Delivery & Guarantee</h3>
+            <p className="text-xs text-[#8c8071]">ঢাকা: ১১৫৳ | ঢাকার বাইরে: ১৩০৳</p>
             <p className="text-xs font-semibold text-[#f5eedb] pt-1">
-              {settings?.address || 'House 42, Road 11, Banani, Dhaka-1213, Bangladesh'}
+              সারা বাংলাদেশে ক্যাশ অন ডেলিভারি ও পণ্য চেক করার সুবিধা
             </p>
           </div>
         </div>

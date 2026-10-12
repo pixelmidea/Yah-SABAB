@@ -91,13 +91,13 @@ function ShopContent() {
         <div>
           <div className="inline-flex items-center gap-2 text-xs font-bold text-[#c9933a] uppercase tracking-widest mb-1">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>HAUTE MENSWEAR CATALOG</span>
+            <span>ARABIC KANDURI & PANJABI COLLECTION</span>
           </div>
           <h1 className="font-serif text-3xl sm:text-5xl font-bold text-[#f7f3eb]">
             Curated Collections
           </h1>
           <p className="text-xs sm:text-sm text-[#a89b88] mt-1.5">
-            Discover {pagination.total} handcrafted Panjabis, Peshawari Kablis, and festive sets.
+            Discover {pagination.total} exclusive D-Tex Micro Stitch, China Popcorn Panjabis & authentic imported Arabian Thobes.
           </p>
         </div>
 

@@ -17,21 +17,21 @@ export async function GET() {
     // 1. Seed StoreSettings
     await StoreSettings.deleteMany({});
     const storeSettings = await StoreSettings.create({
-      storeName: 'Yah SABAB (ইয়াহ সাবাব)',
-      tagline: 'Heritage & Modern Elegance for Men',
-      phone: '01711223344',
+      storeName: 'Yah SABAB (Arabic Kanduri & Panjabi)',
+      tagline: 'Style, Comfort & Elegance! | আপনার আভিজাত্যের বিশ্বস্ত ঠিকানা',
+      phone: '+96878343923',
       email: 'support@yahsabab.com',
-      address: 'House 42, Road 11, Block D, Banani, Dhaka-1213, Bangladesh',
+      address: 'Dhaka, Bangladesh (Authentic Oman & Imported Fabrics)',
       logoUrl: '/logo.png',
-      insideDhakaFee: 80,
+      insideDhakaFee: 115,
       outsideDhakaFee: 130,
-      freeShippingThreshold: 3500,
+      freeShippingThreshold: 5000,
       bkashNumber: '01711002233',
       nagadNumber: '01811002233',
       rocketNumber: '01911002233',
       codAvailable: true,
       minOrderValue: 0,
-      announcementBarText: '✨ FREE Express Delivery nationwide on orders over ৳3,500 | Cash on Delivery & bKash Verified'
+      announcementBarText: '✨ YAH SABAB — Style, Comfort & Elegance | সারা দেশে ক্যাশ অন ডেলিভারি (পণ্য চেক করে নেওয়ার সুবিধা) | WhatsApp: +96878343923'
     });
 
     // 2. Seed Users
@@ -42,14 +42,14 @@ export async function GET() {
     const admin = await User.create({
       name: 'Yah SABAB Admin',
       email: 'admin@yahsabab.com',
-      phone: '01711223344',
+      phone: '+96878343923',
       password: adminPassword,
       role: 'admin',
       addresses: [
         {
           label: 'Store HQ',
-          fullName: 'Store Admin',
-          phone: '01711223344',
+          fullName: 'Yah SABAB Admin',
+          phone: '+96878343923',
           district: 'Dhaka',
           area: 'Banani',
           address: 'House 42, Road 11, Block D',
@@ -90,10 +90,11 @@ export async function GET() {
     const createdProducts = [];
     for (const prod of seedProducts) {
       // map category slug to Category ObjectId
-      let catId = createdCategoriesMap['panjabi'];
-      if (prod.slug.includes('kabli')) catId = createdCategoriesMap['kabli-suit'];
-      if (prod.slug.includes('koti')) catId = createdCategoriesMap['koti'];
-      if (prod.slug.includes('pajama')) catId = createdCategoriesMap['pajama'];
+      let catId = createdCategoriesMap['d-tex-micro-stitch'];
+      if (prod.slug.includes('popcorn')) catId = createdCategoriesMap['china-popcorn'];
+      else if (prod.slug.includes('jeddah') || prod.slug.includes('pepsi')) catId = createdCategoriesMap['jeddah-pepsi-cotton'];
+      else if (prod.slug.includes('omani') || prod.slug.includes('thobe') || prod.slug.includes('kanduri')) catId = createdCategoriesMap['arabian-thobe-kanduri'];
+      else if (prod.slug.includes('luxury-cotton')) catId = createdCategoriesMap['luxury-cotton'];
 
       const createdProd = await Product.create({
         ...prod,

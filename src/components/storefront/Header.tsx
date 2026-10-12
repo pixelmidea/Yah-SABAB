@@ -24,16 +24,16 @@ export default function Header() {
   const primaryNavLinks = [
     { name: 'Home', href: '/' },
     { name: 'Shop All', href: '/shop' },
-    { name: 'Panjabi', href: '/shop?category=panjabi' },
-    { name: 'Kabli Suit', href: '/shop?category=kabli-suit' },
-    { name: 'New Arrivals', href: '/shop?isNewArrival=true' },
+    { name: 'D-Tex Panjabi', href: '/shop?category=d-tex-micro-stitch' },
+    { name: 'China Popcorn', href: '/shop?category=china-popcorn' },
+    { name: 'Arabian Thobe', href: '/shop?category=arabian-thobe-kanduri' },
   ];
 
   const secondaryNavLinks = [
-    { name: 'Combos & Sets', href: '/shop?category=combo' },
-    { name: 'Exclusive Offers', href: '/shop?isFeatured=true' },
-    { name: 'Our Heritage', href: '/about' },
-    { name: 'Contact & Support', href: '/contact' },
+    { name: 'Jeddah & Pepsi Cotton', href: '/shop?category=jeddah-pepsi-cotton' },
+    { name: 'Luxury Cotton', href: '/shop?category=luxury-cotton' },
+    { name: 'New Drops', href: '/shop?isNewArrival=true' },
+    { name: 'WhatsApp & Contact', href: '/contact' },
   ];
 
   const announcement = settings?.announcementBarText || '✨ EID SPECIAL: Free Express Delivery Nationwide on Orders Above ৳2,000 | Code: EID20 for 20% OFF';
@@ -96,7 +96,7 @@ export default function Header() {
                   </span>
                 </div>
                 <span className="text-[9px] tracking-[0.25em] text-[#a89b88] uppercase font-sans font-medium -mt-0.5">
-                  Haute Panjabi & Menswear
+                  Arabic Kanduri & Panjabi
                 </span>
               </div>
             </Link>

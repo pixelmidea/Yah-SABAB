@@ -1,21 +1,28 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import {
   LayoutDashboard,
-  ShoppingBag,
+  Users,
   Package,
   Layers,
+  ShoppingBag,
+  SlidersHorizontal,
+  ChevronDown,
+  ChevronRight,
   Tag,
-  Users,
-  MessageSquare,
   Settings,
   LogOut,
   Store,
-  SlidersHorizontal,
-  ChevronRight
+  CreditCard,
+  MessageSquare,
+  FileText,
+  BarChart3,
+  Megaphone,
+  Wrench,
+  Compass
 } from 'lucide-react';
 import { useStore } from '@/context/StoreContext';
 
@@ -23,92 +30,187 @@ export default function AdminSidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const { logout, user } = useStore();
-
-  const navItems = [
-    { label: 'Overview & Analytics', href: '/admin', icon: LayoutDashboard },
-    { label: 'Orders & Payments', href: '/admin/orders', icon: ShoppingBag },
-    { label: 'Product Catalog', href: '/admin/products', icon: Package },
-    { label: 'Inventory & Stock', href: '/admin/inventory', icon: SlidersHorizontal },
-    { label: 'Categories', href: '/admin/categories', icon: Layers },
-    { label: 'Coupons & Discounts', href: '/admin/coupons', icon: Tag },
-    { label: 'Store Settings', href: '/admin/settings', icon: Settings },
-  ];
+  const [productsOpen, setProductsOpen] = useState(true);
 
   return (
-    <aside className="w-64 bg-slate-900 text-slate-300 flex flex-col shrink-0 min-h-screen border-r border-slate-800">
+    <aside className="w-60 bg-[#fafaf8] text-[#334155] flex flex-col shrink-0 min-h-screen border-r border-[#e8e7e1] font-sans">
       {/* Brand Header */}
-      <div className="p-5 border-b border-slate-800 flex items-center gap-3">
-        <img src="/logo.png" alt="Yah SABAB" className="w-9 h-9 object-contain bg-white rounded-lg p-0.5 shrink-0" />
-        <div>
-          <span className="font-serif text-lg font-bold text-amber-400 block leading-none">
-            Yah SABAB <span className="text-white text-xs font-sans font-normal">ADMIN</span>
+      <div className="p-5 flex items-center justify-between border-b border-[#ecebe5]">
+        <Link href="/admin" className="flex items-center gap-2.5">
+          <div className="w-7 h-7 rounded-lg bg-[#0f172a] text-white flex items-center justify-center font-bold text-xs shadow-xs">
+            YS
+          </div>
+          <span className="font-bold text-sm text-[#0f172a] tracking-tight">
+            Yah SABAB
           </span>
-          <p className="text-[9px] text-slate-400 uppercase tracking-widest mt-1">
-            Store Owner Dashboard
-          </p>
-        </div>
+        </Link>
       </div>
 
-      {/* Admin User Info */}
-      {user && (
-        <div className="px-6 py-3 bg-slate-950/60 border-b border-slate-800/80 flex items-center gap-3 text-xs">
-          <div className="w-8 h-8 rounded-full bg-amber-700 text-white font-bold flex items-center justify-center shrink-0">
-            {user.name.charAt(0)}
+      {/* Navigation Menu */}
+      <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto text-xs font-medium">
+        {/* Dashboard */}
+        <Link
+          href="/admin"
+          className={`flex items-center gap-2.5 px-3 py-2 rounded-xl transition-colors ${
+            pathname === '/admin'
+              ? 'bg-[#edece6] text-[#0f172a] font-bold'
+              : 'text-[#475569] hover:bg-[#f3f2ed] hover:text-[#0f172a]'
+          }`}
+        >
+          <LayoutDashboard className="w-4 h-4 text-[#64748b]" />
+          <span>Dashboard</span>
+        </Link>
+
+        {/* Users */}
+        <div className="flex items-center justify-between px-3 py-2 rounded-xl text-[#475569] hover:bg-[#f3f2ed] cursor-pointer">
+          <div className="flex items-center gap-2.5">
+            <Users className="w-4 h-4 text-[#64748b]" />
+            <span>Users</span>
           </div>
-          <div className="truncate">
-            <div className="font-bold text-white truncate">{user.name}</div>
-            <div className="text-[10px] text-amber-400 uppercase font-semibold">Store Owner</div>
-          </div>
+          <ChevronDown className="w-3.5 h-3.5 text-[#94a3b8]" />
         </div>
-      )}
 
-      {/* Navigation Links */}
-      <nav className="flex-1 px-3 py-6 space-y-1.5 overflow-y-auto">
-        {navItems.map((item) => {
-          const Icon = item.icon;
-          const isActive = pathname === item.href || (item.href !== '/admin' && pathname.startsWith(item.href));
+        {/* Products (Group) */}
+        <div className="space-y-0.5">
+          <button
+            type="button"
+            onClick={() => setProductsOpen(!productsOpen)}
+            className={`w-full flex items-center justify-between px-3 py-2 rounded-xl transition-colors ${
+              pathname.startsWith('/admin/products') || pathname.startsWith('/admin/categories') || pathname.startsWith('/admin/inventory')
+                ? 'bg-[#edece6] text-[#0f172a] font-bold'
+                : 'text-[#475569] hover:bg-[#f3f2ed]'
+            }`}
+          >
+            <div className="flex items-center gap-2.5">
+              <Package className="w-4 h-4 text-[#0f172a]" />
+              <span>Products</span>
+            </div>
+            <ChevronDown className={`w-3.5 h-3.5 text-[#64748b] transition-transform ${productsOpen ? 'rotate-180' : ''}`} />
+          </button>
 
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`flex items-center justify-between px-3.5 py-3 rounded-xl text-xs font-semibold transition-all ${
-                isActive
-                  ? 'bg-amber-900/80 text-white font-bold border border-amber-700/50 shadow-sm'
-                  : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                <Icon className={`w-4 h-4 ${isActive ? 'text-amber-400' : 'text-slate-400'}`} />
-                <span>{item.label}</span>
-              </div>
-              {isActive && <ChevronRight className="w-4 h-4 text-amber-400" />}
-            </Link>
-          );
-        })}
+          {productsOpen && (
+            <div className="pl-8 pr-2 py-1 space-y-0.5 text-[11px]">
+              <Link
+                href="/admin/products"
+                className={`block px-2.5 py-1.5 rounded-lg transition-colors ${
+                  pathname === '/admin/products'
+                    ? 'text-[#0f172a] font-bold bg-white shadow-2xs'
+                    : 'text-[#64748b] hover:text-[#0f172a] hover:bg-[#f3f2ed]'
+                }`}
+              >
+                All Products
+              </Link>
+              <Link
+                href="/admin/categories"
+                className={`block px-2.5 py-1.5 rounded-lg transition-colors ${
+                  pathname === '/admin/categories'
+                    ? 'text-[#0f172a] font-bold bg-white shadow-2xs'
+                    : 'text-[#64748b] hover:text-[#0f172a] hover:bg-[#f3f2ed]'
+                }`}
+              >
+                Categories
+              </Link>
+              <Link
+                href="/admin/inventory"
+                className={`block px-2.5 py-1.5 rounded-lg transition-colors ${
+                  pathname === '/admin/inventory'
+                    ? 'text-[#0f172a] font-bold bg-white shadow-2xs'
+                    : 'text-[#64748b] hover:text-[#0f172a] hover:bg-[#f3f2ed]'
+                }`}
+              >
+                Inventory
+              </Link>
+            </div>
+          )}
+        </div>
+
+        {/* Transactions / Orders */}
+        <Link
+          href="/admin/orders"
+          className={`flex items-center justify-between px-3 py-2 rounded-xl transition-colors ${
+            pathname.startsWith('/admin/orders')
+              ? 'bg-[#edece6] text-[#0f172a] font-bold'
+              : 'text-[#475569] hover:bg-[#f3f2ed]'
+          }`}
+        >
+          <div className="flex items-center gap-2.5">
+            <ShoppingBag className="w-4 h-4 text-[#64748b]" />
+            <span>Orders & Shipping</span>
+          </div>
+          <ChevronRight className="w-3.5 h-3.5 text-[#94a3b8]" />
+        </Link>
+
+        {/* Coupons */}
+        <Link
+          href="/admin/coupons"
+          className={`flex items-center gap-2.5 px-3 py-2 rounded-xl transition-colors ${
+            pathname.startsWith('/admin/coupons')
+              ? 'bg-[#edece6] text-[#0f172a] font-bold'
+              : 'text-[#475569] hover:bg-[#f3f2ed]'
+          }`}
+        >
+          <Tag className="w-4 h-4 text-[#64748b]" />
+          <span>Promotions & Coupons</span>
+        </Link>
+
+        {/* Analytics */}
+        <Link
+          href="/admin"
+          className="flex items-center justify-between px-3 py-2 rounded-xl text-[#475569] hover:bg-[#f3f2ed]"
+        >
+          <div className="flex items-center gap-2.5">
+            <BarChart3 className="w-4 h-4 text-[#64748b]" />
+            <span>Analytics</span>
+          </div>
+          <ChevronDown className="w-3.5 h-3.5 text-[#94a3b8]" />
+        </Link>
+
+        {/* Settings */}
+        <Link
+          href="/admin/settings"
+          className={`flex items-center gap-2.5 px-3 py-2 rounded-xl transition-colors ${
+            pathname.startsWith('/admin/settings')
+              ? 'bg-[#edece6] text-[#0f172a] font-bold'
+              : 'text-[#475569] hover:bg-[#f3f2ed]'
+          }`}
+        >
+          <Settings className="w-4 h-4 text-[#64748b]" />
+          <span>Settings</span>
+        </Link>
       </nav>
 
-      {/* Bottom Storefront & Logout Actions */}
-      <div className="p-4 border-t border-slate-800 space-y-2">
+      {/* Bottom User Profile & Storefront Link */}
+      <div className="p-3 border-t border-[#ecebe5] space-y-2">
         <Link
           href="/"
           target="_blank"
-          className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-200 hover:bg-slate-700 transition-colors"
+          className="w-full flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-semibold bg-white border border-[#e2e0d8] text-[#334155] hover:bg-[#f5f4ef] transition-colors shadow-2xs"
         >
-          <Store className="w-4 h-4 text-amber-400" />
-          <span>View Customer Storefront</span>
+          <Store className="w-3.5 h-3.5 text-[#0f172a]" />
+          <span>View Customer Store</span>
         </Link>
 
-        <button
-          onClick={async () => {
-            await logout();
-            router.push('/auth/login');
-          }}
-          className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-semibold text-rose-400 bg-rose-950/40 hover:bg-rose-900/60 border border-rose-900/50 transition-colors"
-        >
-          <LogOut className="w-4 h-4" />
-          <span>Log Out</span>
-        </button>
+        <div className="flex items-center justify-between p-2 rounded-xl bg-white border border-[#e2e0d8] shadow-2xs">
+          <div className="flex items-center gap-2 truncate">
+            <div className="w-7 h-7 rounded-full bg-[#1e293b] text-white font-bold text-xs flex items-center justify-center shrink-0">
+              {user?.name?.charAt(0) || 'A'}
+            </div>
+            <div className="truncate text-left">
+              <div className="font-bold text-[11px] text-[#0f172a] truncate">{user?.name || 'Admin'}</div>
+              <div className="text-[9px] text-[#64748b] truncate">{user?.email || 'admin@yahsabab.com'}</div>
+            </div>
+          </div>
+          <button
+            onClick={async () => {
+              await logout();
+              router.push('/auth/login');
+            }}
+            className="p-1.5 text-slate-400 hover:text-rose-600 transition-colors"
+            title="Log Out"
+          >
+            <LogOut className="w-3.5 h-3.5" />
+          </button>
+        </div>
       </div>
     </aside>
   );

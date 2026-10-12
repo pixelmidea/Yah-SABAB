@@ -39,77 +39,90 @@ export default async function HomePage() {
   const { categories, featuredProducts, newArrivals } = await getHomepageData();
 
   return (
-    <div className="space-y-20 sm:space-y-28 pb-24 text-[#f7f3eb]">
+    <div className="space-y-10 sm:space-y-14 pb-24 text-[#f7f3eb] mt-[-60px]">
       {/* 1. HERO SECTION */}
-      <section className="relative min-h-[640px] lg:min-h-[750px] bg-[#0c0a09] overflow-hidden flex items-center border-b border-[#c9933a]/20">
-        {/* Background Ambient Imagery & Radial Vignette */}
-        <div className="absolute inset-0 z-0 opacity-45">
+      <section className="relative min-h-[620px] lg:min-h-[720px] bg-[#0c0a09] overflow-hidden flex items-center justify-center border-b border-[#c9933a]/20">
+        {/* Background Ambient Imagery & Balanced Vignette */}
+        <div className="absolute inset-0 z-0">
           <img
-            src="https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=1920&auto=format&fit=crop"
+            src="/hero-bg.jpg"
             alt="Yah SABAB Festive Men's Collection"
-            className="w-full h-full object-cover object-top filter contrast-105"
+            className="w-full h-full object-cover object-center filter contrast-105"
           />
-          {/* Multi-layered dark luxury gradient overlays */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0c0a09] via-[#0c0a09]/90 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0c0a09] via-transparent to-black/60" />
+          {/* Centered symmetrical dark luxury gradient overlays for seamless contrast */}
+          <div className="absolute inset-0 bg-[#0c0a09]/55 backdrop-blur-[0.5px]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0c0a09]/90 via-transparent to-[#0c0a09]" />
+          <div className="absolute inset-0 bg-radial from-transparent via-[#0c0a09]/40 to-[#0c0a09]/90" />
         </div>
 
-        {/* Ambient Gold Glow Orbs */}
-        <div className="absolute top-1/4 left-1/3 w-96 h-96 bg-[#c9933a]/10 rounded-full blur-3xl pointer-events-none" />
+        {/* Ambient Gold Glow Orb Centered */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[850px] h-[380px] bg-[#c9933a]/12 rounded-full blur-[120px] pointer-events-none" />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
-          <div className="max-w-2xl space-y-7">
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 text-center flex flex-col items-center">
+          <div className="w-full max-w-5xl space-y-7 flex flex-col items-center">
             {/* Eid & Festive Pill */}
-            <div className="inline-flex items-center gap-2.5 bg-[#211a12]/80 border border-[#c9933a]/40 text-[#f5eedb] text-xs font-semibold px-4 py-1.5 rounded-full backdrop-blur-md shadow-lg shadow-[#0a0806]">
+            <div className="inline-flex items-center gap-2.5 bg-[#211a12]/90 border border-[#c9933a]/40 text-[#f5eedb] text-xs font-semibold px-5 py-2 rounded-full backdrop-blur-md shadow-lg shadow-[#0a0806]/70">
               <Sparkles className="w-3.5 h-3.5 text-[#c9933a] animate-pulse" />
-              <span className="tracking-widest uppercase text-[11px]">The Festive & Eid 2026 Collection</span>
+              <span className="tracking-widest uppercase text-[11px]">D-Tex Micro Stitch & Arabian Thobe 2026</span>
             </div>
 
             {/* Headline */}
-            <div className="space-y-2">
-              <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-[#f7f3eb] leading-[1.1]">
-                Heritage, Crafted for{' '}
-                <span className="gold-gradient-text italic font-serif">Today.</span>
+            <div className="space-y-3 text-center max-w-4xl mx-auto">
+              <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-[#f7f3eb] leading-[1.12] drop-shadow-[0_4px_16px_rgba(0,0,0,0.85)]">
+                Upgrade Your Style with{' '}
+                <span className="gold-gradient-text italic font-serif">Elegance!</span>
               </h1>
-              <p className="font-bangla text-[#c9933a] text-lg sm:text-xl font-medium tracking-wide">
-                অভিজাত বাঙালি পুরুষের পছন্দের ঐতিহ্যবাহী পাঞ্জাবি কালেকশন
+              <p className="font-bangla text-[#c9933a] text-lg sm:text-2xl lg:text-3xl font-medium tracking-wide drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]">
+                আভিজাত্য, আরাম ও প্রিমিয়াম কোয়ালিটির অনন্য সমন্বয়
               </p>
             </div>
 
-            <p className="text-base sm:text-lg text-[#b8ab99] font-light leading-relaxed max-w-xl">
-              Discover opulent Egyptian Giza cotton Panjabis, delicate handcrafted threadwork, and tailored Peshawari Kablis. Exclusively designed for discerning gentlemen across Bangladesh.
+            {/* Description */}
+            <p className="text-sm sm:text-base lg:text-lg text-[#d6cdbf] font-light leading-relaxed max-w-3xl mx-auto text-center drop-shadow-[0_2px_6px_rgba(0,0,0,0.85)]">
+              Discover our signature Detex China Micro Stitch Panjabi, textured China Popcorn series, and authentic imported Pepsi & Jeddah Cotton Arabian Thobes. 100% color & fabric guaranteed.
             </p>
 
+            {/* Price Badge Highlight */}
+            {/* <div className="inline-flex flex-wrap items-center justify-center gap-3 px-5 py-2.5 rounded-2xl bg-[#1e1710]/90 border border-[#c9933a]/35 backdrop-blur-md shadow-lg">
+              <span className="bg-gradient-to-r from-[#c9933a] to-[#ab752b] text-[#0e0c0a] font-black text-xs uppercase px-3.5 py-1 rounded-xl shadow-xs">
+                Special Offer: ৳1,450 Only
+              </span>
+              <span className="text-xs sm:text-sm text-[#e2cb97] font-medium font-bangla">
+                মূল্য সম্পূর্ণ ফিক্সড — কোনো দরদাম নয়
+              </span>
+            </div> */}
+
             {/* CTAs */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-3">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-1 w-full max-w-xl mx-auto">
               <Link
                 href="/shop"
-                className="bg-gradient-to-r from-[#c9933a] to-[#ab752b] text-[#0e0c0a] font-bold px-8 py-4 rounded-xl hover:opacity-95 transition-all shadow-xl shadow-[#c9933a]/25 flex items-center justify-center gap-2 group border border-[#f5eedb]/30"
+                className="w-full sm:w-auto min-w-[210px] bg-gradient-to-r from-[#c9933a] to-[#ab752b] text-[#0e0c0a] font-bold px-8 py-3.5 rounded-xl hover:opacity-95 transition-all shadow-xl shadow-[#c9933a]/25 flex items-center justify-center gap-2 group border border-[#f5eedb]/30"
               >
-                <span>Shop Collection</span>
+                <span>Shop All Panjabis</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
-                href="/shop?category=panjabi"
-                className="bg-[#1c1712]/80 hover:bg-[#282119] text-[#f5eedb] text-center font-medium px-8 py-4 rounded-xl border border-[#c9933a]/30 backdrop-blur-sm transition-all"
+                href="/shop?category=d-tex-micro-stitch"
+                className="w-full sm:w-auto min-w-[210px] bg-[#1c1712]/90 hover:bg-[#282119] text-[#f5eedb] text-center font-medium px-8 py-3.5 rounded-xl border border-[#c9933a]/30 backdrop-blur-md transition-all shadow-lg"
               >
-                Explore Panjabis
+                D-Tex Micro Stitch (৳1,450)
               </Link>
             </div>
+            
 
-            {/* Trust Highlights */}
-            <div className="pt-8 grid grid-cols-3 gap-4 border-t border-[#c9933a]/20 text-xs text-[#a89b88]">
-              <div>
-                <strong className="block text-[#f7f3eb] text-sm font-semibold">64 Districts</strong>
-                <span>Express Courier</span>
+            {/* Trust Highlights - Expanded horizontally to eliminate side empty space */}
+            <div className="pt-8 sm:pt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 border-t border-[#c9933a]/25 w-full max-w-4xl lg:max-w-5xl mx-auto text-center">
+              <div className="bg-[#18130e]/85 border border-[#c9933a]/25 rounded-2xl py-3.5 px-6 backdrop-blur-md shadow-lg">
+                <strong className="block text-[#f7f3eb] text-sm sm:text-base font-semibold">Delivery: ৳115 / ৳130</strong>
+                <span className="text-xs text-[#a89b88] mt-0.5 block">ঢাকা ১১৫৳ | বাইরে ১৩০৳</span>
               </div>
-              <div>
-                <strong className="block text-[#f7f3eb] text-sm font-semibold">bKash / COD</strong>
-                <span>Verified Payment</span>
+              <div className="bg-[#18130e]/85 border border-[#c9933a]/25 rounded-2xl py-3.5 px-6 backdrop-blur-md shadow-lg">
+                <strong className="block text-[#f7f3eb] text-sm sm:text-base font-semibold">ক্যাশ অন ডেলিভারি</strong>
+                <span className="text-xs text-[#a89b88] mt-0.5 block">পণ্য চেক করে নেওয়ার সুবিধা</span>
               </div>
-              <div>
-                <strong className="block text-[#f7f3eb] text-sm font-semibold">100% Cotton</strong>
-                <span>Guaranteed Quality</span>
+              <div className="bg-[#18130e]/85 border border-[#c9933a]/25 rounded-2xl py-3.5 px-6 backdrop-blur-md shadow-lg">
+                <strong className="block text-[#f7f3eb] text-sm sm:text-base font-semibold">100% গ্যারান্টি</strong>
+                <span className="text-xs text-[#a89b88] mt-0.5 block">কালার ও ফেব্রিক গ্যারান্টি</span>
               </div>
             </div>
           </div>
@@ -172,11 +185,11 @@ export default async function HomePage() {
         <div className="text-center max-w-xl mx-auto mb-12">
           <span className="text-xs font-bold text-[#c9933a] uppercase tracking-widest">CURATED EXCLUSIVES</span>
           <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#f7f3eb] mt-1.5">
-            Featured Panjabi Pieces
+            Featured Panjabi & Arabian Thobes
           </h2>
           <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-[#c9933a] to-transparent mx-auto my-3" />
           <p className="text-sm text-[#a89b88]">
-            Masterpieces crafted with high-count Egyptian cotton, delicate neck embroidery, and modern tailored fits.
+            ডি-টেক্স মাইক্রো স্টিচ, চায়না পপকর্ন এবং ওমানি পেপসি কটনের নিখুঁত ফিনিশিং ও এলিগেন্ট কালেকশন।
           </p>
         </div>
 
@@ -194,32 +207,36 @@ export default async function HomePage() {
             <div className="space-y-6">
               <div className="inline-flex items-center gap-2 text-xs font-bold text-[#c9933a] uppercase tracking-widest bg-[#2b2116] px-3.5 py-1.5 rounded-full border border-[#c9933a]/30">
                 <Scissors className="w-3.5 h-3.5" />
-                <span>THE ATELIER STORY</span>
+                <span>THE SUNNAH & ATELIER STORY</span>
               </div>
 
               <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#f7f3eb] leading-tight">
-                The Art of Tailoring <br />
-                <span className="gold-gradient-text italic">Without Compromise</span>
+                আভিজাত্য ও সুন্নাহর ছোঁয়ায় <br />
+                <span className="gold-gradient-text italic font-serif">Style, Comfort & Elegance</span>
               </h2>
 
+              <p className="text-xs sm:text-sm text-[#c9933a] italic font-serif leading-relaxed border-l-2 border-[#c9933a]/40 pl-3">
+                “If you love the Messenger of Allah ﷺ, then build your life through the Sunnah.”
+              </p>
+
               <p className="text-sm text-[#b8ab99] leading-relaxed">
-                At Yah SABAB, we believe a Panjabi is not merely a garment; it is a canvas of heritage. Every stitch is placed with intention, using high-tensile Egyptian cotton yarns that breathe effortlessly under the warm Bangladeshi climate.
+                Yah SABAB এ আমরা নিয়ে এসেছি প্রিমিয়াম ডি-টেক্স মাইক্রো স্টিচ এবং ওমানি রয়্যাল পেপসি কটন ফ্যাব্রিকের অনন্য সম্ভার। গরমের দিনেও আরামদায়ক অনুভূতি, ১০০% কালার গ্যারান্টি এবং প্রতিটি পোশাকে সুক্ষ্ম সেলাই ফিনিশিং।
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                 <div className="flex items-start gap-3 p-3.5 rounded-xl bg-[#221b14] border border-[#c9933a]/20">
                   <Layers className="w-5 h-5 text-[#c9933a] shrink-0 mt-0.5" />
                   <div>
-                    <h4 className="text-sm font-bold text-[#f7f3eb]">Egyptian Cotton</h4>
-                    <p className="text-xs text-[#8c8071] mt-0.5">Silky finish, high breathability and supreme drape.</p>
+                    <h4 className="text-sm font-bold text-[#f7f3eb]">D-Tex Micro Stitch</h4>
+                    <p className="text-xs text-[#8c8071] mt-0.5">অত্যন্ত সফট, লাইটওয়েট এবং ধোয়ার পরও সাইজ ও উজ্জ্বলতা অটুট।</p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3 p-3.5 rounded-xl bg-[#221b14] border border-[#c9933a]/20">
                   <Scissors className="w-5 h-5 text-[#c9933a] shrink-0 mt-0.5" />
                   <div>
-                    <h4 className="text-sm font-bold text-[#f7f3eb]">Precision Collar</h4>
-                    <p className="text-xs text-[#8c8071] mt-0.5">Fused band collar that maintains its sharp profile all day.</p>
+                    <h4 className="text-sm font-bold text-[#f7f3eb]">Soft Pepsi Cotton</h4>
+                    <p className="text-xs text-[#8c8071] mt-0.5">Imported Royal Oman quality, সুপার ব্রিদেবল ও মার্জিত কাট।</p>
                   </div>
                 </div>
               </div>
@@ -234,8 +251,8 @@ export default async function HomePage() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-6">
                 <div>
-                  <span className="text-xs font-bold text-[#c9933a] uppercase tracking-widest">Handcrafted In Dhaka</span>
-                  <p className="text-sm font-semibold text-[#f7f3eb]">Designed for celebratory moments & Jummah prayers</p>
+                  <span className="text-xs font-bold text-[#c9933a] uppercase tracking-widest">Arabic Kanduri & Panjabi</span>
+                  <p className="text-sm font-semibold text-[#f7f3eb]">দৈনন্দিন ব্যবহার, জুমার নামাজ ও ঈদের জন্য নিখুঁত</p>
                 </div>
               </div>
             </div>
@@ -245,32 +262,40 @@ export default async function HomePage() {
 
       {/* 5. PROMOTIONAL FESTIVE OFFER BANNER */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-[#172e21] via-[#0f1f16] to-[#121914] text-white p-8 sm:p-14 shadow-2xl border border-emerald-600/30 flex flex-col lg:flex-row items-center justify-between gap-8">
+        <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-[#1f1912] via-[#14100c] to-[#0c0a08] text-white p-8 sm:p-14 shadow-2xl border border-[#c9933a]/40 flex flex-col lg:flex-row items-center justify-between gap-8">
           <div className="max-w-xl space-y-4 text-center lg:text-left z-10">
             <span className="bg-[#c9933a] text-[#0e0c0a] font-black text-xs uppercase px-3.5 py-1 rounded-full tracking-wider shadow-md">
-              FESTIVE VOUCHER
+              SPECIAL OFFER — মাত্র ১,৪৫০৳
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold leading-tight text-[#f7f3eb]">
-              Eid Special Privilege: Save Up to <span className="gold-gradient-text">20% OFF</span>
+              D-Tex Micro Stitch Panjabi: <span className="gold-gradient-text">অফার প্রাইস ৳১,৪৫০</span>
             </h2>
-            <p className="text-emerald-100/80 text-sm leading-relaxed">
-              Use code <strong className="text-[#f5eedb] font-mono text-sm px-2.5 py-1 bg-[#1a3828] border border-emerald-500/30 rounded-lg">EID20</strong> at checkout on orders over ৳2,000. Nationwide express Cash on Delivery & bKash available.
+            <p className="text-[#d6cdbf] text-sm leading-relaxed">
+              মূল্য সম্পূর্ণ ফিক্সড — কোনো দরদাম নয়। ঢাকা ডেলিভারি ১১৫ টাকা | ঢাকার বাইরে ১৩০ টাকা। পণ্য হাতে পেয়ে চেক করে নেওয়ার সম্পূর্ণ সুবিধা!
             </p>
-            <div className="pt-2">
+            <div className="flex flex-wrap items-center gap-4 pt-2 justify-center lg:justify-start">
               <Link
-                href="/shop"
+                href="/shop?category=d-tex-micro-stitch"
                 className="inline-flex items-center gap-2 bg-gradient-to-r from-[#c9933a] to-[#ab752b] text-[#0e0c0a] font-bold px-8 py-3.5 rounded-xl transition-all shadow-xl hover:opacity-95"
               >
-                <span>Claim Offer Now</span>
+                <span>Order Online</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
+              <a
+                href="https://wa.me/96878343923"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-[#1c2e21] border border-emerald-500/40 text-emerald-300 font-semibold px-6 py-3.5 rounded-xl hover:bg-[#253f2c] transition-colors text-xs"
+              >
+                <span>WhatsApp: +96878343923</span>
+              </a>
             </div>
           </div>
 
-          <div className="relative w-full max-w-sm aspect-4/3 rounded-2xl overflow-hidden shadow-2xl border border-emerald-500/20">
+          <div className="relative w-full max-w-sm aspect-4/3 rounded-2xl overflow-hidden shadow-2xl border border-[#c9933a]/30">
             <img
-              src="https://images.unsplash.com/photo-1596704017254-9b121068fb31?q=80&w=800"
-              alt="Festive Offer"
+              src="https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=800"
+              alt="D-Tex Micro Stitch Panjabi"
               className="w-full h-full object-cover"
             />
           </div>
@@ -318,9 +343,9 @@ export default async function HomePage() {
               <div className="w-12 h-12 bg-[#2a2117] text-[#c9933a] rounded-xl flex items-center justify-center mx-auto border border-[#c9933a]/30">
                 <Award className="w-6 h-6" />
               </div>
-              <h3 className="font-serif font-bold text-[#f7f3eb] text-lg">Finest Cotton</h3>
+              <h3 className="font-serif font-bold text-[#f7f3eb] text-lg">D-Tex & Pepsi Cotton</h3>
               <p className="text-xs text-[#a89b88] leading-relaxed">
-                Fine long-staple Egyptian cotton & silk blends for supreme comfort in humid weather.
+                অত্যন্ত সফট, লাইটওয়েট ও গরমের দিনেও আরামদায়ক ফিলিংসের প্রিমিয়াম ফেব্রিক।
               </p>
             </div>
 
@@ -328,9 +353,9 @@ export default async function HomePage() {
               <div className="w-12 h-12 bg-[#2a2117] text-[#c9933a] rounded-xl flex items-center justify-center mx-auto border border-[#c9933a]/30">
                 <Truck className="w-6 h-6" />
               </div>
-              <h3 className="font-serif font-bold text-[#f7f3eb] text-lg">Fast BD Courier</h3>
+              <h3 className="font-serif font-bold text-[#f7f3eb] text-lg">Fixed Delivery</h3>
               <p className="text-xs text-[#a89b88] leading-relaxed">
-                24-48 hour delivery inside Dhaka & 2-4 days across all 64 districts in Bangladesh.
+                ঢাকা: ১১৫ টাকা | ঢাকার বাইরে: ১৩০ টাকা। সারা বাংলাদেশে নির্ভরযোগ্য কুরিয়ার।
               </p>
             </div>
 
@@ -338,9 +363,9 @@ export default async function HomePage() {
               <div className="w-12 h-12 bg-[#2a2117] text-[#c9933a] rounded-xl flex items-center justify-center mx-auto border border-[#c9933a]/30">
                 <ShieldCheck className="w-6 h-6" />
               </div>
-              <h3 className="font-serif font-bold text-[#f7f3eb] text-lg">Verified Payment</h3>
+              <h3 className="font-serif font-bold text-[#f7f3eb] text-lg">পণ্য চেক সুবিধা</h3>
               <p className="text-xs text-[#a89b88] leading-relaxed">
-                Full support for bKash, Nagad, Rocket, and Cash on Delivery with direct verification.
+                হোম ডেলিভারিতে পণ্য হাতে পেয়ে চেক করে নেওয়ার ১০০% সুযোগ।
               </p>
             </div>
 
@@ -348,9 +373,9 @@ export default async function HomePage() {
               <div className="w-12 h-12 bg-[#2a2117] text-[#c9933a] rounded-xl flex items-center justify-center mx-auto border border-[#c9933a]/30">
                 <RotateCcw className="w-6 h-6" />
               </div>
-              <h3 className="font-serif font-bold text-[#f7f3eb] text-lg">Easy Size Exchange</h3>
+              <h3 className="font-serif font-bold text-[#f7f3eb] text-lg">Fixed Price Policy</h3>
               <p className="text-xs text-[#a89b88] leading-relaxed">
-                Hassle-free size replacement within 7 days. Your perfect fit is always guaranteed.
+                মূল্য সম্পূর্ণ ফিক্সড — কোনো দরদাম নয়। সর্বোচ্চ কোয়ালিটিতে নিশ্চিত সেরা মূল্য।
               </p>
             </div>
           </div>
@@ -374,12 +399,12 @@ export default async function HomePage() {
               ))}
             </div>
             <p className="text-sm text-[#d6cdbf] italic leading-relaxed">
-              "The neck embroidery on the Midnight Blue Panjabi is outstanding. Fitting was immaculate for Eid prayer. Delivered to Uttara within 24 hours!"
+              "D-Tex Micro Stitch পাঞ্জাবিটা সত্যি অসাধারণ সফট। গরমে পরে অনেক আরাম পেয়েছি। ঢাকায় ডেলিভারি মাত্র ১১৫ টাকায় ২৪ ঘণ্টায় পেয়েছি!"
             </p>
             <div className="pt-2 border-t border-[#c9933a]/15 flex items-center justify-between">
-              <span className="font-bold text-sm text-[#f7f3eb]">Dr. Mahfuzur Rahman</span>
+              <span className="font-bold text-sm text-[#f7f3eb]">মো. রফিকুল ইসলাম</span>
               <span className="text-xs text-emerald-400 font-semibold bg-[#12281c] border border-emerald-500/30 px-2.5 py-0.5 rounded-full">
-                Dhaka
+                ঢাকা
               </span>
             </div>
           </div>
@@ -391,12 +416,12 @@ export default async function HomePage() {
               ))}
             </div>
             <p className="text-sm text-[#d6cdbf] italic leading-relaxed">
-              "Ordered a Peshawari Kabli suit to Chittagong via bKash. Payment was verified swiftly and received in pristine condition. Excellent service!"
+              "Soft Pepsi Cotton Arabian Thobe নিয়েছিলাম। ফেব্রিকের ড্রেপ এবং নিখুঁত ফিনিশিং ওমানের রয়্যাল কোয়ালিটির মতো। জুমার নামাজে সবাই পছন্দ করেছে।"
             </p>
             <div className="pt-2 border-t border-[#c9933a]/15 flex items-center justify-between">
-              <span className="font-bold text-sm text-[#f7f3eb]">Saadman Chowdhury</span>
+              <span className="font-bold text-sm text-[#f7f3eb]">আবু বকর সিদ্দিক</span>
               <span className="text-xs text-emerald-400 font-semibold bg-[#12281c] border border-emerald-500/30 px-2.5 py-0.5 rounded-full">
-                Chittagong
+                চট্টগ্রাম
               </span>
             </div>
           </div>
@@ -408,12 +433,12 @@ export default async function HomePage() {
               ))}
             </div>
             <p className="text-sm text-[#d6cdbf] italic leading-relaxed">
-              "The cotton fabric quality is genuine Egyptian cotton. Breathable for summer weddings and Jummah. Yah SABAB has won a loyal customer."
+              "China Popcorn Panjabi টা হাতে পেয়ে চেক করে ডেলিভারি ম্যানকে পেমেন্ট করেছি। ছবির সাথে ১০০% মিল পেয়েছি। Yah SABAB কোয়ালিটি অতুলনীয়।"
             </p>
             <div className="pt-2 border-t border-[#c9933a]/15 flex items-center justify-between">
-              <span className="font-bold text-sm text-[#f7f3eb]">Mirza Redwan</span>
+              <span className="font-bold text-sm text-[#f7f3eb]">ফাহিম তানভীর</span>
               <span className="text-xs text-emerald-400 font-semibold bg-[#12281c] border border-emerald-500/30 px-2.5 py-0.5 rounded-full">
-                Sylhet
+                সিলেট
               </span>
             </div>
           </div>
