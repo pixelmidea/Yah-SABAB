@@ -25,6 +25,16 @@ export const metadata: Metadata = {
   title: "Yah SABAB (ইয়াহ সাবাব) | Heritage & Modern Elegance for Men",
   description:
     "Premier Bangladeshi menswear brand specializing in hand-embroidered Panjabis, Peshawari Kabli suits, and festive waistcoats. Express Cash on Delivery & bKash available nationwide.",
+  icons: {
+    icon: [
+      { url: "/favicon.png", type: "image/png" },
+      { url: "/logo.png", type: "image/png" }
+    ],
+    apple: [
+      { url: "/logo.png", type: "image/png" }
+    ],
+    shortcut: ["/favicon.png"]
+  }
 };
 
 export default function RootLayout({
