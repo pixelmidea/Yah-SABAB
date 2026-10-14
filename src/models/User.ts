@@ -16,7 +16,12 @@ export interface IUser extends Document {
   email: string;
   phone: string;
   password?: string;
-  role: 'customer' | 'admin';
+  role: 'customer' | 'admin' | 'staff';
+  division?: string;
+  district?: string;
+  city?: string;
+  notes?: string;
+  lastLogin?: Date;
   addresses: IAddress[];
   wishlist: mongoose.Types.ObjectId[];
   isActive: boolean;
@@ -40,7 +45,12 @@ const UserSchema = new Schema<IUser>(
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
     phone: { type: String, required: true, trim: true },
     password: { type: String, required: true },
-    role: { type: String, enum: ['customer', 'admin'], default: 'customer' },
+    role: { type: String, enum: ['customer', 'admin', 'staff'], default: 'customer' },
+    division: { type: String, default: 'Dhaka' },
+    district: { type: String, default: '' },
+    city: { type: String, default: '' },
+    notes: { type: String, default: '' },
+    lastLogin: { type: Date },
     addresses: [AddressSchema],
     wishlist: [{ type: Schema.Types.ObjectId, ref: 'Product' }],
     isActive: { type: Boolean, default: true }
@@ -48,7 +58,11 @@ const UserSchema = new Schema<IUser>(
   { timestamps: true }
 );
 
-// Prevent overwriting model during hot-reloading
+// Refresh model schema during development hot-reloading
+if (process.env.NODE_ENV !== 'production' && mongoose.models.User) {
+  delete (mongoose.models as any).User;
+}
+
 const User: Model<IUser> = mongoose.models.User || mongoose.model<IUser>('User', UserSchema);
 
 export default User;

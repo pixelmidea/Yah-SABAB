@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectToDatabase from '@/lib/db';
 import Order from '@/models/Order';
 import Product from '@/models/Product';
+import Notification from '@/models/Notification';
 import { getAuthUser, requireAdmin } from '@/lib/auth';
 
 export async function GET(
@@ -113,6 +114,34 @@ export async function PATCH(
     }
 
     await order.save();
+
+    // Trigger Notification for customer & admin logs
+    try {
+      const notifTitle =
+        action === 'verify_payment'
+          ? `Payment Verified for #${order.orderNumber}`
+          : action === 'reject_payment'
+          ? `Payment Alert for #${order.orderNumber}`
+          : `Order #${order.orderNumber} is ${order.orderStatus}`;
+
+      const notifMsg =
+        action === 'verify_payment'
+          ? `Payment of ৳${order.totalAmount} for order #${order.orderNumber} was confirmed.`
+          : action === 'reject_payment'
+          ? `Payment verification issue for order #${order.orderNumber}: ${rejectionReason || 'Please check transaction ID'}`
+          : `Your order #${order.orderNumber} status has progressed to "${order.orderStatus}".`;
+
+      await Notification.create({
+        title: notifTitle,
+        message: notifMsg,
+        type: action === 'verify_payment' || action === 'reject_payment' ? 'payment' : 'order',
+        target: 'all',
+        user: order.user || undefined,
+        link: `/order-confirmation/${order._id}`
+      });
+    } catch (notifErr: any) {
+      console.warn('Could not create order status notification:', notifErr.message);
+    }
 
     return NextResponse.json({
       success: true,

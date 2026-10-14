@@ -1,9 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Alex+Brush&family=Caveat:wght@600&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-serif: var(--font-serif), 'Playfair Display', Georgia, serif;
-  --font-sans: var(--font-sans), 'Inter', system-ui, -apple-system, sans-serif;
+  --font-sans: var(--font-sans), 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro', system-ui, sans-serif;
   --font-bangla: var(--font-bangla), 'Hind Siliguri', sans-serif;
+  --font-script: 'Alex Brush', 'Caveat', cursive, serif;
 
   --color-gold-50: #fbf8f1;
   --color-gold-100: #f5eedb;
@@ -24,6 +26,10 @@
   --color-dark-750: #28231e;
   --color-dark-700: #342e28;
   --color-dark-600: #4a423b;
+}
+
+.font-script {
+  font-family: var(--font-script);
 }
 
 @layer base {
@@ -62,6 +68,471 @@
   ::-webkit-scrollbar-thumb:hover {
     background: #c9933a;
   }
+}
+
+/* ==========================================================================
+   Admin Charts & Maps Outline/Border Suppression (Zero Unwanted Borders)
+   ========================================================================== */
+.recharts-wrapper,
+.recharts-wrapper *,
+.recharts-wrapper:focus,
+.recharts-wrapper:focus-visible,
+.recharts-surface,
+.recharts-surface:focus,
+.recharts-surface:focus-visible,
+.recharts-responsive-container,
+.recharts-responsive-container:focus,
+.recharts-responsive-container:focus-visible,
+.recharts-layer,
+.recharts-layer:focus,
+.recharts-layer:focus-visible,
+.recharts-tooltip-wrapper,
+.recharts-tooltip-wrapper:focus,
+.recharts-tooltip-wrapper:focus-visible,
+svg:focus,
+svg:focus-visible,
+svg *:focus,
+svg *:focus-visible,
+path:focus,
+path:focus-visible {
+  outline: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.recharts-default-tooltip {
+  border: none !important;
+  outline: none !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04) !important;
+}
+
+/* ==========================================================================
+   Admin Dashboard Typographic Hierarchy & Weights
+   Typeface: Inter / SF Pro / system-ui (Tailwind Sans Stack)
+   - Bold / Semibold (600–700): KPI metrics, section headings, primary buttons, brand
+   - Medium (500): Column headers, left sidebar nav, badge pills, secondary action links
+   - Regular (400): Body text, breadcrumbs, descriptions, secondary metadata
+   ========================================================================== */
+.admin-theme,
+.admin-theme *,
+.admin-theme h1,
+.admin-theme h2,
+.admin-theme h3,
+.admin-theme h4,
+.admin-theme h5,
+.admin-theme h6,
+.admin-theme button,
+.admin-theme input,
+.admin-theme select,
+.admin-theme textarea,
+.admin-theme table,
+.admin-theme th,
+.admin-theme td {
+  font-family: var(--font-sans), 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro', system-ui, sans-serif !important;
+}
+
+/* Column headers default to Medium (500) */
+.admin-theme th {
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   Admin Workspace Multi-Theme System & High-Contrast Typography
+   Themes: Pineapple Tech (Modern SaaS), Executive Sand (Classic),
+           Obsidian & Gold (Luxury Dark), Midnight Sapphire (Tech Navy),
+           Royal Emerald (Pine), Pure Ivory (Light)
+   ========================================================================== */
+
+/* 0. PINEAPPLE TECH (Modern Clean SaaS - From Screenshot) */
+.admin-theme[data-theme="pineapple"],
+.admin-theme.theme-pineapple {
+  color-scheme: light;
+  background-color: #f5f3ec !important;
+  color: #1e293b !important;
+  font-family: var(--font-sans), 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro', system-ui, sans-serif !important;
+}
+
+/* Floating Clean White Cards with Soft Shadow */
+.admin-theme[data-theme="pineapple"] .bg-white,
+.admin-theme.theme-pineapple .bg-white {
+  background-color: #ffffff !important;
+  border-color: #e7e5dc !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.02) !important;
+}
+
+/* Page canvas & container areas */
+.admin-theme[data-theme="pineapple"] .bg-\[\#f5f4ef\],
+.admin-theme[data-theme="pineapple"] .bg-\[\#f7f5f0\],
+.admin-theme.theme-pineapple .bg-\[\#f5f4ef\],
+.admin-theme.theme-pineapple .bg-\[\#f7f5f0\] {
+  background-color: #f5f3ec !important;
+}
+
+/* Clean White Sidebar & Header */
+.admin-theme[data-theme="pineapple"] aside,
+.admin-theme.theme-pineapple aside {
+  background-color: #ffffff !important;
+  border-right-color: #e7e5dc !important;
+}
+.admin-theme[data-theme="pineapple"] header,
+.admin-theme.theme-pineapple header {
+  background-color: #ffffff !important;
+  border-bottom-color: #e7e5dc !important;
+}
+.admin-theme[data-theme="pineapple"] .bg-\[\#fafaf8\],
+.admin-theme.theme-pineapple .bg-\[\#fafaf8\] {
+  background-color: #ffffff !important;
+}
+.admin-theme[data-theme="pineapple"] .bg-\[\#edece6\],
+.admin-theme.theme-pineapple .bg-\[\#edece6\] {
+  background-color: #f1efe7 !important;
+}
+
+/* High-contrast Inter Typography */
+.admin-theme[data-theme="pineapple"] h1,
+.admin-theme[data-theme="pineapple"] h2,
+.admin-theme[data-theme="pineapple"] h3,
+.admin-theme[data-theme="pineapple"] h4,
+.admin-theme[data-theme="pineapple"] .text-slate-900,
+.admin-theme[data-theme="pineapple"] .text-\[\#0f172a\] {
+  color: #111827 !important;
+}
+.admin-theme[data-theme="pineapple"] .text-slate-700,
+.admin-theme[data-theme="pineapple"] .text-\[\#334155\] {
+  color: #374151 !important;
+}
+.admin-theme[data-theme="pineapple"] .text-slate-500,
+.admin-theme[data-theme="pineapple"] .text-\[\#64748b\] {
+  color: #6b7280 !important;
+}
+
+/* Borders */
+.admin-theme[data-theme="pineapple"] .border-slate-200,
+.admin-theme[data-theme="pineapple"] .border-slate-200\/80,
+.admin-theme[data-theme="pineapple"] .border-slate-100,
+.admin-theme[data-theme="pineapple"] .border-\[\#e8e7e1\],
+.admin-theme[data-theme="pineapple"] .border-\[\#ecebe5\],
+.admin-theme[data-theme="pineapple"] .border-\[\#e8e5dc\] {
+  border-color: #e7e5dc !important;
+}
+
+/* Inputs, Selects, Search Pills */
+.admin-theme[data-theme="pineapple"] input,
+.admin-theme[data-theme="pineapple"] select,
+.admin-theme[data-theme="pineapple"] textarea {
+  background-color: #faf9f6 !important;
+  border-color: #e4e2d8 !important;
+  color: #111827 !important;
+}
+.admin-theme[data-theme="pineapple"] input::placeholder {
+  color: #9ca3af !important;
+}
+
+/* Primary Action CTA Button: Vibrant Royal Cobalt Blue (+ New product style from screenshot) */
+.admin-theme[data-theme="pineapple"] .bg-\[\#c9933a\],
+.admin-theme[data-theme="pineapple"] .bg-amber-900,
+.admin-theme[data-theme="pineapple"] .btn-primary {
+  background-color: #1d4ed8 !important;
+  color: #ffffff !important;
+}
+.admin-theme[data-theme="pineapple"] .bg-\[\#c9933a\]:hover,
+.admin-theme[data-theme="pineapple"] .bg-amber-900:hover {
+  background-color: #1e40af !important;
+}
+
+/* Status Badges & Pills matching the screenshot */
+.admin-theme[data-theme="pineapple"] .bg-emerald-100 {
+  background-color: #d1fae5 !important;
+  color: #065f46 !important;
+}
+.admin-theme[data-theme="pineapple"] .bg-amber-100 {
+  background-color: #fef3c7 !important;
+  color: #92400e !important;
+}
+.admin-theme[data-theme="pineapple"] .bg-rose-100 {
+  background-color: #fee2e2 !important;
+  color: #991b1b !important;
+}
+.admin-theme[data-theme="pineapple"] .bg-sky-100 {
+  background-color: #e0f2fe !important;
+  color: #0369a1 !important;
+}
+
+/* Table Hover and Headers */
+.admin-theme[data-theme="pineapple"] table th {
+  color: #4b5563 !important;
+  font-weight: 500 !important;
+  background-color: #faf9f5 !important;
+}
+.admin-theme[data-theme="pineapple"] table tr:hover td {
+  background-color: #faf8f3 !important;
+}
+
+/* 1. EXECUTIVE SAND (The Beloved Original Backside Theme) */
+.admin-theme[data-theme="sand"],
+.admin-theme.theme-sand {
+  color-scheme: light;
+  background-color: #f5f4ef !important;
+  color: #0f172a !important;
+}
+.admin-theme[data-theme="sand"] .bg-white,
+.admin-theme.theme-sand .bg-white {
+  background-color: #ffffff !important;
+}
+.admin-theme[data-theme="sand"] .bg-\[\#fafaf8\],
+.admin-theme.theme-sand .bg-\[\#fafaf8\] {
+  background-color: #fafaf8 !important;
+}
+.admin-theme[data-theme="sand"] .bg-\[\#f5f4ef\],
+.admin-theme.theme-sand .bg-\[\#f5f4ef\] {
+  background-color: #f5f4ef !important;
+}
+.admin-theme[data-theme="sand"] .text-slate-900,
+.admin-theme[data-theme="sand"] .text-\[\#0f172a\],
+.admin-theme.theme-sand .text-slate-900,
+.admin-theme.theme-sand .text-\[\#0f172a\] {
+  color: #0f172a !important;
+}
+.admin-theme[data-theme="sand"] .text-slate-700,
+.admin-theme[data-theme="sand"] .text-\[\#334155\],
+.admin-theme.theme-sand .text-slate-700,
+.admin-theme.theme-sand .text-\[\#334155\] {
+  color: #334155 !important;
+}
+.admin-theme[data-theme="sand"] .text-slate-500,
+.admin-theme[data-theme="sand"] .text-\[\#64748b\],
+.admin-theme.theme-sand .text-slate-500,
+.admin-theme.theme-sand .text-\[\#64748b\] {
+  color: #64748b !important;
+}
+
+/* 2. OBSIDIAN & GOLD (Storefront Luxury Dark) */
+.admin-theme[data-theme="gold"],
+.admin-theme.dark[data-theme="gold"] {
+  color-scheme: dark;
+  background-color: #0c0a09 !important;
+  color: #f7f3eb !important;
+}
+.admin-theme[data-theme="gold"] .bg-white,
+.admin-theme[data-theme="gold"] .bg-\[\#fafaf8\] {
+  background-color: #14100c !important;
+}
+.admin-theme[data-theme="gold"] .bg-\[\#f5f4ef\],
+.admin-theme[data-theme="gold"] .bg-\[\#f7f5f0\] {
+  background-color: #0c0a09 !important;
+}
+.admin-theme[data-theme="gold"] .bg-\[\#edece6\],
+.admin-theme[data-theme="gold"] .bg-slate-50,
+.admin-theme[data-theme="gold"] .bg-slate-100 {
+  background-color: #1c1611 !important;
+}
+.admin-theme[data-theme="gold"] .border-\[\#e8e7e1\],
+.admin-theme[data-theme="gold"] .border-\[\#ecebe5\],
+.admin-theme[data-theme="gold"] .border-slate-200,
+.admin-theme[data-theme="gold"] .border-slate-100 {
+  border-color: rgba(201, 147, 58, 0.22) !important;
+}
+
+/* 3. MIDNIGHT SAPPHIRE (Modern Executive Navy) */
+.admin-theme[data-theme="sapphire"],
+.admin-theme.dark[data-theme="sapphire"] {
+  color-scheme: dark;
+  background-color: #080d1a !important;
+  color: #f8fafc !important;
+}
+.admin-theme[data-theme="sapphire"] .bg-white,
+.admin-theme[data-theme="sapphire"] .bg-\[\#fafaf8\] {
+  background-color: #0f172a !important;
+}
+.admin-theme[data-theme="sapphire"] .bg-\[\#f5f4ef\],
+.admin-theme[data-theme="sapphire"] .bg-\[\#f7f5f0\] {
+  background-color: #080d1a !important;
+}
+.admin-theme[data-theme="sapphire"] .bg-\[\#edece6\],
+.admin-theme[data-theme="sapphire"] .bg-slate-50,
+.admin-theme[data-theme="sapphire"] .bg-slate-100 {
+  background-color: #17233f !important;
+}
+.admin-theme[data-theme="sapphire"] .border-\[\#e8e7e1\],
+.admin-theme[data-theme="sapphire"] .border-\[\#ecebe5\],
+.admin-theme[data-theme="sapphire"] .border-slate-200,
+.admin-theme[data-theme="sapphire"] .border-slate-100 {
+  border-color: rgba(59, 130, 246, 0.22) !important;
+}
+
+/* 4. ROYAL EMERALD (Haute Midnight Pine) */
+.admin-theme[data-theme="emerald"],
+.admin-theme.dark[data-theme="emerald"] {
+  color-scheme: dark;
+  background-color: #06120c !important;
+  color: #f0faf4 !important;
+}
+.admin-theme[data-theme="emerald"] .bg-white,
+.admin-theme[data-theme="emerald"] .bg-\[\#fafaf8\] {
+  background-color: #0c1f16 !important;
+}
+.admin-theme[data-theme="emerald"] .bg-\[\#f5f4ef\],
+.admin-theme[data-theme="emerald"] .bg-\[\#f7f5f0\] {
+  background-color: #06120c !important;
+}
+.admin-theme[data-theme="emerald"] .bg-\[\#edece6\],
+.admin-theme[data-theme="emerald"] .bg-slate-50,
+.admin-theme[data-theme="emerald"] .bg-slate-100 {
+  background-color: #122c20 !important;
+}
+.admin-theme[data-theme="emerald"] .border-\[\#e8e7e1\],
+.admin-theme[data-theme="emerald"] .border-\[\#ecebe5\],
+.admin-theme[data-theme="emerald"] .border-slate-200,
+.admin-theme[data-theme="emerald"] .border-slate-100 {
+  border-color: rgba(16, 185, 129, 0.22) !important;
+}
+
+/* 5. PURE IVORY (Clean Modern Daylight) */
+.admin-theme[data-theme="ivory"] {
+  color-scheme: light;
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+.admin-theme[data-theme="ivory"] .bg-white {
+  background-color: #ffffff !important;
+}
+.admin-theme[data-theme="ivory"] .bg-\[\#fafaf8\] {
+  background-color: #f8fafc !important;
+}
+.admin-theme[data-theme="ivory"] .text-slate-900 {
+  color: #0f172a !important;
+}
+
+/* ==========================================================================
+   GLOBAL HIGH-CONTRAST TYPOGRAPHY FIX (Applies to all dark themes)
+   Ensures headings, coupon text, labels, and icons are never dark on dark!
+   ========================================================================== */
+.admin-theme[data-theme="gold"] h1,
+.admin-theme[data-theme="gold"] h2,
+.admin-theme[data-theme="gold"] h3,
+.admin-theme[data-theme="gold"] h4,
+.admin-theme[data-theme="gold"] .text-slate-900,
+.admin-theme[data-theme="gold"] .text-slate-800,
+.admin-theme[data-theme="gold"] .text-\[\#0f172a\],
+.admin-theme[data-theme="gold"] .text-\[\#1e293b\],
+.admin-theme[data-theme="sapphire"] h1,
+.admin-theme[data-theme="sapphire"] h2,
+.admin-theme[data-theme="sapphire"] h3,
+.admin-theme[data-theme="sapphire"] h4,
+.admin-theme[data-theme="sapphire"] .text-slate-900,
+.admin-theme[data-theme="sapphire"] .text-slate-800,
+.admin-theme[data-theme="sapphire"] .text-\[\#0f172a\],
+.admin-theme[data-theme="sapphire"] .text-\[\#1e293b\],
+.admin-theme[data-theme="emerald"] h1,
+.admin-theme[data-theme="emerald"] h2,
+.admin-theme[data-theme="emerald"] h3,
+.admin-theme[data-theme="emerald"] h4,
+.admin-theme[data-theme="emerald"] .text-slate-900,
+.admin-theme[data-theme="emerald"] .text-slate-800,
+.admin-theme[data-theme="emerald"] .text-\[\#0f172a\],
+.admin-theme[data-theme="emerald"] .text-\[\#1e293b\] {
+  color: #f7f3eb !important;
+}
+
+.admin-theme[data-theme="gold"] .text-slate-700,
+.admin-theme[data-theme="gold"] .text-slate-600,
+.admin-theme[data-theme="gold"] .text-\[\#334155\],
+.admin-theme[data-theme="gold"] .text-\[\#475569\],
+.admin-theme[data-theme="sapphire"] .text-slate-700,
+.admin-theme[data-theme="sapphire"] .text-slate-600,
+.admin-theme[data-theme="sapphire"] .text-\[\#334155\],
+.admin-theme[data-theme="sapphire"] .text-\[\#475569\],
+.admin-theme[data-theme="emerald"] .text-slate-700,
+.admin-theme[data-theme="emerald"] .text-slate-600,
+.admin-theme[data-theme="emerald"] .text-\[\#334155\],
+.admin-theme[data-theme="emerald"] .text-\[\#475569\] {
+  color: #d1c7b8 !important;
+}
+
+.admin-theme[data-theme="gold"] .text-slate-500,
+.admin-theme[data-theme="gold"] .text-slate-400,
+.admin-theme[data-theme="gold"] .text-\[\#64748b\],
+.admin-theme[data-theme="gold"] .text-\[\#94a3b8\],
+.admin-theme[data-theme="sapphire"] .text-slate-500,
+.admin-theme[data-theme="sapphire"] .text-slate-400,
+.admin-theme[data-theme="sapphire"] .text-\[\#64748b\],
+.admin-theme[data-theme="sapphire"] .text-\[\#94a3b8\],
+.admin-theme[data-theme="emerald"] .text-slate-500,
+.admin-theme[data-theme="emerald"] .text-slate-400,
+.admin-theme[data-theme="emerald"] .text-\[\#64748b\],
+.admin-theme[data-theme="emerald"] .text-\[\#94a3b8\] {
+  color: #a89b88 !important;
+}
+
+.admin-theme[data-theme="gold"] .text-amber-900,
+.admin-theme[data-theme="gold"] .text-amber-800,
+.admin-theme[data-theme="sapphire"] .text-amber-900,
+.admin-theme[data-theme="emerald"] .text-amber-900 {
+  color: #dfc78d !important;
+}
+
+/* Inputs and controls in dark themes */
+.admin-theme[data-theme="gold"] input,
+.admin-theme[data-theme="gold"] select,
+.admin-theme[data-theme="gold"] textarea {
+  color: #f7f3eb !important;
+  background-color: #1c1611 !important;
+  border-color: rgba(201, 147, 58, 0.3) !important;
+}
+
+.admin-theme[data-theme="sapphire"] input,
+.admin-theme[data-theme="sapphire"] select,
+.admin-theme[data-theme="sapphire"] textarea {
+  color: #f8fafc !important;
+  background-color: #111c33 !important;
+  border-color: rgba(59, 130, 246, 0.3) !important;
+}
+
+.admin-theme[data-theme="emerald"] input,
+.admin-theme[data-theme="emerald"] select,
+.admin-theme[data-theme="emerald"] textarea {
+  color: #f0faf4 !important;
+  background-color: #0c1f16 !important;
+  border-color: rgba(16, 185, 129, 0.3) !important;
+}
+
+/* Hover effects */
+.admin-theme[data-theme="gold"] .hover\:bg-\[\#fafaf8\]:hover,
+.admin-theme[data-theme="gold"] .hover\:bg-\[\#f3f2ed\]:hover {
+  background-color: #1f1a15 !important;
+}
+.admin-theme[data-theme="sapphire"] .hover\:bg-\[\#fafaf8\]:hover,
+.admin-theme[data-theme="sapphire"] .hover\:bg-\[\#f3f2ed\]:hover {
+  background-color: #17233f !important;
+}
+.admin-theme[data-theme="emerald"] .hover\:bg-\[\#fafaf8\]:hover,
+.admin-theme[data-theme="emerald"] .hover\:bg-\[\#f3f2ed\]:hover {
+  background-color: #122c20 !important;
+}
+
+/* Recharts & Tooltips */
+.admin-theme[data-theme="gold"] .recharts-default-tooltip {
+  background-color: #14100c !important;
+  border: 1px solid rgba(201, 147, 58, 0.35) !important;
+  color: #f7f3eb !important;
+}
+.admin-theme[data-theme="sapphire"] .recharts-default-tooltip {
+  background-color: #0f172a !important;
+  border: 1px solid rgba(59, 130, 246, 0.35) !important;
+  color: #f8fafc !important;
+}
+.admin-theme[data-theme="emerald"] .recharts-default-tooltip {
+  background-color: #0c1f16 !important;
+  border: 1px solid rgba(16, 185, 129, 0.35) !important;
+  color: #f0faf4 !important;
+}
+
+.admin-theme[data-theme="gold"] text.fill-\[\#0f172a\],
+.admin-theme[data-theme="sapphire"] text.fill-\[\#0f172a\],
+.admin-theme[data-theme="emerald"] text.fill-\[\#0f172a\] {
+  fill: #f7f3eb !important;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.9), 0 0 2px #000000 !important;
 }
 
 /* Luxury animations and effects */

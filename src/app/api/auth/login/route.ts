@@ -48,6 +48,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    user.lastLogin = new Date();
+    await user.save().catch((err: any) => console.warn('Could not update lastLogin:', err.message));
+
     const tokenPayload = {
       userId: user._id.toString(),
       email: user.email,

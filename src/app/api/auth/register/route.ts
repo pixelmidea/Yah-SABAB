@@ -6,7 +6,7 @@ import { validateBDPhoneNumber, normalizeBDPhoneNumber } from '@/lib/utils';
 
 export async function POST(req: NextRequest) {
   try {
-    const { name, email, phone, password } = await req.json();
+    const { name, email, phone, password, division, district, city } = await req.json();
 
     if (!name || !email || !phone || !password) {
       return NextResponse.json(
@@ -50,7 +50,11 @@ export async function POST(req: NextRequest) {
       email: normalizedEmail,
       phone: normalizedPhone,
       password: hashedPassword,
-      role: 'customer'
+      role: 'customer',
+      division: division?.trim() || 'Dhaka',
+      district: district?.trim() || '',
+      city: city?.trim() || '',
+      lastLogin: new Date()
     });
 
     const tokenPayload = {

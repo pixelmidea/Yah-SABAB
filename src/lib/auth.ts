@@ -7,7 +7,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'supersecret_bd_ecommerce_key_2026_
 export interface TokenPayload {
   userId: string;
   email: string;
-  role: 'customer' | 'admin';
+  role: 'customer' | 'admin' | 'staff';
   name: string;
 }
 

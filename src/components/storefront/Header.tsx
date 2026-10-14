@@ -10,10 +10,16 @@ import {
   Menu,
   X,
   Sparkles,
-  ChevronDown
+  ChevronDown,
+  Truck,
+  ShieldCheck,
+  RotateCcw,
+  Phone,
+  Headphones
 } from 'lucide-react';
 import { useStore } from '@/context/StoreContext';
 import SearchModal from './SearchModal';
+import StorefrontNotificationBell from './StorefrontNotificationBell';
 
 export default function Header() {
   const pathname = usePathname();
@@ -36,21 +42,52 @@ export default function Header() {
     { name: 'WhatsApp & Contact', href: '/contact' },
   ];
 
-  const announcement = settings?.announcementBarText || '✨ EID SPECIAL: Free Express Delivery Nationwide on Orders Above ৳2,000 | Code: EID20 for 20% OFF';
+  const announcement = settings?.announcementBarText || 'Free Shipping Across Bangladesh';
 
   return (
-    <header className="sticky top-0 z-40 bg-[#0e0c0a]/90 backdrop-blur-xl border-b border-[#c9933a]/20 transition-all duration-300">
-      {/* Dynamic Gold-Accent Announcement Bar / Ticker */}
+    <header className="sticky top-0 z-40 bg-[#0a0908]/95 backdrop-blur-xl border-b border-[#c9933a]/20 transition-all duration-300">
+      {/* Top Editorial Announcement Bar Matching Reference Image */}
       {(settings?.showAnnouncementBar !== false) && (
-        <div className="relative overflow-hidden bg-gradient-to-r from-[#18130d] via-[#241c13] to-[#18130d] border-b border-[#c9933a]/25 text-[#f5eedb] text-[11px] sm:text-xs py-2 px-4 shadow-inner">
-          <div className="max-w-7xl mx-auto flex items-center justify-center gap-3">
-            <Sparkles className="w-3.5 h-3.5 text-[#c9933a] shrink-0 animate-pulse" />
-            <span className="tracking-wide font-medium text-center line-clamp-1">
-              {announcement}
-            </span>
-            <span className="hidden md:inline-block px-2 py-0.5 text-[10px] uppercase font-bold tracking-wider bg-[#c9933a]/20 text-[#f5eedb] border border-[#c9933a]/40 rounded-full">
-              Yah SABAB
-            </span>
+        <div className="bg-[#070605] border-b border-[#c9933a]/20 text-[#d6cdbf] text-[11px] sm:text-xs py-2 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto flex items-center justify-between">
+            {/* Left Perks */}
+            <div className="flex items-center gap-2 sm:gap-4 flex-wrap text-[11px]">
+              <div className="flex items-center gap-1.5 text-[#e5dec9]">
+                <Truck className="w-3.5 h-3.5 text-[#c9933a] shrink-0" />
+                <span>Free Shipping Across Bangladesh</span>
+              </div>
+              <span className="text-[#c9933a]/30 hidden sm:inline">|</span>
+              <div className="hidden sm:flex items-center gap-1.5 text-[#e5dec9]">
+                <ShieldCheck className="w-3.5 h-3.5 text-[#c9933a] shrink-0" />
+                <span>100% Original Products</span>
+              </div>
+              <span className="text-[#c9933a]/30 hidden md:inline">|</span>
+              <div className="hidden md:flex items-center gap-1.5 text-[#e5dec9]">
+                <RotateCcw className="w-3.5 h-3.5 text-[#c9933a] shrink-0" />
+                <span>Easy Returns</span>
+              </div>
+            </div>
+
+            {/* Right Contact & Support */}
+            <div className="flex items-center gap-3 sm:gap-4 text-[11px]">
+              <a
+                href="https://wa.me/8801234567890"
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-1.5 text-[#f5eedb] hover:text-[#c9933a] transition-colors"
+              >
+                <Phone className="w-3.5 h-3.5 text-[#c9933a] shrink-0" />
+                <span>{settings?.phone || '+880 1234 567890'}</span>
+              </a>
+              <span className="text-[#c9933a]/30">|</span>
+              <Link
+                href="/contact"
+                className="flex items-center gap-1.5 text-[#f5eedb] hover:text-[#c9933a] transition-colors"
+              >
+                <Headphones className="w-3.5 h-3.5 text-[#c9933a] shrink-0" />
+                <span>Help & Support</span>
+              </Link>
+            </div>
           </div>
         </div>
       )}
@@ -62,7 +99,7 @@ export default function Header() {
           <div className="flex items-center lg:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2.5 rounded-xl text-[#f5eedb] hover:text-[#c9933a] hover:bg-[#1f1b16] border border-transparent hover:border-[#c9933a]/30 transition-all"
+              className="p-2.5 rounded-xl text-[#f5eedb] hover:text-[#c9933a] hover:bg-[#1f1b16] border border-transparent hover:border-[#c9933a]/30 transition-all cursor-pointer"
               aria-label="Toggle Navigation Menu"
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -78,7 +115,6 @@ export default function Header() {
                   alt="Yah SABAB Logo"
                   className="w-full h-full object-contain rounded-lg group-hover:scale-105 transition-transform duration-300"
                   onError={(e) => {
-                    // Fallback to elegant royal monogram if image fails
                     (e.target as HTMLElement).style.display = 'none';
                   }}
                 />
@@ -105,12 +141,12 @@ export default function Header() {
           {/* Desktop Navigation Links */}
           <nav className="hidden lg:flex items-center space-x-7">
             {primaryNavLinks.map((link) => {
-              const isActive = pathname === link.href;
+              const isActive = pathname === link.href || (link.href === '/shop' && pathname.startsWith('/shop'));
               return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`text-sm font-medium transition-all relative py-1 ${
+                  className={`text-sm font-medium transition-all relative py-1.5 ${
                     isActive
                       ? 'text-[#c9933a] font-semibold'
                       : 'text-[#d6cdbf] hover:text-[#f5eedb]'
@@ -118,7 +154,7 @@ export default function Header() {
                 >
                   <span>{link.name}</span>
                   {isActive && (
-                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#c9933a] to-transparent rounded-full" />
+                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#c9933a] rounded-full" />
                   )}
                 </Link>
               );
@@ -126,7 +162,7 @@ export default function Header() {
 
             {/* "More" Dropdown Menu */}
             <div className="relative group">
-              <button className="flex items-center gap-1 text-sm font-medium text-[#d6cdbf] hover:text-[#f5eedb] py-1 transition-colors">
+              <button className="flex items-center gap-1 text-sm font-medium text-[#d6cdbf] hover:text-[#f5eedb] py-1.5 transition-colors cursor-pointer">
                 <span>More</span>
                 <ChevronDown className="w-3.5 h-3.5 transition-transform group-hover:rotate-180 text-[#c9933a]" />
               </button>
@@ -144,21 +180,24 @@ export default function Header() {
             </div>
           </nav>
 
-          {/* Action Icons (Search, User, Cart) */}
+          {/* Action Icons (Search, User, Cart, Admin) */}
           <div className="flex items-center space-x-2 sm:space-x-3">
             {/* Search Trigger */}
             <button
               onClick={() => setIsSearchOpen(true)}
-              className="p-2.5 text-[#d6cdbf] hover:text-[#c9933a] hover:bg-[#1c1813] border border-transparent hover:border-[#c9933a]/30 rounded-full transition-all"
+              className="p-2.5 text-[#d6cdbf] hover:text-[#c9933a] hover:bg-[#1c1813] border border-transparent hover:border-[#c9933a]/30 rounded-full transition-all cursor-pointer"
               aria-label="Search Products"
             >
               <Search className="w-5 h-5" />
             </button>
 
+            {/* Privilege & Order Notification Bell */}
+            <StorefrontNotificationBell />
+
             {/* Customer Account / Admin Icon */}
             <Link
               href={user ? (user.role === 'admin' ? '/admin' : '/account') : '/auth/login'}
-              className="p-2.5 text-[#d6cdbf] hover:text-[#c9933a] hover:bg-[#1c1813] border border-transparent hover:border-[#c9933a]/30 rounded-full transition-all flex items-center gap-1.5"
+              className="p-2.5 text-[#d6cdbf] hover:text-[#c9933a] hover:bg-[#1c1813] border border-transparent hover:border-[#c9933a]/30 rounded-full transition-all flex items-center gap-1.5 cursor-pointer"
               aria-label="Account"
             >
               <UserIcon className="w-5 h-5" />
@@ -172,16 +211,28 @@ export default function Header() {
             {/* Shopping Cart Drawer Trigger */}
             <button
               onClick={() => setIsCartOpen(true)}
-              className="relative p-2.5 text-[#d6cdbf] hover:text-[#c9933a] hover:bg-[#1c1813] border border-transparent hover:border-[#c9933a]/30 rounded-full transition-all group"
+              className="relative p-2.5 text-[#d6cdbf] hover:text-[#c9933a] hover:bg-[#1c1813] border border-transparent hover:border-[#c9933a]/30 rounded-full transition-all group cursor-pointer"
               aria-label="View Shopping Cart"
             >
               <ShoppingBag className="w-5 h-5 group-hover:scale-105 transition-transform" />
-              {cartItemCount > 0 && (
+              {cartItemCount > 0 ? (
                 <span className="absolute -top-0.5 -right-0.5 bg-gradient-to-r from-[#c9933a] to-[#b0782e] text-[#0e0c0a] font-extrabold text-[10px] w-5 h-5 rounded-full flex items-center justify-center shadow-md shadow-[#c9933a]/40 border border-[#f5eedb]/30">
                   {cartItemCount}
                 </span>
+              ) : (
+                <span className="absolute -top-0.5 -right-0.5 bg-[#c9933a] text-[#0e0c0a] font-bold text-[10px] w-4 h-4 rounded-full flex items-center justify-center shadow-xs">
+                  0
+                </span>
               )}
             </button>
+
+            {/* Prominent Gold Admin Button from Reference Image */}
+            <Link
+              href="/admin"
+              className="hidden sm:inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold bg-[#e6ad35] hover:bg-[#f5c451] text-[#0e0c0a] shadow-sm transition-all cursor-pointer font-sans"
+            >
+              Admin
+            </Link>
           </div>
         </div>
       </div>

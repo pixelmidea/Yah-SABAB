@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { User, Mail, Phone, Lock, Loader2, Info, Sparkles } from 'lucide-react';
+import { User, Mail, Phone, Lock, Loader2, Info, Sparkles, MapPin } from 'lucide-react';
 import { useStore } from '@/context/StoreContext';
 
 export default function RegisterPage() {
@@ -14,6 +14,8 @@ export default function RegisterPage() {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
+  const [division, setDivision] = useState('Dhaka');
+  const [district, setDistrict] = useState('');
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -26,7 +28,7 @@ export default function RegisterPage() {
       const res = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, phone, password })
+        body: JSON.stringify({ name, email, phone, password, division, district })
       });
 
       const data = await res.json();
@@ -115,6 +117,44 @@ export default function RegisterPage() {
                 className="w-full bg-[#1c1611] border border-[#c9933a]/30 rounded-xl px-4 py-3 pl-10 text-xs sm:text-sm text-[#f7f3eb] placeholder:text-[#6e6153] focus:outline-hidden focus:border-[#c9933a]"
               />
               <Phone className="w-4 h-4 text-[#8c8071] absolute left-3.5 top-3.5" />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label className="block text-xs font-bold text-[#b8ab99] uppercase tracking-wider mb-1.5">
+                Division / Region *
+              </label>
+              <div className="relative">
+                <select
+                  value={division}
+                  onChange={(e) => setDivision(e.target.value)}
+                  className="w-full bg-[#1c1611] border border-[#c9933a]/30 rounded-xl px-4 py-3 pl-10 text-xs sm:text-sm text-[#f7f3eb] focus:outline-hidden focus:border-[#c9933a] cursor-pointer"
+                >
+                  <option value="Dhaka">Dhaka Division</option>
+                  <option value="Chittagong">Chittagong Division</option>
+                  <option value="Sylhet">Sylhet Division</option>
+                  <option value="Rajshahi">Rajshahi Division</option>
+                  <option value="Khulna">Khulna Division</option>
+                  <option value="Barisal">Barisal Division</option>
+                  <option value="Rangpur">Rangpur Division</option>
+                  <option value="Mymensingh">Mymensingh Division</option>
+                </select>
+                <MapPin className="w-4 h-4 text-[#8c8071] absolute left-3.5 top-3.5" />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-[#b8ab99] uppercase tracking-wider mb-1.5">
+                District / Area
+              </label>
+              <input
+                type="text"
+                value={district}
+                onChange={(e) => setDistrict(e.target.value)}
+                placeholder="e.g. Banani, Dhanmondi"
+                className="w-full bg-[#1c1611] border border-[#c9933a]/30 rounded-xl px-4 py-3 text-xs sm:text-sm text-[#f7f3eb] placeholder:text-[#6e6153] focus:outline-hidden focus:border-[#c9933a]"
+              />
             </div>
           </div>
 

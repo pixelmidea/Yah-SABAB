@@ -137,22 +137,22 @@ export default function AdminOrdersPage() {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 max-w-7xl mx-auto">
       {/* Header & Filter Controls */}
-      <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-2xs space-y-4">
+      <div className="bg-white p-5 sm:p-6 rounded-2xl border border-[#E5DFD5] shadow-xs space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="font-serif text-2xl font-bold text-slate-900">
+            <h1 className="font-serif text-2xl font-bold text-[#100D0A] tracking-tight">
               Order & Payment Verification Management
             </h1>
-            <p className="text-xs text-slate-500 mt-1">
+            <p className="text-xs text-[#7A6E5D] mt-1">
               Verify bKash / Nagad / Rocket transaction IDs, update shipment workflow, and track orders.
             </p>
           </div>
         </div>
 
         {/* Filter Bar */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
           {/* Search Input */}
           <div className="relative">
             <input
@@ -160,16 +160,16 @@ export default function AdminOrdersPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search #ORD, Phone, TrxID..."
-              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 pl-9 text-xs font-medium focus:outline-hidden"
+              className="w-full bg-[#FAF7F2] border border-[#DDD6CA] rounded-xl px-3 py-2 pl-9 text-xs font-medium text-[#100D0A] placeholder-[#9C9181] focus:outline-hidden focus:border-[#E6AD35] focus:ring-1 focus:ring-[#E6AD35]"
             />
-            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+            <Search className="w-4 h-4 text-[#9C9181] absolute left-3 top-2.5" />
           </div>
 
           {/* Workflow Status Filter */}
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 focus:outline-hidden"
+            className="bg-[#FAF7F2] border border-[#DDD6CA] rounded-xl px-3 py-2 text-xs font-semibold text-[#100D0A] focus:outline-hidden focus:border-[#E6AD35]"
           >
             <option value="all">All Order Statuses</option>
             <option value="Pending">Pending</option>
@@ -186,7 +186,7 @@ export default function AdminOrdersPage() {
           <select
             value={paymentStatusFilter}
             onChange={(e) => setPaymentStatusFilter(e.target.value)}
-            className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 focus:outline-hidden"
+            className="bg-[#FAF7F2] border border-[#DDD6CA] rounded-xl px-3 py-2 text-xs font-semibold text-[#100D0A] focus:outline-hidden focus:border-[#E6AD35]"
           >
             <option value="all">All Payment Statuses</option>
             <option value="Payment Pending">Payment Pending Verification</option>
@@ -198,23 +198,23 @@ export default function AdminOrdersPage() {
       </div>
 
       {/* Orders List Table */}
-      <div className="bg-white rounded-3xl border border-slate-200/80 shadow-2xs overflow-hidden">
+      <div className="bg-white rounded-2xl border border-[#E5DFD5] shadow-xs overflow-hidden">
         {loading ? (
-          <div className="py-16 text-center text-amber-900">
+          <div className="py-16 text-center text-[#E6AD35]">
             <Loader2 className="w-8 h-8 animate-spin mx-auto mb-2" />
-            <p className="text-xs font-semibold">Loading orders...</p>
+            <p className="text-xs font-semibold text-[#7A6E5D]">Loading orders...</p>
           </div>
         ) : orders.length === 0 ? (
-          <div className="py-16 text-center text-slate-500">
-            <ShoppingBag className="w-12 h-12 text-slate-300 mx-auto mb-2" />
-            <p className="font-serif font-bold text-slate-800 text-lg">No Orders Found</p>
-            <p className="text-xs text-slate-400">No orders match your filter criteria.</p>
+          <div className="py-16 text-center text-[#7A6E5D]">
+            <ShoppingBag className="w-12 h-12 text-[#DDD6CA] mx-auto mb-2" />
+            <p className="font-bold text-[#100D0A] text-lg">No Orders Found</p>
+            <p className="text-xs text-[#9C9181]">No orders match your filter criteria.</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="bg-slate-50 border-b border-slate-100 text-slate-500 font-bold uppercase tracking-wider">
+                <tr className="bg-[#F5F1EA] border-b border-[#E5DFD5] text-[#6E6355] font-semibold uppercase tracking-wider text-[11px]">
                   <th className="p-4">Order #</th>
                   <th className="p-4">Customer & Phone</th>
                   <th className="p-4">Payment Method</th>
@@ -225,41 +225,41 @@ export default function AdminOrdersPage() {
                   <th className="p-4 text-right">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 font-medium text-slate-800">
+              <tbody className="divide-y divide-[#EBE6DC] font-medium text-[#1E1812]">
                 {orders.map((order) => {
                   const isPendingVerification = order.paymentInfo?.status === 'Payment Pending';
                   return (
-                    <tr key={order._id} className="hover:bg-amber-50/40 transition-colors">
-                      <td className="p-4 font-mono font-bold text-amber-950">
+                    <tr key={order._id} className="hover:bg-[#FAF7F2] transition-colors">
+                      <td className="p-4 font-mono font-bold text-[#b0782e]">
                         {order.orderNumber}
                       </td>
                       <td className="p-4">
-                        <div className="font-bold text-slate-900">{order.shippingAddress?.fullName}</div>
-                        <div className="text-[11px] text-slate-500">{order.shippingAddress?.phone}</div>
+                        <div className="font-bold text-[#100D0A]">{order.shippingAddress?.fullName}</div>
+                        <div className="text-[11px] text-[#7A6E5D]">{order.shippingAddress?.phone}</div>
                       </td>
-                      <td className="p-4 font-bold text-slate-900">
+                      <td className="p-4 font-bold text-[#100D0A]">
                         {order.paymentInfo?.method}
                       </td>
-                      <td className="p-4 font-mono font-bold text-slate-900">
+                      <td className="p-4 font-mono font-bold text-[#100D0A]">
                         {order.paymentInfo?.transactionId || '—'}
                       </td>
-                      <td className="p-4 font-bold text-amber-950">
+                      <td className="p-4 font-bold text-[#b0782e]">
                         {formatPrice(order.totalAmount)}
                       </td>
                       <td className="p-4">
-                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${
+                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold border ${
                           order.paymentInfo?.status === 'Payment Verified'
-                            ? 'bg-emerald-100 text-emerald-900'
+                            ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
                             : isPendingVerification
-                            ? 'bg-amber-100 text-amber-900 animate-pulse'
+                            ? 'bg-amber-50 text-amber-800 border-amber-200 animate-pulse'
                             : order.paymentInfo?.status === 'Payment Rejected'
-                            ? 'bg-rose-100 text-rose-900'
-                            : 'bg-slate-100 text-slate-700'
+                            ? 'bg-rose-50 text-rose-800 border-rose-200'
+                            : 'bg-stone-100 text-stone-700 border-stone-200'
                         }`}>
                           {order.paymentInfo?.status}
                         </span>
                       </td>
-                      <td className="p-4 font-bold">
+                      <td className="p-4 font-bold text-[#100D0A]">
                         {order.orderStatus}
                       </td>
                       <td className="p-4 text-right">
@@ -268,7 +268,7 @@ export default function AdminOrdersPage() {
                             setSelectedOrder(order);
                             setUpdateMsg({ text: '', isError: false });
                           }}
-                          className="bg-amber-900 text-white font-bold px-3 py-1.5 rounded-xl hover:bg-amber-950 transition-colors flex items-center gap-1 ml-auto"
+                          className="bg-[#E6AD35] hover:bg-[#F5C451] text-[#100D0A] font-bold px-3 py-1.5 rounded-xl transition-all flex items-center gap-1.5 ml-auto cursor-pointer shadow-2xs"
                         >
                           <Eye className="w-3.5 h-3.5" />
                           <span>View & Verify</span>
@@ -285,29 +285,29 @@ export default function AdminOrdersPage() {
 
       {/* VERIFICATION & DETAILS MODAL */}
       {selectedOrder && (
-        <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-white w-full max-w-2xl rounded-3xl shadow-2xl border border-slate-200 overflow-hidden my-8">
-            <div className="p-6 bg-slate-900 text-white flex items-center justify-between">
+        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-white w-full max-w-2xl rounded-2xl shadow-2xl border border-[#403221]/40 overflow-hidden my-8">
+            <div className="p-6 bg-[#100D0A] text-[#F8F3E9] border-b border-[#403221] flex items-center justify-between">
               <div>
-                <h3 className="font-serif text-xl font-bold">
+                <h3 className="font-serif text-xl font-bold text-[#F8F3E9]">
                   Order Verification #{selectedOrder.orderNumber}
                 </h3>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-[#A59A88]">
                   Placed on {new Date(selectedOrder.createdAt).toLocaleString('en-BD')}
                 </p>
               </div>
               <button
                 onClick={() => setSelectedOrder(null)}
-                className="text-slate-400 hover:text-white p-1 rounded-full"
+                className="text-[#A59A88] hover:text-[#F8F3E9] p-1.5 rounded-lg hover:bg-[#1c1611] transition-colors cursor-pointer"
               >
                 ✕
               </button>
             </div>
 
-            <div className="p-6 space-y-6 max-h-[75vh] overflow-y-auto">
+            <div className="p-6 space-y-5 max-h-[75vh] overflow-y-auto bg-[#FAF7F2]">
               {updateMsg.text && (
-                <div className={`p-3 rounded-xl text-xs font-bold ${
-                  updateMsg.isError ? 'bg-rose-50 text-rose-800' : 'bg-emerald-50 text-emerald-800'
+                <div className={`p-3 rounded-xl text-xs font-bold border ${
+                  updateMsg.isError ? 'bg-rose-50 text-rose-800 border-rose-200' : 'bg-emerald-50 text-emerald-800 border-emerald-200'
                 }`}>
                   {updateMsg.text}
                 </div>
@@ -315,39 +315,39 @@ export default function AdminOrdersPage() {
 
               {/* PAYMENT VERIFICATION BOX */}
               {selectedOrder.paymentInfo?.method !== 'COD' && (
-                <div className="p-5 rounded-2xl bg-amber-50 border border-amber-200 space-y-3">
-                  <h4 className="font-serif font-bold text-amber-950 text-base flex items-center gap-2">
-                    <CheckCircle2 className="w-5 h-5 text-amber-900" />
+                <div className="p-5 rounded-xl bg-white border border-[#E5DFD5] space-y-3 shadow-2xs">
+                  <h4 className="font-bold text-[#100D0A] text-sm flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-[#E6AD35]" />
                     <span>Manual {selectedOrder.paymentInfo?.method} Verification Details</span>
                   </h4>
 
-                  <div className="grid grid-cols-2 gap-3 text-xs text-amber-950">
+                  <div className="grid grid-cols-2 gap-3 text-xs text-[#1E1812]">
                     <div>
-                      <span className="text-slate-500 block">Submitted Sender Number:</span>
-                      <strong className="text-sm font-mono">{selectedOrder.paymentInfo?.senderNumber || 'N/A'}</strong>
+                      <span className="text-[#7A6E5D] block">Submitted Sender Number:</span>
+                      <strong className="text-sm font-mono text-[#100D0A]">{selectedOrder.paymentInfo?.senderNumber || 'N/A'}</strong>
                     </div>
                     <div>
-                      <span className="text-slate-500 block">Submitted Trx ID:</span>
-                      <strong className="text-sm font-mono uppercase bg-white px-2 py-0.5 rounded-md border border-amber-300 inline-block">
+                      <span className="text-[#7A6E5D] block">Submitted Trx ID:</span>
+                      <strong className="text-sm font-mono uppercase bg-[#FAF7F2] px-2 py-0.5 rounded-md border border-[#DDD6CA] inline-block text-[#100D0A]">
                         {selectedOrder.paymentInfo?.transactionId || 'N/A'}
                       </strong>
                     </div>
                     <div>
-                      <span className="text-slate-500 block">Total Order Payable Amount:</span>
-                      <strong className="text-sm font-bold text-amber-950">{formatPrice(selectedOrder.totalAmount)}</strong>
+                      <span className="text-[#7A6E5D] block">Total Order Payable Amount:</span>
+                      <strong className="text-sm font-bold text-[#b0782e]">{formatPrice(selectedOrder.totalAmount)}</strong>
                     </div>
                     <div>
-                      <span className="text-slate-500 block">Payment Verification Status:</span>
-                      <strong className="text-sm font-bold">{selectedOrder.paymentInfo?.status}</strong>
+                      <span className="text-[#7A6E5D] block">Payment Verification Status:</span>
+                      <strong className="text-sm font-bold text-[#100D0A]">{selectedOrder.paymentInfo?.status}</strong>
                     </div>
                   </div>
 
                   {selectedOrder.paymentInfo?.status === 'Payment Pending' && (
-                    <div className="pt-3 border-t border-amber-200 flex flex-col sm:flex-row gap-2">
+                    <div className="pt-3 border-t border-[#E5DFD5] flex flex-col sm:flex-row gap-2">
                       <button
                         onClick={handleVerifyPayment}
                         disabled={updating}
-                        className="bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs px-5 py-2.5 rounded-xl transition-colors shadow-xs flex items-center justify-center gap-1.5"
+                        className="bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs px-5 py-2.5 rounded-xl transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer"
                       >
                         {updating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
                         <span>Approve & Verify Payment</span>
@@ -359,12 +359,12 @@ export default function AdminOrdersPage() {
                           value={rejectionReason}
                           onChange={(e) => setRejectionReason(e.target.value)}
                           placeholder="Rejection reason..."
-                          className="bg-white border border-rose-300 rounded-xl px-3 py-2 text-xs flex-1"
+                          className="bg-white border border-rose-300 rounded-xl px-3 py-2 text-xs flex-1 text-[#100D0A]"
                         />
                         <button
                           onClick={handleRejectPayment}
                           disabled={updating}
-                          className="bg-rose-700 hover:bg-rose-800 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-colors shrink-0"
+                          className="bg-rose-700 hover:bg-rose-800 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-colors shrink-0 cursor-pointer"
                         >
                           Reject
                         </button>
@@ -375,15 +375,15 @@ export default function AdminOrdersPage() {
               )}
 
               {/* WORKFLOW STATUS CONTROL */}
-              <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+              <div className="p-4 bg-white rounded-xl border border-[#E5DFD5] space-y-2 shadow-2xs">
+                <label className="block text-xs font-bold text-[#6E6355] uppercase tracking-wider">
                   Update Workflow Order Status
                 </label>
                 <select
                   value={selectedOrder.orderStatus}
                   onChange={(e) => handleStatusChange(e.target.value)}
                   disabled={updating}
-                  className="w-full bg-white border border-slate-300 rounded-xl px-3 py-2.5 text-xs font-bold text-slate-900 focus:outline-hidden"
+                  className="w-full bg-[#FAF7F2] border border-[#DDD6CA] rounded-xl px-3 py-2.5 text-xs font-bold text-[#100D0A] focus:outline-hidden focus:border-[#E6AD35]"
                 >
                   <option value="Pending">Pending</option>
                   <option value="Payment Pending">Payment Pending</option>
@@ -398,11 +398,11 @@ export default function AdminOrdersPage() {
               </div>
 
               {/* Shipping Address Details */}
-              <div className="space-y-1 text-xs text-slate-700 bg-white p-4 rounded-2xl border border-slate-100">
-                <h4 className="font-bold text-slate-900 text-sm mb-1">Delivery Address</h4>
-                <p><strong>Name:</strong> {selectedOrder.shippingAddress?.fullName}</p>
-                <p><strong>Phone:</strong> {selectedOrder.shippingAddress?.phone}</p>
-                <p><strong>Address:</strong> {selectedOrder.shippingAddress?.address}, {selectedOrder.shippingAddress?.area}, {selectedOrder.shippingAddress?.district}</p>
+              <div className="space-y-1 text-xs text-[#1E1812] bg-white p-4 rounded-xl border border-[#E5DFD5] shadow-2xs">
+                <h4 className="font-bold text-[#100D0A] text-sm mb-1">Delivery Address</h4>
+                <p><span className="text-[#7A6E5D]">Name:</span> <strong>{selectedOrder.shippingAddress?.fullName}</strong></p>
+                <p><span className="text-[#7A6E5D]">Phone:</span> <strong>{selectedOrder.shippingAddress?.phone}</strong></p>
+                <p><span className="text-[#7A6E5D]">Address:</span> {selectedOrder.shippingAddress?.address}, {selectedOrder.shippingAddress?.area}, {selectedOrder.shippingAddress?.district}</p>
               </div>
             </div>
           </div>

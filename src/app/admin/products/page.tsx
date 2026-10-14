@@ -1,30 +1,36 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Suspense } from 'react';
+import Link from 'next/link';
+import { useSearchParams, useRouter } from 'next/navigation';
 import {
-  Plus,
-  Search,
-  Edit3,
-  Trash2,
-  Package,
-  Check,
-  Loader2,
-  Image as ImageIcon,
-  Upload,
-  Link as LinkIcon,
-  AlertTriangle,
-  CheckCircle2,
-  LayoutGrid,
-  Banknote,
-  Eye,
-  TrendingUp,
-  PieChart as PieChartIcon,
-  ArrowUpRight,
-  Download,
-  Filter,
-  MoreHorizontal,
-  ChevronDown,
-  X
+  Plus as PlusIcon,
+  Search as SearchIcon,
+  Edit3 as Edit3Icon,
+  Trash2 as Trash2Icon,
+  Package as PackageIcon,
+  Check as CheckIcon,
+  Loader2 as Loader2Icon,
+  Image as ImageIconLucide,
+  Upload as UploadIcon,
+  Link as LinkIconLucide,
+  AlertTriangle as AlertTriangleIcon,
+  CheckCircle2 as CheckCircle2Icon,
+  LayoutGrid as LayoutGridIcon,
+  Banknote as BanknoteIcon,
+  Eye as EyeIcon,
+  TrendingUp as TrendingUpIcon,
+  PieChart as PieChartIconLucide,
+  ArrowUpRight as ArrowUpRightIcon,
+  Download as DownloadIcon,
+  Filter as FilterIcon,
+  MoreHorizontal as MoreHorizontalIcon,
+  ChevronDown as ChevronDownIcon,
+  X as XIcon,
+  Tag as TagIconLucide,
+  Clock as ClockIcon,
+  BarChart2 as BarChart2Icon,
+  Layers as LayersIcon
 } from 'lucide-react';
 import {
   ResponsiveContainer,
@@ -60,45 +66,81 @@ const revenueTrendData = [
   { name: 'Sun', value: 690 }
 ];
 
-const DONUT_COLORS = ['#1a56db', '#06b6d4', '#0f172a', '#38bdf8'];
+const DONUT_COLORS = ['#e6ad35', '#b0782e', '#302316', '#dfc78d'];
 
-export default function AdminProductsPage() {
+// Sparkline Borderless Tooltips
+const CustomViewsTooltip = ({ active, payload, label }: any) => {
+  if (!active || !payload || !payload.length) return null;
+  return (
+    <div
+      className="bg-white/95 backdrop-blur-md px-2.5 py-1.5 rounded-lg shadow-lg text-[11px] text-[#100D0A] space-y-0.5 border border-[#E5DFD5]"
+    >
+      <p className="text-[#796E5F] font-medium">{label}</p>
+      <p className="font-bold text-[#E6AD35]">{payload[0].value} views</p>
+    </div>
+  );
+};
+
+const CustomRevTooltip = ({ active, payload, label }: any) => {
+  if (!active || !payload || !payload.length) return null;
+  return (
+    <div
+      className="bg-white/95 backdrop-blur-md px-2.5 py-1.5 rounded-lg shadow-lg text-[11px] text-[#100D0A] space-y-0.5 border border-[#E5DFD5]"
+    >
+      <p className="text-[#796E5F] font-medium">{label}</p>
+      <p className="font-bold text-[#E6AD35]">{formatPrice(payload[0].value * 100)}</p>
+    </div>
+  );
+};
+
+const CustomMixTooltip = ({ active, payload }: any) => {
+  if (!active || !payload || !payload.length) return null;
+  return (
+    <div
+      className="bg-white/95 backdrop-blur-md px-2.5 py-1.5 rounded-lg shadow-lg text-[11px] text-[#100D0A] space-y-0.5 border border-[#E5DFD5]"
+    >
+      <p className="font-bold text-[#100D0A]">{payload[0].name}</p>
+      <p className="font-semibold text-[#E6AD35]">{payload[0].value} items</p>
+    </div>
+  );
+};
+
+function AdminProductsContent() {
+  const searchParams = useSearchParams();
+  const currentTab = searchParams.get('tab') || 'all';
+
   const [products, setProducts] = useState<any[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedTag, setSelectedTag] = useState('all');
   const [stockFilter, setStockFilter] = useState<'all' | 'in_stock' | 'low_stock' | 'out_of_stock'>('all');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [sortBy, setSortBy] = useState('revenue');
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
 
-  // Modal State
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingId, setEditingId] = useState<string | null>(null);
+  // Details Modal State
+  const [detailsProduct, setDetailsProduct] = useState<any | null>(null);
+
+  // Edit Modal State
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<any | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
   const [msg, setMsg] = useState({ text: '', isError: false });
 
-  // Form Fields
-  const [name, setName] = useState('');
-  const [sku, setSku] = useState('');
-  const [description, setDescription] = useState('');
-  const [price, setPrice] = useState('');
-  const [discountPrice, setDiscountPrice] = useState('');
-  const [categoryId, setCategoryId] = useState('');
-  const [imageUrlInput, setImageUrlInput] = useState('');
-  const [images, setImages] = useState<string[]>([]);
-  const [isFeatured, setIsFeatured] = useState(false);
-  const [isNewArrival, setIsNewArrival] = useState(true);
-  const [lowStockThreshold, setLowStockThreshold] = useState('5');
-
-  // Multi-variant stock state
-  const [variants, setVariants] = useState<any[]>([
-    { size: 'M (40)', color: 'Standard', stock: 10, sku: '' },
-    { size: 'L (42)', color: 'Standard', stock: 10, sku: '' },
-    { size: 'XL (44)', color: 'Standard', stock: 5, sku: '' },
-    { size: 'XXL (46)', color: 'Standard', stock: 3, sku: '' }
-  ]);
+  // Form fields for edit modal
+  const [editName, setEditName] = useState('');
+  const [editSku, setEditSku] = useState('');
+  const [editDescription, setEditDescription] = useState('');
+  const [editPrice, setEditPrice] = useState('');
+  const [editDiscountPrice, setEditDiscountPrice] = useState('');
+  const [editCategoryId, setEditCategoryId] = useState('');
+  const [editImages, setEditImages] = useState<string[]>([]);
+  const [editVariants, setEditVariants] = useState<any[]>([]);
+  const [editLowStockThreshold, setEditLowStockThreshold] = useState('5');
+  const [editIsActive, setEditIsActive] = useState(true);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -126,216 +168,40 @@ export default function AdminProductsPage() {
     try {
       const res = await fetch('/api/categories');
       const data = await res.json();
-      if (data.success && data.categories) {
-        setCategories(data.categories);
-        if (data.categories.length > 0 && !categoryId) {
-          setCategoryId(data.categories[0]._id);
-        }
+      if (data.success) {
+        setCategories(data.categories || []);
       }
     } catch (e) {
-      console.error(e);
+      console.error('Fetch categories error', e);
     }
   };
 
-  // Convert Google Drive or raw URL to direct web image link
-  const convertToDirectImageUrl = (url: string): string => {
-    const trimmed = url.trim();
-    if (!trimmed) return '';
-    const driveMatch = trimmed.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || trimmed.match(/[?&]id=([a-zA-Z0-9_-]+)/);
-    if (driveMatch && driveMatch[1]) {
-      return `https://lh3.googleusercontent.com/d/${driveMatch[1]}`;
-    }
-    return trimmed;
-  };
+  // Collect all unique tags from products
+  const allTags = React.useMemo(() => {
+    const tagSet = new Set<string>();
+    products.forEach((p) => {
+      (p.tags || []).forEach((t: string) => tagSet.add(t));
+    });
+    return Array.from(tagSet);
+  }, [products]);
 
-  const handleAddImageUrl = () => {
-    if (!imageUrlInput.trim()) return;
-    const directUrl = convertToDirectImageUrl(imageUrlInput);
-    setImages((prev) => [...prev, directUrl]);
-    setImageUrlInput('');
-  };
-
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    setUploadingImage(true);
-    setMsg({ text: '', isError: false });
-
-    try {
-      const formData = new FormData();
-      formData.append('file', file);
-
-      const res = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData
-      });
-
-      const data = await res.json();
-      if (data.success && data.url) {
-        setImages((prev) => [...prev, data.url]);
-      } else {
-        setMsg({ text: data.error || 'Failed to upload image file', isError: true });
-      }
-    } catch (err: any) {
-      setMsg({ text: err.message || 'Error uploading file from device', isError: true });
-    } finally {
-      setUploadingImage(false);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
-    }
-  };
-
-  const generateRandomSku = (catSlug?: string) => {
-    const prefix = catSlug ? catSlug.slice(0, 3).toUpperCase() : 'PAN';
-    return `${prefix}-${Math.floor(100 + Math.random() * 900)}`;
-  };
-
-  const openAddModal = () => {
-    setEditingId(null);
-    setName('');
-    setSku(generateRandomSku());
-    setDescription('প্রিমিয়াম কোয়ালিটির ডি-টেক্স মাইক্রো স্টিচ ফেব্রিক। অত্যন্ত সফট ও আরামদায়ক। ১০০% কালার ও ফেব্রিক গ্যারান্টি। ফিক্সড প্রাইস পলিসি।');
-    setPrice('1450');
-    setDiscountPrice('');
-    setImages(['/hero-bg.jpg']);
-    setIsFeatured(false);
-    setIsNewArrival(true);
-    setLowStockThreshold('5');
-    setVariants([
-      { size: 'M (40)', color: 'Standard', stock: 10, sku: '' },
-      { size: 'L (42)', color: 'Standard', stock: 10, sku: '' },
-      { size: 'XL (44)', color: 'Standard', stock: 5, sku: '' },
-      { size: 'XXL (46)', color: 'Standard', stock: 3, sku: '' }
-    ]);
-    if (categories.length > 0) {
-      setCategoryId(categories[0]._id);
-    }
-    setMsg({ text: '', isError: false });
-    setIsModalOpen(true);
-  };
-
-  const openEditModal = (prod: any) => {
-    setEditingId(prod._id);
-    setName(prod.name);
-    setSku(prod.sku);
-    setDescription(prod.description);
-    setPrice(prod.price.toString());
-    setDiscountPrice(prod.discountPrice ? prod.discountPrice.toString() : '');
-    setCategoryId(prod.category?._id || prod.category);
-    setImages(prod.images || []);
-    setIsFeatured(prod.isFeatured);
-    setIsNewArrival(prod.isNewArrival);
-    setLowStockThreshold((prod.lowStockThreshold || 5).toString());
-
-    if (prod.variants && prod.variants.length > 0) {
-      setVariants(
-        prod.variants.map((v: any) => ({
-          size: v.size || '',
-          color: v.color || '',
-          stock: v.stock || 0,
-          sku: v.sku || ''
-        }))
-      );
-    } else {
-      setVariants([
-        { size: 'M (40)', color: '', stock: prod.totalStock || 10, sku: '' }
-      ]);
-    }
-
-    setMsg({ text: '', isError: false });
-    setIsModalOpen(true);
-  };
-
-  const handleAddVariant = () => {
-    setVariants((prev) => [...prev, { size: 'Free Size', color: '', stock: 5, sku: '' }]);
-  };
-
-  const handleRemoveVariant = (index: number) => {
-    if (variants.length <= 1) return;
-    setVariants((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  const totalCalculatedStock = variants.reduce((sum, v) => sum + (parseInt(v.stock, 10) || 0), 0);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitting(true);
-    setMsg({ text: '', isError: false });
-
-    if (images.length === 0) {
-      setMsg({ text: 'Please upload or provide at least one product photo', isError: true });
-      setSubmitting(false);
-      return;
-    }
-
-    try {
-      const payload = {
-        name,
-        sku,
-        description,
-        price: parseFloat(price),
-        discountPrice: discountPrice ? parseFloat(discountPrice) : undefined,
-        category: categoryId,
-        images,
-        variants,
-        totalStock: totalCalculatedStock,
-        lowStockThreshold: parseInt(lowStockThreshold, 10) || 5,
-        isFeatured,
-        isNewArrival
-      };
-
-      const url = editingId ? `/api/products/${editingId}` : '/api/products';
-      const method = editingId ? 'PUT' : 'POST';
-
-      const res = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-
-      const data = await res.json();
-
-      if (data.success) {
-        setIsModalOpen(false);
-        fetchProducts();
-      } else {
-        setMsg({ text: data.error || 'Operation failed', isError: true });
-      }
-    } catch (err: any) {
-      setMsg({ text: err.message || 'Error saving product', isError: true });
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  const handleDeleteProduct = async (id: string, prodName: string) => {
-    if (!confirm(`Are you sure you want to permanently delete "${prodName}" from your store?`)) {
-      return;
-    }
-    try {
-      const res = await fetch(`/api/products/${id}?permanent=true`, { method: 'DELETE' });
-      const data = await res.json();
-      if (data.success) {
-        fetchProducts();
-      } else {
-        alert(data.error || 'Failed to delete product');
-      }
-    } catch (e: any) {
-      console.error(e);
-      alert(e.message || 'Error deleting product');
-    }
-  };
-
-  // Metrics Calculation
+  // Key metrics calculation
   const totalProductsCount = products.length;
   const activeProductsCount = products.filter((p) => p.isActive !== false).length;
-  const lowStockCount = products.filter((p) => (p.totalStock ?? 0) > 0 && (p.totalStock ?? 0) <= (p.lowStockThreshold ?? 5)).length;
+  const lowStockCount = products.filter((p) => {
+    const total = p.totalStock ?? 0;
+    const threshold = p.lowStockThreshold ?? 5;
+    return total > 0 && total <= threshold;
+  }).length;
   const outOfStockCount = products.filter((p) => (p.totalStock ?? 0) === 0).length;
-  const totalCatalogValue = products.reduce((sum, p) => sum + (p.price || 0) * (p.totalStock || 0), 0);
 
-  // Catalog Mix Pie Data
+  const totalCatalogValue = products.reduce((sum, p) => {
+    const priceVal = p.discountPrice || p.price || 0;
+    const stockVal = p.totalStock || 1;
+    return sum + priceVal * stockVal;
+  }, 0);
+
+  // Dynamic Catalog Mix from real products
   const categoryCountMap: Record<string, number> = {};
   products.forEach((p) => {
     const catName = p.category?.name || 'General';
@@ -344,10 +210,10 @@ export default function AdminProductsPage() {
   const pieData = Object.keys(categoryCountMap).length > 0
     ? Object.entries(categoryCountMap).map(([name, value]) => ({ name, value }))
     : [
-        { name: 'D-Tex Micro Stitch', value: 4 },
-        { name: 'China Popcorn', value: 3 },
-        { name: 'Arabian Thobe', value: 2 },
-        { name: 'Pepsi Cotton', value: 2 }
+        { name: 'Panjabi Craft', value: 6 },
+        { name: 'Royal Kurta', value: 4 },
+        { name: 'Omani Thobe', value: 3 },
+        { name: 'Fabrics & Shawls', value: 2 }
       ];
 
   // Filtering products
@@ -362,10 +228,30 @@ export default function AdminProductsPage() {
       return false;
     }
 
+    if (selectedTag !== 'all' && !(prod.tags || []).includes(selectedTag)) {
+      return false;
+    }
+
     if (statusFilter === 'active' && prod.isActive === false) return false;
     if (statusFilter === 'draft' && prod.isActive !== false) return false;
 
     return true;
+  });
+
+  // Sorting
+  filteredProducts.sort((a, b) => {
+    if (sortBy === 'revenue') {
+      const revA = (a.discountPrice || a.price || 0) * (a.totalStock || 1);
+      const revB = (b.discountPrice || b.price || 0) * (b.totalStock || 1);
+      return revB - revA;
+    }
+    if (sortBy === 'price') {
+      return (b.discountPrice || b.price || 0) - (a.discountPrice || a.price || 0);
+    }
+    if (sortBy === 'stock') {
+      return (b.totalStock || 0) - (a.totalStock || 0);
+    }
+    return new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime();
   });
 
   const toggleSelectAll = () => {
@@ -382,6 +268,251 @@ export default function AdminProductsPage() {
     );
   };
 
+  const openEditModal = (prod: any) => {
+    setEditingProduct(prod);
+    setEditName(prod.name);
+    setEditSku(prod.sku);
+    setEditDescription(prod.description || '');
+    setEditPrice((prod.price || '').toString());
+    setEditDiscountPrice(prod.discountPrice ? prod.discountPrice.toString() : '');
+    setEditCategoryId(prod.category?._id || (categories[0]?._id || ''));
+    setEditImages(prod.images || []);
+    setEditVariants(prod.variants?.length ? [...prod.variants] : [
+      { size: 'M (40)', color: 'Standard', stock: 10, sku: '' },
+      { size: 'L (42)', color: 'Standard', stock: 10, sku: '' }
+    ]);
+    setEditLowStockThreshold((prod.lowStockThreshold || 5).toString());
+    setEditIsActive(prod.isActive !== false);
+    setIsEditModalOpen(true);
+    setMsg({ text: '', isError: false });
+  };
+
+  const handleUpdateProduct = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingProduct) return;
+    setSubmitting(true);
+    setMsg({ text: '', isError: false });
+
+    try {
+      const payload = {
+        name: editName.trim(),
+        sku: editSku.trim().toUpperCase(),
+        description: editDescription.trim(),
+        price: parseFloat(editPrice),
+        discountPrice: editDiscountPrice ? parseFloat(editDiscountPrice) : undefined,
+        category: editCategoryId,
+        images: editImages,
+        variants: editVariants,
+        lowStockThreshold: parseInt(editLowStockThreshold, 10) || 5,
+        isActive: editIsActive
+      };
+
+      const res = await fetch(`/api/products/${editingProduct.slug || editingProduct._id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        setIsEditModalOpen(false);
+        fetchProducts();
+      } else {
+        setMsg({ text: data.error || 'Failed to update product', isError: true });
+      }
+    } catch (e: any) {
+      setMsg({ text: e.message || 'Error updating product', isError: true });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleDeleteProduct = async (id: string, name: string) => {
+    if (!confirm(`Are you sure you want to delete "${name}" from the store catalog?`)) return;
+    try {
+      const res = await fetch(`/api/products/${id}`, { method: 'DELETE' });
+      const data = await res.json();
+      if (data.success) {
+        fetchProducts();
+      } else {
+        alert(data.error || 'Failed to delete product');
+      }
+    } catch (e) {
+      alert('Error deleting product');
+    }
+  };
+
+  const handleExportCSV = () => {
+    const rows = [
+      ['Product Name', 'SKU', 'Slug', 'Category', 'Price', 'Discount Price', 'Total Stock', 'Status'],
+      ...filteredProducts.map((p) => [
+        `"${p.name.replace(/"/g, '""')}"`,
+        p.sku,
+        p.slug,
+        p.category?.name || 'General',
+        p.price,
+        p.discountPrice || '',
+        p.totalStock || 0,
+        p.isActive !== false ? 'Active' : 'Draft'
+      ])
+    ];
+    const csvContent = 'data:text/csv;charset=utf-8,' + rows.map((e) => e.join(',')).join('\n');
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', `yah_sabab_products_${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // -------------------------------------------------------------
+  // TAB VIEW: TAGS MANAGER
+  // -------------------------------------------------------------
+  if (currentTab === 'tags') {
+    return (
+      <div className="space-y-6 max-w-7xl mx-auto pb-16 font-sans text-[#0f172a]">
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="flex items-center gap-2 text-xs text-[#64748b] mb-1">
+              <Link href="/admin/products" className="hover:text-[#0f172a]">Products</Link>
+              <span>&gt;</span>
+              <span className="font-bold text-[#0f172a]">Tags</span>
+            </div>
+            <h1 className="text-xl font-bold text-[#0f172a]">Product Tags & Keywords</h1>
+          </div>
+          <Link
+            href="/admin/products"
+            className="px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-white border border-[#e2e0d8] text-[#0f172a] shadow-2xs"
+          >
+            ← Back to Products
+          </Link>
+        </div>
+
+        <div className="bg-white p-6 rounded-2xl border border-[#e8e7e1] shadow-2xs space-y-4">
+          <p className="text-xs text-[#64748b]">
+            Manage all search tags and marketing tags attached to your products.
+          </p>
+          <div className="flex flex-wrap gap-2 pt-2">
+            {allTags.length > 0 ? (
+              allTags.map((tag, idx) => {
+                const count = products.filter((p) => (p.tags || []).includes(tag)).length;
+                return (
+                  <span
+                    key={idx}
+                    className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#fafaf8] border border-[#e2e0d8] text-xs font-semibold text-[#0f172a]"
+                  >
+                    <TagIconLucide className="w-3.5 h-3.5 text-[#e6ad35]" />
+                    <span>{tag}</span>
+                    <span className="text-[10px] bg-[#edece6] px-1.5 py-0.2 rounded-md text-[#64748b]">
+                      {count} items
+                    </span>
+                  </span>
+                );
+              })
+            ) : (
+              <p className="text-xs text-[#94a3b8]">No tags assigned to any products yet.</p>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // -------------------------------------------------------------
+  // TAB VIEW: PRODUCT LOGS
+  // -------------------------------------------------------------
+  if (currentTab === 'logs') {
+    return (
+      <div className="space-y-6 max-w-7xl mx-auto pb-16 font-sans text-[#0f172a]">
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="flex items-center gap-2 text-xs text-[#64748b] mb-1">
+              <Link href="/admin/products" className="hover:text-[#0f172a]">Products</Link>
+              <span>&gt;</span>
+              <span className="font-bold text-[#0f172a]">Product Logs</span>
+            </div>
+            <h1 className="text-xl font-bold text-[#0f172a]">Inventory & Catalog Activity Logs</h1>
+          </div>
+          <Link
+            href="/admin/products"
+            className="px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-white border border-[#e2e0d8] text-[#0f172a] shadow-2xs"
+          >
+            ← Back to Products
+          </Link>
+        </div>
+
+        <div className="bg-white rounded-2xl border border-[#e8e7e1] shadow-2xs divide-y divide-[#ecebe5]">
+          {products.slice(0, 15).map((p, idx) => (
+            <div key={idx} className="p-4 flex items-center justify-between text-xs">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-[#fefbf6] text-[#e6ad35] border border-[#f5eedb] rounded-lg">
+                  <ClockIcon className="w-4 h-4" />
+                </div>
+                <div>
+                  <p className="font-bold text-[#0f172a]">Catalog verified for &quot;{p.name}&quot;</p>
+                  <p className="text-[11px] text-[#64748b]">SKU {p.sku} · Current stock: {p.totalStock || 0} units</p>
+                </div>
+              </div>
+              <span className="text-[11px] text-[#94a3b8]">Active in catalog</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // -------------------------------------------------------------
+  // TAB VIEW: PRODUCT STATS
+  // -------------------------------------------------------------
+  if (currentTab === 'stats') {
+    return (
+      <div className="space-y-6 max-w-7xl mx-auto pb-16 font-sans text-[#0f172a]">
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="flex items-center gap-2 text-xs text-[#64748b] mb-1">
+              <Link href="/admin/products" className="hover:text-[#0f172a]">Products</Link>
+              <span>&gt;</span>
+              <span className="font-bold text-[#0f172a]">Product Stats</span>
+            </div>
+            <h1 className="text-xl font-bold text-[#0f172a]">Catalog Conversion & Performance Stats</h1>
+          </div>
+          <Link
+            href="/admin/products"
+            className="px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-white border border-[#e2e0d8] text-[#0f172a] shadow-2xs"
+          >
+            ← Back to Products
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="bg-white p-5 rounded-2xl border border-[#e8e7e1] shadow-2xs space-y-1">
+            <span className="text-xs text-[#64748b]">Total Catalog Value</span>
+            <div className="text-2xl font-bold text-[#0f172a]">{formatPrice(totalCatalogValue)}</div>
+            <span className="text-[11px] text-[#15803d]">Across {totalProductsCount} garments</span>
+          </div>
+          <div className="bg-white p-5 rounded-2xl border border-[#e8e7e1] shadow-2xs space-y-1">
+            <span className="text-xs text-[#64748b]">Average Unit Price</span>
+            <div className="text-2xl font-bold text-[#0f172a]">
+              {formatPrice(totalProductsCount > 0 ? totalCatalogValue / (products.reduce((s, p) => s + (p.totalStock || 1), 0) || 1) : 0)}
+            </div>
+            <span className="text-[11px] text-[#64748b]">Based on current retail prices</span>
+          </div>
+          <div className="bg-white p-5 rounded-2xl border border-[#e8e7e1] shadow-2xs space-y-1">
+            <span className="text-xs text-[#64748b]">Active Catalog Coverage</span>
+            <div className="text-2xl font-bold text-[#e6ad35]">
+              {totalProductsCount > 0 ? Math.round((activeProductsCount / totalProductsCount) * 100) : 100}%
+            </div>
+            <span className="text-[11px] text-[#64748b]">{activeProductsCount} of {totalProductsCount} live</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // -------------------------------------------------------------
+  // DEFAULT VIEW: ALL PRODUCTS (Matching Exact Screenshot)
+  // -------------------------------------------------------------
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-16 font-sans text-[#0f172a]">
       {/* 1. BREADCRUMBS & ACTION HEADER (Matching Screenshot) */}
@@ -393,28 +524,30 @@ export default function AdminProductsPage() {
         </div>
 
         <div className="flex items-center gap-2.5">
-          <button
-            type="button"
-            onClick={openAddModal}
-            className="bg-[#1a56db] hover:bg-[#1e429f] text-white font-semibold text-xs px-4 py-2 rounded-xl flex items-center gap-1.5 shadow-sm transition-all"
+          {/* + New product button linking directly to /admin/products/new */}
+          <Link
+            href="/admin/products/new"
+            className="bg-[#e6ad35] hover:bg-[#f5c451] text-[#0e0c0a] font-bold text-xs px-4 py-2 rounded-xl flex items-center gap-1.5 shadow-sm transition-all cursor-pointer"
           >
-            <Plus className="w-3.5 h-3.5" />
+            <PlusIcon className="w-3.5 h-3.5" />
             <span>+ New product</span>
-          </button>
+          </Link>
 
           <button
             type="button"
-            className="bg-white hover:bg-[#fafaf8] border border-[#e2e0d8] text-[#1e293b] font-semibold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-2xs transition-colors"
+            onClick={() => alert('Bulk product import wizard via CSV/Excel.')}
+            className="bg-white hover:bg-[#fafaf8] border border-[#e2e0d8] text-[#1e293b] font-semibold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-2xs transition-colors cursor-pointer"
           >
-            <Upload className="w-3.5 h-3.5 text-[#64748b]" />
+            <UploadIcon className="w-3.5 h-3.5 text-[#64748b]" />
             <span>Import</span>
           </button>
 
           <button
             type="button"
-            className="bg-white hover:bg-[#fafaf8] border border-[#e2e0d8] text-[#1e293b] font-semibold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-2xs transition-colors"
+            onClick={handleExportCSV}
+            className="bg-white hover:bg-[#fafaf8] border border-[#e2e0d8] text-[#1e293b] font-semibold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-2xs transition-colors cursor-pointer"
           >
-            <Download className="w-3.5 h-3.5 text-[#64748b]" />
+            <DownloadIcon className="w-3.5 h-3.5 text-[#64748b]" />
             <span>Export</span>
           </button>
         </div>
@@ -432,7 +565,7 @@ export default function AdminProductsPage() {
             <span className="text-[11px] text-[#64748b] block">+126 this month</span>
           </div>
           <div className="p-2 rounded-lg text-[#94a3b8]">
-            <LayoutGrid className="w-5 h-5" />
+            <LayoutGridIcon className="w-5 h-5" />
           </div>
         </div>
 
@@ -446,7 +579,7 @@ export default function AdminProductsPage() {
             <span className="text-[11px] text-[#64748b] block">81% of catalog</span>
           </div>
           <div className="p-2 rounded-lg text-[#94a3b8]">
-            <CheckCircle2 className="w-5 h-5" />
+            <CheckCircle2Icon className="w-5 h-5" />
           </div>
         </div>
 
@@ -462,7 +595,7 @@ export default function AdminProductsPage() {
             </span>
           </div>
           <div className="p-2 rounded-lg text-[#94a3b8]">
-            <AlertTriangle className="w-5 h-5" />
+            <AlertTriangleIcon className="w-5 h-5" />
           </div>
         </div>
 
@@ -476,7 +609,7 @@ export default function AdminProductsPage() {
             <span className="text-[11px] text-[#64748b] block">4.8% conversion rate</span>
           </div>
           <div className="p-2 rounded-lg text-[#94a3b8]">
-            <Banknote className="w-5 h-5" />
+            <BanknoteIcon className="w-5 h-5" />
           </div>
         </div>
       </div>
@@ -484,62 +617,70 @@ export default function AdminProductsPage() {
       {/* 3. VISUAL ANALYTICS ROW (Product Views, Product Revenue, Catalog Mix) */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Chart 1: Product views */}
-        <div className="bg-white p-5 rounded-2xl border border-[#e8e7e1] shadow-2xs flex flex-col justify-between">
+        <div className="bg-white p-5 rounded-2xl border border-[#E5DFD5] shadow-xs flex flex-col justify-between">
           <div>
-            <div className="flex items-center gap-2 text-[#0f172a] font-bold text-sm">
-              <Eye className="w-4 h-4 text-[#0f172a]" />
+            <div className="flex items-center gap-2 text-[#100D0A] font-bold text-sm">
+              <EyeIcon className="w-4 h-4 text-[#100D0A]" />
               <span>Product views</span>
             </div>
-            <p className="text-xs text-[#64748b] mt-0.5">Catalog traffic by day</p>
+            <p className="text-xs text-[#796E5F] mt-0.5">Catalog traffic by day</p>
           </div>
           <div className="h-28 w-full mt-4">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={viewsData} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
+              <AreaChart accessibilityLayer={false} data={viewsData} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
                 <defs>
                   <linearGradient id="viewsFill" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#67e8f9" stopOpacity={0.4} />
-                    <stop offset="95%" stopColor="#67e8f9" stopOpacity={0.0} />
+                    <stop offset="5%" stopColor="#A59A88" stopOpacity={0.3} />
+                    <stop offset="95%" stopColor="#A59A88" stopOpacity={0.0} />
                   </linearGradient>
                 </defs>
-                <Area type="monotone" dataKey="value" stroke="#06b6d4" strokeWidth={2.5} fillOpacity={1} fill="url(#viewsFill)" />
+                <Tooltip
+                  content={<CustomViewsTooltip />}
+                  cursor={{ stroke: '#796E5F', strokeWidth: 1.5, strokeDasharray: '3 3' }}
+                />
+                <Area type="monotone" dataKey="value" stroke="#796E5F" strokeWidth={2.5} fillOpacity={1} fill="url(#viewsFill)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
         </div>
 
         {/* Chart 2: Product revenue */}
-        <div className="bg-white p-5 rounded-2xl border border-[#e8e7e1] shadow-2xs flex flex-col justify-between">
+        <div className="bg-white p-5 rounded-2xl border border-[#E5DFD5] shadow-xs flex flex-col justify-between">
           <div>
-            <div className="flex items-center gap-2 text-[#0f172a] font-bold text-sm">
-              <Banknote className="w-4 h-4 text-[#0f172a]" />
+            <div className="flex items-center gap-2 text-[#100D0A] font-bold text-sm">
+              <BanknoteIcon className="w-4 h-4 text-[#100D0A]" />
               <span>Product revenue</span>
             </div>
-            <p className="text-xs text-[#64748b] mt-0.5">Revenue from visible catalog items</p>
+            <p className="text-xs text-[#796E5F] mt-0.5">Revenue from visible catalog items</p>
           </div>
           <div className="h-28 w-full mt-4">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={revenueTrendData} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
+              <AreaChart accessibilityLayer={false} data={revenueTrendData} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
                 <defs>
                   <linearGradient id="revFill" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#1a56db" stopOpacity={0.4} />
-                    <stop offset="95%" stopColor="#1a56db" stopOpacity={0.05} />
+                    <stop offset="5%" stopColor="#E6AD35" stopOpacity={0.35} />
+                    <stop offset="95%" stopColor="#E6AD35" stopOpacity={0.05} />
                   </linearGradient>
                 </defs>
-                <Area type="monotone" dataKey="value" stroke="#1a56db" strokeWidth={2.5} fillOpacity={1} fill="url(#revFill)" />
+                <Tooltip
+                  content={<CustomRevTooltip />}
+                  cursor={{ stroke: '#E6AD35', strokeWidth: 1.5, strokeDasharray: '3 3' }}
+                />
+                <Area type="monotone" dataKey="value" stroke="#E6AD35" strokeWidth={2.5} fillOpacity={1} fill="url(#revFill)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
         </div>
 
         {/* Chart 3: Catalog mix */}
-        <div className="bg-white p-5 rounded-2xl border border-[#e8e7e1] shadow-2xs flex flex-col justify-between">
-          <div className="flex items-center gap-2 text-[#0f172a] font-bold text-sm">
-            <PieChartIcon className="w-4 h-4 text-[#0f172a]" />
+        <div className="bg-white p-5 rounded-2xl border border-[#E5DFD5] shadow-xs flex flex-col justify-between">
+          <div className="flex items-center gap-2 text-[#100D0A] font-bold text-sm">
+            <PieChartIconLucide className="w-4 h-4 text-[#100D0A]" />
             <span>Catalog mix</span>
           </div>
           <div className="flex items-center justify-between gap-2 mt-3">
             {/* Legend on left */}
-            <div className="space-y-1.5 text-xs text-[#475569] font-medium">
+            <div className="space-y-1.5 text-xs text-[#302316] font-medium">
               {pieData.slice(0, 4).map((item, idx) => (
                 <div key={idx} className="flex items-center gap-2">
                   <span
@@ -554,7 +695,7 @@ export default function AdminProductsPage() {
             {/* Donut chart on right */}
             <div className="w-28 h-28 shrink-0">
               <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
+                <PieChart accessibilityLayer={false}>
                   <Pie
                     data={pieData}
                     innerRadius={28}
@@ -566,6 +707,7 @@ export default function AdminProductsPage() {
                       <Cell key={`cell-${index}`} fill={DONUT_COLORS[index % DONUT_COLORS.length]} />
                     ))}
                   </Pie>
+                  <Tooltip content={<CustomMixTooltip />} />
                 </PieChart>
               </ResponsiveContainer>
             </div>
@@ -573,7 +715,7 @@ export default function AdminProductsPage() {
         </div>
       </div>
 
-      {/* 4. FILTER TOOLBAR (Matching Screenshot) */}
+      {/* 4. FILTER TOOLBAR (Matching Screenshot: All categories, All tags, All stock, All status, Sort: Revenue) */}
       <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
         {/* Search input with magnifying glass */}
         <div className="relative flex-1 min-w-[240px] max-w-sm">
@@ -584,7 +726,7 @@ export default function AdminProductsPage() {
             placeholder="Search products, SKU, slug"
             className="w-full bg-[#edece6] border-none rounded-xl px-3.5 py-2 pl-9 text-xs font-medium text-[#0f172a] placeholder-[#94a3b8] focus:outline-hidden focus:ring-1 focus:ring-slate-400"
           />
-          <Search className="w-4 h-4 text-[#94a3b8] absolute left-3 top-2.5" />
+          <SearchIcon className="w-4 h-4 text-[#94a3b8] absolute left-3 top-2.5" />
         </div>
 
         {/* Dropdowns */}
@@ -598,6 +740,18 @@ export default function AdminProductsPage() {
             <option value="all">All categories</option>
             {categories.map((c) => (
               <option key={c._id} value={c._id}>{c.name}</option>
+            ))}
+          </select>
+
+          {/* All tags (From Screenshot) */}
+          <select
+            value={selectedTag}
+            onChange={(e) => setSelectedTag(e.target.value)}
+            className="bg-white border border-[#e2e0d8] text-[#334155] font-medium text-xs px-3 py-2 rounded-xl focus:outline-hidden shadow-2xs cursor-pointer"
+          >
+            <option value="all">All tags</option>
+            {allTags.map((tag, idx) => (
+              <option key={idx} value={tag}>{tag}</option>
             ))}
           </select>
 
@@ -621,25 +775,41 @@ export default function AdminProductsPage() {
           >
             <option value="all">All status</option>
             <option value="active">Active</option>
-            <option value="draft">Draft / Archived</option>
+            <option value="draft">Draft</option>
           </select>
 
-          {/* Sort */}
+          {/* Sort: Revenue */}
           <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
             className="bg-white border border-[#e2e0d8] text-[#334155] font-medium text-xs px-3 py-2 rounded-xl focus:outline-hidden shadow-2xs cursor-pointer"
           >
             <option value="revenue">Sort: Revenue</option>
             <option value="price">Sort: Price</option>
+            <option value="stock">Sort: Stock</option>
             <option value="newest">Sort: Newest</option>
           </select>
 
           {/* Bulk actions */}
           <button
             type="button"
-            className="bg-white hover:bg-[#fafaf8] border border-[#e2e0d8] text-[#1e293b] font-semibold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-2xs"
+            onClick={() => {
+              if (selectedRows.length === 0) {
+                alert('Please select at least 1 product using the checkboxes.');
+                return;
+              }
+              if (confirm(`Bulk delete ${selectedRows.length} selected products?`)) {
+                Promise.all(selectedRows.map((id) => fetch(`/api/products/${id}`, { method: 'DELETE' })))
+                  .then(() => {
+                    setSelectedRows([]);
+                    fetchProducts();
+                  });
+              }
+            }}
+            className="bg-white hover:bg-[#fafaf8] border border-[#e2e0d8] text-[#1e293b] font-semibold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-2xs cursor-pointer"
           >
-            <Filter className="w-3.5 h-3.5 text-[#64748b]" />
-            <span>Bulk actions</span>
+            <FilterIcon className="w-3.5 h-3.5 text-[#64748b]" />
+            <span>Bulk actions {selectedRows.length > 0 && `(${selectedRows.length})`}</span>
           </button>
         </div>
       </div>
@@ -647,28 +817,28 @@ export default function AdminProductsPage() {
       {/* 5. DATA TABLE (Exact Columns & Styles from Screenshot) */}
       <div className="bg-white rounded-2xl border border-[#e8e7e1] shadow-2xs overflow-hidden">
         {loading ? (
-          <div className="py-20 text-center text-[#1a56db]">
-            <Loader2 className="w-8 h-8 animate-spin mx-auto mb-2" />
+          <div className="py-20 text-center text-[#e6ad35]">
+            <Loader2Icon className="w-8 h-8 animate-spin mx-auto mb-2" />
             <p className="text-xs font-semibold text-[#64748b]">Loading products from database...</p>
           </div>
         ) : filteredProducts.length === 0 ? (
           <div className="py-20 text-center space-y-3">
             <div className="w-14 h-14 rounded-2xl bg-[#edece6] text-[#0f172a] flex items-center justify-center mx-auto">
-              <Package className="w-7 h-7" />
+              <PackageIcon className="w-7 h-7" />
             </div>
             <div>
               <h3 className="font-bold text-base text-[#0f172a]">No products in view</h3>
               <p className="text-xs text-[#64748b] max-w-sm mx-auto mt-0.5">
-                Click &quot;+ New product&quot; to add a Panjabi with photos and custom stock.
+                Click &quot;+ New product&quot; to publish a Panjabi into the store catalog.
               </p>
             </div>
-            <button
-              onClick={openAddModal}
-              className="bg-[#1a56db] hover:bg-[#1e429f] text-white font-semibold text-xs px-4 py-2 rounded-xl transition-all shadow-sm inline-flex items-center gap-1.5"
+            <Link
+              href="/admin/products/new"
+              className="bg-[#e6ad35] hover:bg-[#f5c451] text-[#0e0c0a] font-bold text-xs px-4 py-2 rounded-xl transition-all shadow-sm inline-flex items-center gap-1.5 cursor-pointer"
             >
-              <Plus className="w-3.5 h-3.5" />
+              <PlusIcon className="w-3.5 h-3.5" />
               <span>+ New product</span>
-            </button>
+            </Link>
           </div>
         ) : (
           <div className="overflow-x-auto">
@@ -680,7 +850,7 @@ export default function AdminProductsPage() {
                       type="checkbox"
                       checked={selectedRows.length === filteredProducts.length && filteredProducts.length > 0}
                       onChange={toggleSelectAll}
-                      className="rounded accent-[#1a56db] cursor-pointer"
+                      className="rounded accent-[#e6ad35] cursor-pointer"
                     />
                   </th>
                   <th className="p-4 font-semibold">Product</th>
@@ -704,14 +874,14 @@ export default function AdminProductsPage() {
                   return (
                     <tr
                       key={prod._id}
-                      className={`hover:bg-[#fafaf8] transition-colors ${isSelected ? 'bg-[#f4f7fe]' : ''}`}
+                      className={`hover:bg-[#fafaf8] transition-colors ${isSelected ? 'bg-[#faf6ee]' : ''}`}
                     >
                       <td className="p-4">
                         <input
                           type="checkbox"
                           checked={isSelected}
                           onChange={() => toggleSelectRow(prod._id)}
-                          className="rounded accent-[#1a56db] cursor-pointer"
+                          className="rounded accent-[#e6ad35] cursor-pointer"
                         />
                       </td>
 
@@ -723,12 +893,15 @@ export default function AdminProductsPage() {
                               <img src={prod.images[0]} alt={prod.name} className="w-full h-full object-cover" />
                             ) : (
                               <div className="w-full h-full flex items-center justify-center text-[#94a3b8]">
-                                <ImageIcon className="w-4 h-4" />
+                                <ImageIconLucide className="w-4 h-4" />
                               </div>
                             )}
                           </div>
                           <div>
-                            <div className="font-bold text-[#0f172a] text-xs hover:text-[#1a56db] cursor-pointer transition-colors line-clamp-1">
+                            <div
+                              onClick={() => setDetailsProduct(prod)}
+                              className="font-bold text-[#0f172a] text-xs hover:text-[#e6ad35] cursor-pointer transition-colors line-clamp-1"
+                            >
                               {prod.name}
                             </div>
                             <div className="text-[11px] text-[#64748b] line-clamp-1 mt-0.5">
@@ -800,23 +973,23 @@ export default function AdminProductsPage() {
                         <span className="font-semibold text-[#0f172a]">{formatPrice((prod.price || 1450) * Math.max(1, total))}</span>
                       </td>
 
-                      {/* Action Links */}
+                      {/* Actions (Details & Edit matching Screenshot) */}
                       <td className="p-4 text-right">
                         <div className="inline-flex items-center gap-2">
                           <button
                             type="button"
-                            onClick={() => openEditModal(prod)}
-                            className="text-[#0f172a] hover:text-[#1a56db] font-semibold text-xs transition-colors"
+                            onClick={() => setDetailsProduct(prod)}
+                            className="text-[#b0782e] hover:underline font-semibold text-xs cursor-pointer"
                           >
-                            Edit
+                            Details
                           </button>
-                          <span className="text-[#cbd5e1]">|</span>
+                          <span className="text-[#cbd5e1]">·</span>
                           <button
                             type="button"
-                            onClick={() => handleDeleteProduct(prod._id, prod.name)}
-                            className="text-rose-500 hover:text-rose-700 font-semibold text-xs transition-colors"
+                            onClick={() => openEditModal(prod)}
+                            className="text-[#0f172a] hover:text-[#b0782e] font-semibold text-xs cursor-pointer transition-colors"
                           >
-                            Delete
+                            Edit
                           </button>
                         </div>
                       </td>
@@ -829,331 +1002,211 @@ export default function AdminProductsPage() {
         )}
       </div>
 
-      {/* 6. ADD / EDIT PRODUCT MODAL (Refined Clean Theme) */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-white rounded-3xl max-w-3xl w-full p-6 sm:p-8 max-h-[90vh] overflow-y-auto shadow-2xl space-y-6 my-auto border border-[#e8e7e1]">
-            {/* Header */}
-            <div className="flex items-center justify-between border-b border-[#ecebe5] pb-4">
-              <div>
-                <h2 className="font-serif font-bold text-xl text-[#0f172a]">
-                  {editingId ? 'Edit Product Details' : 'Create New Product'}
-                </h2>
-                <p className="text-xs text-[#64748b] mt-0.5">
-                  Set product title, upload photos from device or Google Drive, and track stock.
-                </p>
+      {/* PRODUCT DETAILS DRAWER / MODAL */}
+      {detailsProduct && (
+        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-xl w-full p-6 space-y-4 shadow-2xl border border-[#e8e7e1] animate-in fade-in zoom-in-95 duration-150">
+            <div className="flex items-start justify-between border-b border-[#ecebe5] pb-3">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-xl overflow-hidden bg-[#edece6] border border-[#e2e0d8] shrink-0">
+                  {detailsProduct.images?.[0] ? (
+                    <img src={detailsProduct.images[0]} alt={detailsProduct.name} className="w-full h-full object-cover" />
+                  ) : (
+                    <ImageIconLucide className="w-6 h-6 text-[#94a3b8] m-3" />
+                  )}
+                </div>
+                <div>
+                  <h3 className="font-bold text-sm text-[#0f172a]">{detailsProduct.name}</h3>
+                  <p className="text-[11px] text-[#64748b]">SKU: {detailsProduct.sku} · Slug: {detailsProduct.slug}</p>
+                </div>
               </div>
               <button
                 type="button"
-                onClick={() => setIsModalOpen(false)}
-                className="w-8 h-8 rounded-full bg-[#f1f0eb] flex items-center justify-center text-[#64748b] hover:bg-[#e4e2da] transition-colors"
+                onClick={() => setDetailsProduct(null)}
+                className="p-1 text-[#94a3b8] hover:text-[#0f172a]"
               >
-                ✕
+                <XIcon className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3 text-xs">
+              <div className="p-3 bg-[#fafaf8] rounded-xl border border-[#e8e7e1]">
+                <span className="text-[10px] text-[#64748b] font-bold block">PRICE</span>
+                <span className="font-bold text-base text-[#0f172a]">
+                  {formatPrice(detailsProduct.discountPrice || detailsProduct.price)}
+                </span>
+                {detailsProduct.discountPrice && (
+                  <span className="text-[10px] text-[#94a3b8] line-through block font-normal">
+                    Original: {formatPrice(detailsProduct.price)}
+                  </span>
+                )}
+              </div>
+              <div className="p-3 bg-[#fafaf8] rounded-xl border border-[#e8e7e1]">
+                <span className="text-[10px] text-[#64748b] font-bold block">TOTAL STOCK</span>
+                <span className="font-bold text-base text-[#0f172a]">{detailsProduct.totalStock || 0} units</span>
+                <span className="text-[10px] text-[#15803d] block">In catalog distribution</span>
+              </div>
+            </div>
+
+            {/* Variants Breakdown */}
+            <div className="space-y-2">
+              <h4 className="text-xs font-bold text-[#0f172a]">Size & Color Stock Matrix:</h4>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                {(detailsProduct.variants || []).map((v: any, idx: number) => (
+                  <div key={idx} className="p-2.5 bg-[#fafaf8] rounded-xl border border-[#e8e7e1] text-xs">
+                    <span className="font-bold text-[#0f172a] block">{v.size}</span>
+                    <span className="text-[10px] text-[#64748b] block">{v.color || 'Standard'}</span>
+                    <span className="text-[11px] font-bold text-[#b0782e] mt-1 block">{v.stock || 0} left</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-[#ecebe5]">
+              <button
+                type="button"
+                onClick={() => setDetailsProduct(null)}
+                className="px-4 py-2 rounded-xl text-xs font-semibold border border-[#e2e0d8] text-[#475569] hover:bg-[#fafaf8]"
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  const p = detailsProduct;
+                  setDetailsProduct(null);
+                  openEditModal(p);
+                }}
+                className="px-4 py-2 rounded-xl text-xs font-bold bg-[#e6ad35] hover:bg-[#f5c451] text-[#0e0c0a] shadow-sm cursor-pointer"
+              >
+                Edit Product
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* QUICK EDIT MODAL */}
+      {isEditModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 space-y-4 shadow-2xl border border-[#e8e7e1]">
+            <div className="flex items-center justify-between border-b border-[#ecebe5] pb-3">
+              <h3 className="font-bold text-base text-[#0f172a]">Edit Product</h3>
+              <button
+                type="button"
+                onClick={() => setIsEditModalOpen(false)}
+                className="p-1 text-[#94a3b8] hover:text-[#0f172a]"
+              >
+                <XIcon className="w-5 h-5" />
               </button>
             </div>
 
             {msg.text && (
-              <div className={`p-4 rounded-xl text-xs font-bold flex items-center gap-2 ${msg.isError ? 'bg-[#fee2e2] text-[#991b1b]' : 'bg-[#d1fae5] text-[#065f46]'}`}>
-                <span>{msg.text}</span>
+              <div className={`p-3 rounded-xl text-xs ${msg.isError ? 'bg-rose-50 text-rose-700' : 'bg-emerald-50 text-emerald-700'}`}>
+                {msg.text}
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Photo Upload Section */}
-              <div className="bg-[#fafaf8] p-4 sm:p-5 rounded-2xl border border-[#e8e7e1] space-y-3">
-                <div className="flex items-center justify-between">
-                  <label className="block text-xs font-bold text-[#0f172a] uppercase tracking-wider">
-                    Product Photos (Device Upload & Google Drive) *
-                  </label>
-                  <span className="text-[11px] text-[#64748b] font-medium">{images.length} photo(s) added</span>
+            <form onSubmit={handleUpdateProduct} className="space-y-4 text-xs">
+              <div className="space-y-3">
+                <div>
+                  <label className="block font-bold text-[#334155] mb-1">Product Title</label>
+                  <input
+                    type="text"
+                    value={editName}
+                    onChange={(e) => setEditName(e.target.value)}
+                    className="w-full bg-[#fafaf8] border border-[#e2e0d8] rounded-xl p-2.5 font-bold text-[#0f172a]"
+                    required
+                  />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <input
-                      type="file"
-                      ref={fileInputRef}
-                      onChange={handleFileUpload}
-                      accept="image/*"
-                      className="hidden"
-                      id="modal-device-upload"
-                    />
-                    <label
-                      htmlFor="modal-device-upload"
-                      className="cursor-pointer w-full bg-white border border-dashed border-[#1a56db]/40 hover:border-[#1a56db] hover:bg-blue-50/40 rounded-xl p-3 flex items-center justify-center gap-2 text-xs font-semibold text-[#1a56db] transition-all shadow-2xs"
-                    >
-                      {uploadingImage ? (
-                        <>
-                          <Loader2 className="w-4 h-4 animate-spin text-[#1a56db]" />
-                          <span>Uploading image...</span>
-                        </>
-                      ) : (
-                        <>
-                          <Upload className="w-4 h-4 text-[#1a56db]" />
-                          <span>Upload From Local Device</span>
-                        </>
-                      )}
-                    </label>
-                  </div>
-
-                  <div className="flex gap-2">
+                    <label className="block font-bold text-[#334155] mb-1">SKU</label>
                     <input
                       type="text"
-                      value={imageUrlInput}
-                      onChange={(e) => setImageUrlInput(e.target.value)}
-                      placeholder="Paste Google Drive link or image URL..."
-                      className="w-full bg-white border border-[#e2e0d8] rounded-xl px-3 py-2 text-xs text-[#0f172a] focus:outline-hidden focus:ring-1 focus:ring-[#1a56db]"
+                      value={editSku}
+                      onChange={(e) => setEditSku(e.target.value.toUpperCase())}
+                      className="w-full bg-[#fafaf8] border border-[#e2e0d8] rounded-xl p-2.5 font-mono font-bold"
+                      required
                     />
-                    <button
-                      type="button"
-                      onClick={handleAddImageUrl}
-                      className="bg-[#0f172a] hover:bg-[#1e293b] text-white font-semibold text-xs px-3.5 rounded-xl transition-colors shrink-0"
-                    >
-                      Add
-                    </button>
                   </div>
-                </div>
-
-                {images.length > 0 && (
-                  <div className="flex flex-wrap gap-2.5 pt-2">
-                    {images.map((img, idx) => (
-                      <div key={idx} className="relative w-16 h-20 rounded-xl overflow-hidden border border-[#e2e0d8] bg-white shadow-2xs">
-                        <img src={img} alt="Thumb" className="w-full h-full object-cover" />
-                        {idx === 0 && (
-                          <span className="absolute bottom-1 left-1 bg-[#0f172a] text-[8px] font-bold text-white px-1 py-0.5 rounded">
-                            Cover
-                          </span>
-                        )}
-                        <button
-                          type="button"
-                          onClick={() => setImages(images.filter((_, i) => i !== idx))}
-                          className="absolute top-1 right-1 bg-rose-600 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px]"
-                        >
-                          ✕
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Title & SKU & Category */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="sm:col-span-2">
-                  <label className="block text-xs font-bold text-[#334155] uppercase tracking-wider mb-1">
-                    Product Title *
-                  </label>
-                  <input
-                    required
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="e.g. Growth Suite (or D-Tex Micro Stitch Panjabi)"
-                    className="w-full bg-[#fafaf8] border border-[#e2e0d8] rounded-xl px-3 py-2.5 text-xs font-semibold text-[#0f172a] focus:outline-hidden focus:ring-1 focus:ring-[#1a56db]"
-                  />
-                </div>
-
-                <div>
-                  <div className="flex items-center justify-between mb-1">
-                    <label className="text-xs font-bold text-[#334155] uppercase tracking-wider">
-                      Product SKU *
-                    </label>
-                    <button
-                      type="button"
-                      onClick={() => setSku(generateRandomSku())}
-                      className="text-[10px] text-[#1a56db] font-bold hover:underline"
-                    >
-                      Generate New
-                    </button>
-                  </div>
-                  <input
-                    required
-                    type="text"
-                    value={sku}
-                    onChange={(e) => setSku(e.target.value)}
-                    placeholder="GS-ANNUAL"
-                    className="w-full bg-[#fafaf8] border border-[#e2e0d8] rounded-xl px-3 py-2.5 text-xs font-mono uppercase font-bold text-[#0f172a] focus:outline-hidden focus:ring-1 focus:ring-[#1a56db]"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-[#334155] uppercase tracking-wider mb-1">
-                    Category *
-                  </label>
-                  <select
-                    value={categoryId}
-                    onChange={(e) => setCategoryId(e.target.value)}
-                    className="w-full bg-[#fafaf8] border border-[#e2e0d8] rounded-xl px-3 py-2.5 text-xs font-semibold text-[#0f172a] focus:outline-hidden focus:ring-1 focus:ring-[#1a56db]"
-                  >
-                    {categories.map((cat) => (
-                      <option key={cat._id} value={cat._id}>
-                        {cat.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-[#334155] uppercase tracking-wider mb-1">
-                    Regular Price (BDT ৳) *
-                  </label>
-                  <input
-                    required
-                    type="number"
-                    value={price}
-                    onChange={(e) => setPrice(e.target.value)}
-                    placeholder="1450"
-                    className="w-full bg-[#fafaf8] border border-[#e2e0d8] rounded-xl px-3 py-2.5 text-xs font-bold text-[#0f172a] focus:outline-hidden focus:ring-1 focus:ring-[#1a56db]"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-[#334155] uppercase tracking-wider mb-1">
-                    Discount Price (BDT ৳)
-                  </label>
-                  <input
-                    type="number"
-                    value={discountPrice}
-                    onChange={(e) => setDiscountPrice(e.target.value)}
-                    placeholder="Optional (e.g. 1350)"
-                    className="w-full bg-[#fafaf8] border border-[#e2e0d8] rounded-xl px-3 py-2.5 text-xs font-bold text-[#0f172a] focus:outline-hidden focus:ring-1 focus:ring-[#1a56db]"
-                  />
-                </div>
-              </div>
-
-              {/* Description */}
-              <div>
-                <label className="block text-xs font-bold text-[#334155] uppercase tracking-wider mb-1">
-                  Description & Specifications *
-                </label>
-                <textarea
-                  required
-                  rows={3}
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  className="w-full bg-[#fafaf8] border border-[#e2e0d8] rounded-xl px-3 py-2.5 text-xs text-[#0f172a] focus:outline-hidden focus:ring-1 focus:ring-[#1a56db]"
-                />
-              </div>
-
-              {/* Stock Variant Matrix */}
-              <div className="bg-[#fafaf8] p-4 sm:p-5 rounded-2xl border border-[#e8e7e1] space-y-3">
-                <div className="flex items-center justify-between">
                   <div>
-                    <label className="block text-xs font-bold text-[#0f172a] uppercase tracking-wider">
-                      Stock Allocation Across Sizes
-                    </label>
-                    <p className="text-[11px] text-[#64748b]">
-                      Total Calculated Stock: <strong className="text-[#1a56db]">{totalCalculatedStock} units</strong>
-                    </p>
+                    <label className="block font-bold text-[#334155] mb-1">Category</label>
+                    <select
+                      value={editCategoryId}
+                      onChange={(e) => setEditCategoryId(e.target.value)}
+                      className="w-full bg-[#fafaf8] border border-[#e2e0d8] rounded-xl p-2.5 font-semibold"
+                    >
+                      {categories.map((c) => (
+                        <option key={c._id} value={c._id}>{c.name}</option>
+                      ))}
+                    </select>
                   </div>
-                  <button
-                    type="button"
-                    onClick={handleAddVariant}
-                    className="text-xs font-bold text-[#1a56db] hover:underline flex items-center gap-1"
-                  >
-                    <Plus className="w-3.5 h-3.5" />
-                    <span>Add Size/Color</span>
-                  </button>
                 </div>
 
-                <div className="space-y-2">
-                  {variants.map((v, idx) => (
-                    <div key={idx} className="grid grid-cols-12 gap-2 items-center bg-white p-2.5 rounded-xl border border-[#e2e0d8] text-xs">
-                      <div className="col-span-4">
-                        <label className="text-[10px] text-[#94a3b8] font-bold uppercase block">Size</label>
-                        <input
-                          type="text"
-                          value={v.size}
-                          onChange={(e) => {
-                            const updated = [...variants];
-                            updated[idx].size = e.target.value;
-                            setVariants(updated);
-                          }}
-                          className="w-full font-bold text-[#0f172a] focus:outline-hidden"
-                        />
-                      </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block font-bold text-[#334155] mb-1">Regular Price (৳)</label>
+                    <input
+                      type="number"
+                      value={editPrice}
+                      onChange={(e) => setEditPrice(e.target.value)}
+                      className="w-full bg-[#fafaf8] border border-[#e2e0d8] rounded-xl p-2.5 font-bold"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-bold text-[#334155] mb-1">Discount Price (৳)</label>
+                    <input
+                      type="number"
+                      value={editDiscountPrice}
+                      onChange={(e) => setEditDiscountPrice(e.target.value)}
+                      placeholder="Optional"
+                      className="w-full bg-[#fafaf8] border border-[#e2e0d8] rounded-xl p-2.5"
+                    />
+                  </div>
+                </div>
 
-                      <div className="col-span-4">
-                        <label className="text-[10px] text-[#94a3b8] font-bold uppercase block">Color</label>
-                        <input
-                          type="text"
-                          value={v.color}
-                          onChange={(e) => {
-                            const updated = [...variants];
-                            updated[idx].color = e.target.value;
-                            setVariants(updated);
-                          }}
-                          className="w-full text-[#475569] focus:outline-hidden"
-                        />
-                      </div>
-
-                      <div className="col-span-3">
-                        <label className="text-[10px] text-[#94a3b8] font-bold uppercase block">Stock</label>
+                {/* Variant Stock Allocations */}
+                <div className="space-y-2 pt-2 border-t border-[#ecebe5]">
+                  <label className="block font-bold text-[#334155]">Variant Stock Allocations</label>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    {editVariants.map((v, idx) => (
+                      <div key={idx} className="p-2.5 bg-[#fafaf8] rounded-xl border border-[#e2e0d8] text-xs">
+                        <span className="font-bold text-[#0f172a] block mb-1">{v.size}</span>
                         <input
                           type="number"
                           min="0"
                           value={v.stock}
                           onChange={(e) => {
-                            const updated = [...variants];
+                            const updated = [...editVariants];
                             updated[idx].stock = parseInt(e.target.value || '0', 10);
-                            setVariants(updated);
+                            setEditVariants(updated);
                           }}
-                          className="w-full font-bold text-[#0f172a] focus:outline-hidden"
+                          className="w-full bg-white border border-[#e2e0d8] rounded-lg p-1 text-center font-bold"
                         />
                       </div>
-
-                      <div className="col-span-1 text-right">
-                        {variants.length > 1 && (
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveVariant(idx)}
-                            className="text-[#94a3b8] hover:text-rose-600 font-bold"
-                          >
-                            ✕
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="flex items-center gap-3 pt-1">
-                  <label className="text-xs font-bold text-[#334155]">Low Stock Alert Threshold:</label>
-                  <input
-                    type="number"
-                    min="1"
-                    value={lowStockThreshold}
-                    onChange={(e) => setLowStockThreshold(e.target.value)}
-                    className="w-20 bg-white border border-[#e2e0d8] rounded-lg px-2 py-1 text-xs font-bold text-center"
-                  />
-                  <span className="text-[11px] text-[#64748b]">units</span>
+                    ))}
+                  </div>
                 </div>
               </div>
 
-              {/* Form Buttons */}
-              <div className="flex items-center gap-3 pt-3 border-t border-[#ecebe5]">
+              <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-[#ecebe5]">
                 <button
                   type="button"
-                  onClick={() => setIsModalOpen(false)}
-                  className="w-1/3 py-2.5 rounded-xl font-semibold text-xs border border-[#e2e0d8] text-[#475569] hover:bg-[#fafaf8]"
+                  onClick={() => setIsEditModalOpen(false)}
+                  className="px-4 py-2 rounded-xl text-xs font-semibold border border-[#e2e0d8] text-[#475569] hover:bg-[#fafaf8]"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-2/3 py-2.5 rounded-xl font-semibold text-xs bg-[#1a56db] hover:bg-[#1e429f] text-white transition-all shadow-sm flex items-center justify-center gap-2"
+                  className="px-5 py-2 rounded-xl text-xs font-bold bg-[#e6ad35] hover:bg-[#f5c451] text-[#0e0c0a] shadow-sm flex items-center gap-1.5 cursor-pointer"
                 >
-                  {submitting ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>Saving to Catalog...</span>
-                    </>
-                  ) : editingId ? (
-                    'Update Product'
-                  ) : (
-                    'Publish Product'
-                  )}
+                  {submitting ? <Loader2Icon className="w-4 h-4 animate-spin" /> : 'Save Changes'}
                 </button>
               </div>
             </form>
@@ -1161,5 +1214,20 @@ export default function AdminProductsPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function AdminProductsPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="py-20 text-center text-[#e6ad35]">
+          <Loader2Icon className="w-8 h-8 animate-spin mx-auto mb-2" />
+          <p className="text-xs font-semibold text-[#64748b]">Loading products dashboard...</p>
+        </div>
+      }
+    >
+      <AdminProductsContent />
+    </Suspense>
   );
 }

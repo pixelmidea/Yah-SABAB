@@ -225,6 +225,29 @@ export const seedProducts = [
     tags: ['China Popcorn', 'Olive Green', 'Special Offer', 'Panjabi'],
     rating: 4.8,
     numReviews: 15
+  },
+  {
+    name: 'Luxury Cotton Kanduri - White Edition',
+    slug: 'luxury-cotton-kanduri-white-edition',
+    sku: 'LUX-KAN-009',
+    description: 'Supreme luxury cotton with clean Arabian Kanduri tailoring. Soft, breathable, and perfectly stitched for festive gatherings & Jummah.',
+    price: 1750,
+    discountPrice: 1350,
+    images: [
+      'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?q=80&w=1000&auto=format&fit=crop'
+    ],
+    variants: [
+      { size: 'M (40)', color: 'White', stock: 12, sku: 'LUX-KAN-009-M' },
+      { size: 'L (42)', color: 'White', stock: 18, sku: 'LUX-KAN-009-L' },
+      { size: 'XL (44)', color: 'White', stock: 7, sku: 'LUX-KAN-009-XL' }
+    ],
+    lowStockThreshold: 4,
+    isFeatured: true,
+    isNewArrival: false,
+    isBestSeller: true,
+    tags: ['Luxury Cotton', 'White Kanduri', 'Arabian Thobe', 'Best Seller'],
+    rating: 4.7,
+    numReviews: 17
   }
 ];
 
